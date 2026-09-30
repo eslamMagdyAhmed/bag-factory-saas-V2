@@ -138,42 +138,6 @@ table.tbl tr:nth-child(even) td{background:var(--surf)}
 .expired-box{background:var(--white);border-radius:20px;padding:2rem;max-width:380px;text-align:center}
 .expired-box h2{color:var(--red-t);font-size:20px;margin-bottom:.75rem}
 .expired-box p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:1rem}
-
-/* ===== VISUAL POLISH v3 ===== */
-body{background:#f4f6fa;color:#182230;line-height:1.45}
-.header{background:linear-gradient(135deg,#182f59 0%,#24558d 100%);padding:1rem 1.5rem;box-shadow:0 3px 14px rgba(24,47,89,.16)}
-.header h1{font-size:16px;letter-spacing:.01em}.header p{font-size:11.5px}
-.tabs{box-shadow:0 2px 10px rgba(0,0,0,.05);border-bottom:1px solid #d9dde5;background:rgba(255,255,255,.97);backdrop-filter:blur(8px)}
-.tab{padding:.8rem 1.1rem;transition:color .15s,background .15s}.tab:hover{background:#f5f7fb;color:var(--navy)}
-.pane{max-width:1180px;padding:1.35rem 1rem 2.5rem}
-.sec-title{font-size:12px;letter-spacing:.03em;margin:1.4rem 0 .75rem;color:#4d5663}
-.card,.kcard,.action-card{box-shadow:0 2px 10px rgba(24,34,48,.045);border-color:#dfe3ea}
-.card{border-radius:12px;padding:1.05rem}
-input[type=text],input[type=number],input[type=date],select{min-height:40px;border-color:#d5dae2;background:#fff;transition:border-color .15s,box-shadow .15s}
-input:focus,select:focus{border-color:#4b82bd;box-shadow:0 0 0 3px rgba(46,117,182,.10)}
-.btn{transition:transform .12s,box-shadow .12s,background .12s}.btn:hover{transform:translateY(-1px)}
-.btn-primary{box-shadow:0 3px 8px rgba(31,56,100,.16)}
-.action-card{min-height:116px;display:flex;flex-direction:column;justify-content:center}
-.action-card:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(24,34,48,.09)}
-table.tbl{border:1px solid #dfe3ea;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(24,34,48,.035)}
-table.tbl th{padding:9px 10px;font-size:12px}table.tbl td{padding:8px 10px}
-table.tbl tr:hover td{background:#f7f9fc}
-.kcard{padding:.85rem 1rem;border-radius:12px}.kcard .kval{font-size:20px}
-.modal{max-width:650px;border:1px solid #e0e4ea;box-shadow:0 18px 55px rgba(0,0,0,.18)}
-.modal h3{font-size:16px}.tip{background:#f7f9fc}
-.bom-row{grid-template-columns:2.2fr 1fr .8fr 1fr auto}.bom-row select,.bom-row input{min-height:38px}
-@media(max-width:760px){
-  .header{padding:.8rem 1rem}.user-badge span:nth-child(2){display:none}
-  .pane{padding:.9rem .7rem 2rem}.g3,.g4,.g5{grid-template-columns:1fr 1fr}
-  .bom-row{grid-template-columns:1.7fr 1fr .8fr auto}.bom-row .bom-cost-badge{grid-column:1/4}
-  .modal{padding:1rem}.modal-actions{position:sticky;bottom:0;background:#fff;padding-top:.75rem}
-}
-@media(max-width:520px){
-  .g2,.g3,.g4,.g5,.action-grid{grid-template-columns:1fr}
-  .tab{padding:.7rem .8rem;font-size:12px}.header h1{font-size:14px}
-  .header-left>div:first-child{font-size:20px!important}
-}
-
 </style>
 </head>
 <body>
@@ -266,7 +230,7 @@ table.tbl tr:hover td{background:#f7f9fc}
       <div class="field"><label>هامش الربح المستهدف (%)</label><input type="number" id="cp-margin" value="25" oninput="renderCosting()"></div>
     </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:.75rem;padding:8px 12px;background:var(--light-blue);border-radius:8px">
-      💡 التكلفة الموزعة مثل بكرة الخيط تُحسب: تكلفة الكمية ÷ عدد القطع الموزعة عليها، وتدخل تلقائياً ضمن إجمالي تكلفة المنتج.
+      💡 تكلفة العمالة والتغليف بتتحدد لكل منتج/حجم على حدة في تبويب "المنتجات (BOM)"
     </div>
     <div id="costing-table"></div>
   </div>
@@ -599,61 +563,66 @@ table.tbl tr:hover td{background:#f7f9fc}
 
 <script>
 /* ============ CONFIG ============ */
-var SUPABASE_URL='https://nowpjftvzijxlcdohgsf.supabase.co';
-var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vd3BqZnR2emlqeGxjZG9oZ3NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwMDg5MDMsImV4cCI6MjEwMTU4NDkwM30.2t73S1X94KyIRXZUo_W3ir-aptI7RhpYzHfQ6dssXnQ';
-var ADMIN_EMAIL='eslam.magdy000000@gmail.com';
-
-var sb=null;
-var currentUser=null;
-var currentProfile=null;
+var SUPABASE_URL='https://flijhwviwksduumxicgf.supabase.co';
+var SUPABASE_KEY='sb_publishable_nJ9QrAbC44d4SPN_ilBXFQ_JZhLxg9G';
+var ADMIN_EMAIL=''; // Platform admin will be implemented server-side later; never trust frontend email checks.
+var sb=null,currentUser=null,currentProfile=null;
 var db={materials:[],products:[],transactions:[]};
+var lastDataLoadAt=null;
 
-/* ============ INIT ============ */
+function factoryId(){return currentProfile&&currentProfile.factory_id?currentProfile.factory_id:currentUser.id;}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function dbErr(label,r){if(r&&r.error){console.error(label,r.error);throw r.error;}return r;}
+
 window.addEventListener('load',async function(){
   try{
     sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    sb.auth.onAuthStateChange(function(event,session){
+      if(event==='SIGNED_OUT'){currentUser=null;currentProfile=null;showLogin();}
+    });
     var r=await sb.auth.getSession();
     if(r.data&&r.data.session&&r.data.session.user){
       currentUser=r.data.session.user;
       await loadProfileAndStart();
-    }else{
-      showLogin();
-    }
-  }catch(e){
-    showLogin();
-  }
+    }else showLogin();
+  }catch(e){console.error(e);showLogin();}
 });
 
 async function loadProfileAndStart(){
   try{
     var r=await sb.from('factory_profiles').select('*').eq('user_id',currentUser.id).maybeSingle();
+    if(r.error)throw r.error;
     if(r.data){
       currentProfile=r.data;
-      currentProfile.is_admin=(currentProfile.is_admin===true||currentProfile.is_admin==='true'||currentProfile.is_admin===1);
+      currentProfile.email=currentUser.email;
       await loadData();
       showApp();
-    }else{
-      var isAdmin=currentUser.email===ADMIN_EMAIL;
-      var expiry=new Date();expiry.setDate(expiry.getDate()+30);
-      var prof={user_id:currentUser.id,email:currentUser.email,factory_name:currentUser.email.split('@')[0],is_admin:isAdmin,subscription_status:isAdmin?'active':'trial',subscription_expires:expiry.toISOString()};
-      var r2=await sb.from('factory_profiles').insert(prof).select().maybeSingle();
-      currentProfile=(r2.data||prof);
-      currentProfile.is_admin=(currentProfile.is_admin===true||currentProfile.is_admin==='true');
-      db={materials:[],products:[],transactions:[]};
-      showApp();
+      return;
     }
-  }catch(e){
-    console.error('Profile error:',e);
-    var isAdmin2=currentUser.email===ADMIN_EMAIL;
-    var expiry2=new Date();expiry2.setDate(expiry2.getDate()+30);
-    currentProfile={user_id:currentUser.id,email:currentUser.email,factory_name:currentUser.email.split('@')[0],is_admin:isAdmin2,subscription_status:isAdmin2?'active':'trial',subscription_expires:expiry2.toISOString()};
+    var expiry=new Date();expiry.setDate(expiry.getDate()+30);
+    var prof={
+      user_id:currentUser.id,
+      factory_id:currentUser.id,
+      factory_name:(currentUser.user_metadata&&currentUser.user_metadata.factory_name)||currentUser.email.split('@')[0],
+      full_name:(currentUser.user_metadata&&currentUser.user_metadata.full_name)||'',
+      phone:(currentUser.user_metadata&&currentUser.user_metadata.phone)||'',
+      role:'owner',is_admin:false,
+      subscription_status:'trial',subscription_expires:expiry.toISOString()
+    };
+    var r2=await sb.from('factory_profiles').insert(prof).select().single();
+    if(r2.error)throw r2.error;
+    currentProfile=r2.data;currentProfile.email=currentUser.email;
     db={materials:[],products:[],transactions:[]};
     showApp();
+  }catch(e){
+    console.error('Profile error:',e);
+    showLogin();
+    showAuthErr('تعذر تحميل حساب المصنع: '+(e.message||'خطأ غير معروف'));
   }
 }
 
 function showLogin(){
-  document.getElementById('loading-screen').style.display='none';
+  var l=document.getElementById('loading-screen');if(l)l.style.display='none';
   document.getElementById('login-page').style.display='flex';
   document.getElementById('main-app').style.display='none';
 }
@@ -668,36 +637,18 @@ function setupAppForUser(){
   if(!currentProfile)return;
   document.getElementById('user-email-badge').textContent=currentProfile.factory_name||currentProfile.email;
   document.getElementById('factory-name-header').textContent=(currentProfile.factory_name||'مصنعك')+' | BOM + المخزون';
-
   var status=currentProfile.subscription_status||'trial';
   var expires=currentProfile.subscription_expires?new Date(currentProfile.subscription_expires):null;
   var now=new Date();
-  var isExpired=expires&&expires<now&&status!=='active'&&!currentProfile.is_admin;
-
-  // Badge حالة الاشتراك في الهيدر
+  var isExpired=expires&&expires<now&&status!=='active';
   var subBadge=document.getElementById('sub-badge-header');
-  if(currentProfile.is_admin){
-    subBadge.innerHTML='<span class="subscription-badge sub-active">أدمن</span>';
-  }else if(status==='active'){
-    subBadge.innerHTML='<span class="subscription-badge sub-active">نشط</span>';
-  }else if(status==='trial'){
+  if(status==='active')subBadge.innerHTML='<span class="subscription-badge sub-active">نشط</span>';
+  else if(status==='trial'){
     var daysLeft=expires?Math.max(0,Math.ceil((expires-now)/(1000*3600*24))):30;
     subBadge.innerHTML='<span class="subscription-badge sub-trial">تجريبي ('+daysLeft+' يوم)</span>';
-  }else{
-    subBadge.innerHTML='<span class="subscription-badge sub-expired">منتهي</span>';
-  }
-
-  if(currentProfile.is_admin){
-    document.getElementById('admin-bar').style.display='flex';
-    var adminTab=document.createElement('div');
-    adminTab.className='tab';adminTab.textContent='👑 إدارة';
-    adminTab.onclick=function(){showTab(5);};
-    document.getElementById('main-tabs').appendChild(adminTab);
-    document.getElementById('pane5').style.display='block';
-    loadAdminData();
-  }
-
-  if(isExpired){document.getElementById('expired-overlay').style.display='flex';}
+  }else subBadge.innerHTML='<span class="subscription-badge sub-expired">منتهي</span>';
+  document.getElementById('admin-bar').style.display='none';
+  if(isExpired){var ov=document.getElementById('expired-overlay');if(ov)ov.style.display='flex';}
   renderAll();
 }
 
@@ -706,197 +657,97 @@ function switchAuthTab(t){
   document.querySelectorAll('.login-tab').forEach(function(el,i){el.classList.toggle('active',i===(t==='login'?0:1));});
   document.getElementById('login-form').style.display=t==='login'?'block':'none';
   document.getElementById('signup-form').style.display=t==='signup'?'block':'none';
-  document.getElementById('auth-err').classList.remove('show');
-  document.getElementById('auth-ok').classList.remove('show');
+  document.getElementById('auth-err').classList.remove('show');document.getElementById('auth-ok').classList.remove('show');
 }
-
 async function doLogin(){
-  var email=document.getElementById('login-email').value.trim();
-  var pass=document.getElementById('login-pass').value;
+  var email=document.getElementById('login-email').value.trim(),pass=document.getElementById('login-pass').value;
   if(!email||!pass){showAuthErr('من فضلك اكتب الإيميل وكلمة المرور');return;}
-  var btn=document.getElementById('login-btn');
-  btn.disabled=true;btn.textContent='جاري الدخول...';
-  try{
-    var r=await sb.auth.signInWithPassword({email:email,password:pass});
-    if(r.error)throw r.error;
-    currentUser=r.data.user;
-    await loadProfileAndStart();
-  }catch(e){
-    showAuthErr(e.message==='Invalid login credentials'?'إيميل أو كلمة مرور غلط':e.message);
-    btn.disabled=false;btn.textContent='دخول';
-  }
+  var btn=document.getElementById('login-btn');btn.disabled=true;btn.textContent='جاري الدخول...';
+  try{var r=await sb.auth.signInWithPassword({email:email,password:pass});if(r.error)throw r.error;currentUser=r.data.user;await loadProfileAndStart();}
+  catch(e){showAuthErr(e.message==='Invalid login credentials'?'إيميل أو كلمة مرور غلط':e.message);btn.disabled=false;btn.textContent='دخول';}
 }
-
 async function doSignup(){
-  var name=document.getElementById('signup-name').value.trim();
-  var email=document.getElementById('signup-email').value.trim();
-  var pass=document.getElementById('signup-pass').value;
+  var name=document.getElementById('signup-name').value.trim(),email=document.getElementById('signup-email').value.trim(),pass=document.getElementById('signup-pass').value;
   if(!name||!email||!pass){showAuthErr('من فضلك اكمل كل الحقول');return;}
   if(pass.length<6){showAuthErr('كلمة المرور لازم تكون 6 أحرف على الأقل');return;}
-  var btn=document.getElementById('signup-btn');
-  btn.disabled=true;btn.textContent='جاري الإنشاء...';
+  var btn=document.getElementById('signup-btn');btn.disabled=true;btn.textContent='جاري الإنشاء...';
   try{
-    var r=await sb.auth.signUp({email:email,password:pass,options:{data:{factory_name:name}}});
-    if(r.error)throw r.error;
-    showAuthOk('تم إنشاء الحساب! تحقق من إيميلك للتأكيد، أو سجل دخول مباشرة.');
-    switchAuthTab('login');
-    document.getElementById('login-email').value=email;
-  }catch(e){
-    showAuthErr(e.message);
-  }finally{btn.disabled=false;btn.textContent='إنشاء الحساب';}
+    var r=await sb.auth.signUp({email:email,password:pass,options:{data:{factory_name:name}}});if(r.error)throw r.error;
+    if(r.data&&r.data.session){currentUser=r.data.user;await loadProfileAndStart();}
+    else {showAuthOk('تم إنشاء الحساب! تحقق من إيميلك للتأكيد ثم سجل الدخول.');switchAuthTab('login');document.getElementById('login-email').value=email;}
+  }catch(e){showAuthErr(e.message);}finally{btn.disabled=false;btn.textContent='إنشاء الحساب';}
 }
-
-async function doLogout(){
-  await sb.auth.signOut();
-  currentUser=null;currentProfile=null;db={materials:[],products:[],transactions:[]};
-  showLogin();
-}
-
+async function doLogout(){await sb.auth.signOut();currentUser=null;currentProfile=null;db={materials:[],products:[],transactions:[]};showLogin();}
 function showAuthErr(msg){var el=document.getElementById('auth-err');el.textContent=msg;el.classList.add('show');}
 function showAuthOk(msg){var el=document.getElementById('auth-ok');el.textContent=msg;el.classList.add('show');}
 
-/* ============ DATA LAYER (Supabase) ============ */
+/* ============ DATA LAYER — PCS2 ============ */
 async function loadData(){
   if(!currentUser)return;
   try{
-    var uid=currentUser.id;
+    var fid=factoryId();
     var [r1,r2,r3]=await Promise.all([
-      sb.from('materials').select('*').eq('user_id',uid).order('created_at'),
-      sb.from('products').select('*').eq('user_id',uid).order('created_at'),
-      sb.from('transactions').select('*').eq('user_id',uid).order('date',{ascending:false})
+      sb.from('materials').select('*').eq('factory_id',fid).order('created_at'),
+      sb.from('products').select('*').eq('factory_id',fid).order('created_at'),
+      sb.from('transactions').select('*').eq('factory_id',fid).order('created_at',{ascending:false})
     ]);
-    var mats=r1.data||[];
-    var prods=r2.data||[];
-    var txs=r3.data||[];
-
-    // Load sizes and BOM for each product
-    var prodIds=prods.map(function(p){return p.id;});
-    var sizes=[],boms=[];
-    if(prodIds.length>0){
-      var r4=await sb.from('product_sizes').select('*').in('product_id',prodIds).order('created_at');
-      sizes=r4.data||[];
+    dbErr('materials',r1);dbErr('products',r2);dbErr('transactions',r3);
+    var mats=r1.data||[],prods=r2.data||[],txs=r3.data||[];
+    var prodIds=prods.map(function(p){return p.id;}),sizes=[],boms=[];
+    if(prodIds.length){
+      var r4=await sb.from('product_sizes').select('*').eq('factory_id',fid).in('product_id',prodIds).order('created_at');dbErr('sizes',r4);sizes=r4.data||[];
       var sizeIds=sizes.map(function(s){return s.id;});
-      if(sizeIds.length>0){
-        var r5=await sb.from('bom_items').select('*').in('size_id',sizeIds);
-        boms=r5.data||[];
-      }
+      if(sizeIds.length){var r5=await sb.from('bom_items').select('*').eq('factory_id',fid).in('size_id',sizeIds);dbErr('bom',r5);boms=r5.data||[];}
     }
-
-    // Map Supabase id → _dbId so updates go to correct row
-    db.materials=mats.map(function(m){
-      return Object.assign({},m,{_dbId:m.id});
-    });
+    db.materials=mats.map(function(m){return {id:m.id,_dbId:m.id,code:m.code,name:m.name,unit:m.unit,price:+m.unit_cost||0,stock:+m.current_qty||0,minstock:+m.min_stock||0,use_unit:m.unit,conv_rate:1};});
     db.products=prods.map(function(p){
-      var pSizes=sizes.filter(function(s){return s.product_id===p.id;}).map(function(s){
-        return Object.assign({},s,{
-          _dbId:s.id,
-          bom:boms.filter(function(b){return b.size_id===s.id;}).map(function(b){
-            return {
-            matId:b.material_id,
-            qty:b.qty,
-            id:b.id,
-            type:b.type||'unit',
-            totalCost:b.total_cost!==undefined&&b.total_cost!==null?b.total_cost:'',
-            spreadQty:b.spread_qty!==undefined&&b.spread_qty!==null?b.spread_qty:''
-          };
-          })
-        });
+      var ps=sizes.filter(function(s){return s.product_id===p.id;}).map(function(s){
+        return {id:s.id,_dbId:s.id,name:s.size_name,sellprice:+(s.selling_price!=null?s.selling_price:p.selling_price)||0,stock:+s.stock||0,labor:+s.labor||0,pack:+s.pack||0,
+          bom:boms.filter(function(b){return b.size_id===s.id;}).map(function(b){return {matId:b.material_id||'',qty:+b.qty||0,id:b.id,type:b.type||'unit',totalCost:+b.total_cost||0,spreadQty:+b.spread_qty||1,itemName:b.item_name||''};})};
       });
-      return Object.assign({},p,{_dbId:p.id,sizes:pSizes});
+      return {id:p.id,_dbId:p.id,code:p.code,name:p.name,sizes:ps};
     });
     db.transactions=txs.map(function(t){
-      var data=t.data_json||{};
-      return Object.assign({id:t.id,type:t.type,date:t.date},data);
+      var d={};try{d=t.notes?JSON.parse(t.notes):{};}catch(e){d={};}
+      return Object.assign(d,{id:t.id,_dbId:t.id,type:d.type||t.transaction_type,date:d.date||t.created_at.slice(0,10)});
     });
-  }catch(e){console.error('loadData error',e);db={materials:[],products:[],transactions:[]};}
+    lastDataLoadAt=new Date();
+  }catch(e){console.error('loadData error',e);throw e;}
 }
 
 async function saveMaterialDB(mat){
-  var uid=currentUser.id;
-  var fields={
-    name:mat.name,
-    unit:mat.unit,
-    price:mat.price,
-    stock:mat.stock,
-    minstock:mat.minstock,
-    use_unit:mat.use_unit||'',
-    conv_rate:mat.conv_rate||1
-  };
-  if(mat._dbId){
-    await sb.from('materials').update(fields).eq('id',mat._dbId);
-  }else{
-    var r=await sb.from('materials').insert(Object.assign({user_id:uid},fields)).select().maybeSingle();
-    if(r.data){
-      mat._dbId=r.data.id;
-      // Sync all fields back from DB
-      Object.assign(mat, r.data);
-      mat._dbId=r.data.id;
-    }
-  }
+  var fields={factory_id:factoryId(),code:mat.code||('M-'+Date.now()),name:mat.name,unit:mat.unit||'piece',opening_qty:mat.opening_qty!=null?mat.opening_qty:mat.stock||0,current_qty:+mat.stock||0,unit_cost:+mat.price||0,min_stock:+mat.minstock||0,notes:mat.notes||null};
+  var r;
+  if(mat._dbId)r=await sb.from('materials').update(fields).eq('id',mat._dbId).eq('factory_id',factoryId()).select().single();
+  else r=await sb.from('materials').insert(fields).select().single();
+  dbErr('save material',r);if(r.data){Object.assign(mat,r.data,{_dbId:r.data.id,id:r.data.id,price:+r.data.unit_cost||0,stock:+r.data.current_qty||0,minstock:+r.data.min_stock||0});}
 }
-
-async function deleteFromDB(table,id){await sb.from(table).delete().eq('id',id);}
-
+async function deleteFromDB(table,id){var r=await sb.from(table).delete().eq('id',id).eq('factory_id',factoryId());dbErr('delete '+table,r);}
 async function saveProductDB(prod){
-  var uid=currentUser.id;
-  if(prod._dbId){
-    await sb.from('products').update({name:prod.name}).eq('id',prod._dbId);
-  }else{
-    var r=await sb.from('products').insert({user_id:uid,name:prod.name}).select().single();
-    if(r.data)prod._dbId=r.data.id;
-  }
+  var fields={factory_id:factoryId(),code:prod.code||('P-'+Date.now()),name:prod.name,unit:'piece',selling_price:0,active:true};
+  var r=prod._dbId?await sb.from('products').update(fields).eq('id',prod._dbId).eq('factory_id',factoryId()).select().single():await sb.from('products').insert(fields).select().single();
+  dbErr('save product',r);if(r.data)Object.assign(prod,r.data,{_dbId:r.data.id,id:r.data.id});
 }
-
 async function saveSizeDB(size,productDbId){
-  if(size._dbId){
-    await sb.from('product_sizes').update({name:size.name,sellprice:size.sellprice,stock:size.stock||0,labor:size.labor||0,pack:size.pack||0}).eq('id',size._dbId);
-    // delete old BOM items and reinsert
-    await sb.from('bom_items').delete().eq('size_id',size._dbId);
-  }else{
-    var r=await sb.from('product_sizes').insert({product_id:productDbId,name:size.name,sellprice:size.sellprice,stock:size.stock||0,labor:size.labor||0,pack:size.pack||0}).select().single();
-    if(r.data)size._dbId=r.data.id;
-  }
-  // Insert BOM items
-  if(size._dbId&&size.bom&&size.bom.length>0){
-    var items=size.bom.map(function(b){
-      var mat=db.materials.find(function(m){return m.id===b.matId;});
-      return {
-        size_id:size._dbId,
-        material_id:mat?mat._dbId||mat.id:b.matId,
-        qty:b.type==='overhead'?0:b.qty,
-        type:b.type||'unit',
-        total_cost:b.type==='overhead'?(+b.totalCost||0):0,
-        spread_qty:b.type==='overhead'?(+b.spreadQty||1):1
-      };
-    });
-    var bomInsert=await sb.from('bom_items').insert(items);
-    if(bomInsert.error){
-      console.error('BOM extended insert error:',bomInsert.error);
-      // Keep normal BOM data safe if the database has not been migrated yet.
-      var basicItems=items.map(function(x){return {size_id:x.size_id,material_id:x.material_id,qty:x.qty};});
-      var basicInsert=await sb.from('bom_items').insert(basicItems);
-      if(basicInsert.error)throw basicInsert.error;
-      throw new Error('تم حفظ المكونات العادية، لكن التكلفة الموزعة تحتاج تحديث قاعدة البيانات. نفّذ SQL التحديث المرفق ثم احفظ الحجم مرة أخرى.');
-    }
+  var fid=factoryId();
+  var fields={factory_id:fid,product_id:productDbId,size_name:size.name,selling_price:+size.sellprice||0,stock:+size.stock||0,labor:+size.labor||0,pack:+size.pack||0};
+  var r=size._dbId?await sb.from('product_sizes').update(fields).eq('id',size._dbId).eq('factory_id',fid).select().single():await sb.from('product_sizes').insert(fields).select().single();
+  dbErr('save size',r);if(r.data)size._dbId=r.data.id,size.id=r.data.id;
+  if(size._dbId){var rd=await sb.from('bom_items').delete().eq('factory_id',fid).eq('size_id',size._dbId);dbErr('delete bom',rd);}
+  if(size._dbId&&size.bom&&size.bom.length){
+    var items=size.bom.map(function(b){var m=db.materials.find(function(x){return x.id===b.matId;});return {factory_id:fid,product_id:productDbId,size_id:size._dbId,material_id:m?m._dbId||m.id:null,item_name:b.itemName||null,type:b.type||'unit',qty:+b.qty||0,total_cost:+b.totalCost||0,spread_qty:+b.spreadQty||1};});
+    var rb=await sb.from('bom_items').insert(items);dbErr('insert bom',rb);
   }
 }
-
 async function saveTransactionDB(tx){
-  var uid=currentUser.id;
-  var r=await sb.from('transactions').insert({user_id:uid,type:tx.type,date:tx.date,data_json:tx}).select().single();
-  if(r.data)tx._dbId=r.data.id;
+  var map={purchase:'purchase',sale:'sale',production:'production_in',withdraw:'adjustment_out'};
+  var ttype=map[tx.type]||'expense';
+  var r=await sb.from('transactions').insert({factory_id:factoryId(),material_id:tx.matId||null,product_id:tx.productId||null,transaction_type:ttype,qty:+tx.qty||0,unit_cost:+(tx.unitPrice||0),total_cost:+(tx.total||0),reference_type:'ui',notes:JSON.stringify(tx),created_by:currentUser.id}).select().single();
+  dbErr('save transaction',r);if(r.data)tx._dbId=r.data.id,tx.id=r.data.id;
 }
-
-async function deleteTransactionDB(dbId){await sb.from('transactions').delete().eq('id',dbId);}
-
-async function updateStockDB(matId,newStock){
-  var mat=db.materials.find(function(m){return m.id===matId;});
-  if(mat&&mat._dbId)await sb.from('materials').update({stock:newStock}).eq('id',mat._dbId);
-}
-
-async function updateSizeStockDB(sizeDbId,newStock){
-  if(sizeDbId)await sb.from('product_sizes').update({stock:newStock}).eq('id',sizeDbId);
-}
+async function deleteTransactionDB(dbId){var r=await sb.from('transactions').delete().eq('id',dbId).eq('factory_id',factoryId());dbErr('delete transaction',r);}
+async function updateStockDB(matId,newStock){var r=await sb.from('materials').update({current_qty:+newStock}).eq('id',matId).eq('factory_id',factoryId());dbErr('stock update',r);}
+async function updateSizeStockDB(sizeDbId,newStock){var r=await sb.from('product_sizes').update({stock:+newStock}).eq('id',sizeDbId).eq('factory_id',factoryId());dbErr('size stock update',r);}
 
 /* ============ MATERIALS ============ */
 function renderMaterials(){
@@ -1028,8 +879,6 @@ function openSizeModal(productId,sizeId){
     document.getElementById('size-name').value='';
     document.getElementById('size-sellprice').value=0;
     document.getElementById('size-stock').value=0;
-    document.getElementById('size-labor').value=20;
-    document.getElementById('size-pack').value=5;
     currentBomRows=[];
   }
   renderBomRows();showModal('size-modal');
@@ -1075,14 +924,14 @@ function getMatUsePrice(m){
   return m.price/rate; // price per use-unit
 }
 function calcRowCost(row){
-  if(row.type==='overhead'){
-    // Distributed cost is independent from the material's unit price.
-    var tc=parseFloat(row.totalCost)||0;
-    var sq=parseFloat(row.spreadQty)||0;
-    return (tc>0&&sq>0)?tc/sq:0;
-  }
   var m=getMatById(row.matId);
   if(!m)return 0;
+  if(row.type==='overhead'){
+    // overhead: totalCost / spreadQty
+    var tc=+row.totalCost||0;
+    var sq=+row.spreadQty||1;
+    return tc/sq;
+  }
   return getMatUsePrice(m)*(+row.qty||0);
 }
 function renderBomRows(){
@@ -1114,7 +963,6 @@ function renderBomRows(){
             '<select style="flex:1;font-size:12.5px;padding:5px 7px" onchange="updateBomRow('+idx+',\'matId\',this.value)">'+opts+'</select>'+
             '<button class="icon-btn" onclick="removeBomRow('+idx+')">🗑️</button>'+
           '</div>'+
-          '<div style="font-size:11px;color:var(--amber-t);background:rgba(255,255,255,.55);border-radius:6px;padding:6px 8px;margin-bottom:8px">مثال: تكلفة بكرة/كمية = 50 ج، موزعة على 200 قطعة → 0.25 ج تكلفة على القطعة.</div>'+
           '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end">'+
             '<div>'+
               '<div style="font-size:10px;color:var(--amber-t);font-weight:600;margin-bottom:3px">💰 تكلفة الكمية كلها (جنيه)</div>'+
@@ -1172,26 +1020,16 @@ async function saveSize(){
   var labor=+document.getElementById('size-labor').value||0;
   var pack=+document.getElementById('size-pack').value||0;
   var editId=document.getElementById('size-edit-id').value;
-  var invalidOverhead=currentBomRows.some(function(r){
-    if(r.type!=='overhead')return false;
-    var tc=parseFloat(r.totalCost)||0;
-    var sq=parseFloat(r.spreadQty)||0;
-    return !r.matId || tc<=0 || sq<=0;
-  });
-  if(invalidOverhead){
-    alert('راجع التكلفة الموزعة: لازم تدخل تكلفة أكبر من صفر وعدد قطع التوزيع أكبر من صفر.');
-    return;
-  }
   var bom=currentBomRows.filter(function(r){
     return r.matId&&(
       (r.type!=='overhead'&&r.qty!==''&&r.qty!==undefined)||
-      (r.type==='overhead'&&r.totalCost!==''&&r.spreadQty!=='')
+      (r.type==='overhead'&&r.totalCost!==''&&r.totalCost!==undefined)
     );
   }).map(function(r){
     if(r.type==='overhead'){
       return {matId:r.matId,qty:0,type:'overhead',totalCost:parseFloat(r.totalCost)||0,spreadQty:parseFloat(r.spreadQty)||1};
     }
-    return {matId:r.matId,qty:parseFloat(r.qty)||0,type:'unit',totalCost:0,spreadQty:1};
+    return {matId:r.matId,qty:parseFloat(r.qty)||0,type:'unit'};
   });
   if(editId){
     var s=p.sizes.find(function(x){return x.id===editId;});
@@ -1213,42 +1051,36 @@ async function deleteSize(productId,sizeId){
 }
 
 /* ============ COSTING ============ */
-function calcSizeCostBreakdown(size){
-  var regular=0, distributed=0;
-  (size.bom||[]).forEach(function(b){
-    if(b.type==='overhead'){
-      var tc=parseFloat(b.totalCost)||0;
-      var sq=parseFloat(b.spreadQty)||0;
-      if(tc>0&&sq>0) distributed+=tc/sq;
-    }else{
-      var m=db.materials.find(function(x){return x.id===b.matId;});
-      if(m) regular+=getMatUsePrice(m)*(+b.qty||0);
-    }
-  });
-  return {regular:regular,distributed:distributed,total:regular+distributed};
-}
 function calcSizeCost(size){
-  return calcSizeCostBreakdown(size).total;
+  var c=0;
+  (size.bom||[]).forEach(function(b){
+    var m=db.materials.find(function(x){return x.id===b.matId;});
+    if(m)c+=getMatUsePrice(m)*(+b.qty||0);
+  });
+  return c;
 }
 function renderCosting(){
   var margin=+document.getElementById('cp-margin').value||25;
   var wrap=document.getElementById('costing-table');
   if(!db.products.length){wrap.innerHTML='<div class="empty-state">لسه مفيش منتجات.</div>';return;}
-  var html='<table class="tbl"><tr><th>المنتج</th><th>الحجم</th><th>خامات أساسية</th><th>تكلفة موزعة</th><th>عمالة</th><th>تغليف</th><th>إجمالي التكلفة</th><th>السعر المقترح ('+margin+'%)</th><th>السعر الحالي</th><th>صافي الربح/قطعة</th><th>الفرق عن المقترح</th></tr>';
+  var html='<table class="tbl"><tr><th>المنتج</th><th>الحجم</th><th>تكلفة خامات</th><th>عمالة</th><th>تغليف</th><th>إجمالي التكلفة</th><th>السعر المقترح ('+margin+'%)</th><th>السعر الحالي</th><th>صافي الربح/قطعة</th><th>الفرق عن المقترح</th></tr>';
   db.products.forEach(function(p){
     (p.sizes||[]).forEach(function(s){
-      var breakdown=calcSizeCostBreakdown(s);
-      var mc=breakdown.total;
-      var labor=+s.labor||0;
-      var pack=+s.pack||0;
+      var mc=calcSizeCost(s);
+      var labor=s.labor||0;
+      var pack=s.pack||0;
       var tc=mc+labor+pack;
-      var sug=margin>=100?0:Math.ceil(tc/(1-margin/100));
+      var sug=Math.ceil(tc/(1-margin/100));
       var cur=s.sellprice||0;
       var diff=cur-sug;
+      // صافي الربح = السعر الحالي - إجمالي التكلفة
       var netProfit=cur>0?cur-tc:null;
       var netProfitPct=cur>0&&tc>0?((netProfit/cur)*100):null;
       var netHtml=netProfit!==null
-        ?('<strong class="'+(netProfit>=0?'good':'bad')+'">'+(netProfit>=0?'+':'')+fmtD(netProfit,2)+' ج</strong><br><span style="font-size:10px;color:var(--muted)">('+(netProfitPct>=0?'+':'')+fmtD(netProfitPct,1)+'%)</span>')
+        ?('<strong class="'+(netProfit>=0?'good':'bad')+'">'+
+          (netProfit>=0?'+':'')+fmtD(netProfit,2)+' ج</strong>'+
+          '<br><span style="font-size:10px;color:var(--muted)">('+
+          (netProfitPct>=0?'+':'')+fmtD(netProfitPct,1)+'%)</span>')
         :'<span class="badge amber">لم يحدد سعر</span>';
       var diffHtml=cur===0
         ?'<span class="badge amber">لم يحدد</span>'
@@ -1256,8 +1088,7 @@ function renderCosting(){
       html+='<tr>'+
         '<td>'+p.name+'</td>'+
         '<td>'+s.name+'</td>'+
-        '<td>'+fmtD(breakdown.regular,2)+' ج</td>'+
-        '<td>'+(breakdown.distributed>0?'<span class="badge amber">'+fmtD(breakdown.distributed,2)+' ج</span>':'—')+'</td>'+
+        '<td>'+fmtD(mc,2)+' ج</td>'+
         '<td>'+fmtD(labor,2)+' ج</td>'+
         '<td>'+fmtD(pack,2)+' ج</td>'+
         '<td><strong>'+fmtD(tc,2)+' ج</strong></td>'+
@@ -1270,6 +1101,7 @@ function renderCosting(){
   });
   wrap.innerHTML=html+'</table>';
 }
+
 /* ============ INVENTORY ============ */
 function renderInventory(){
   var low=db.materials.filter(function(m){return m.stock<=m.minstock&&m.minstock>0;});
@@ -1636,10 +1468,7 @@ async function confirmImport(){
         bomObjs.push({
           size_id:newSizeId,
           material_id:newMatId,
-          qty:b.type==='overhead'?0:(b.qty||0),
-          type:b.type||'unit',
-          total_cost:b.type==='overhead'?(+b.totalCost||0):0,
-          spread_qty:b.type==='overhead'?(+b.spreadQty||1):1
+          qty:b.qty||0
         });
       }
     });
@@ -1964,95 +1793,24 @@ function renderAll(){renderMaterials();renderProducts();renderCosting();renderIn
 var currentRestoreBackup = null;
 
 async function runBackupNow(){
-  // Fix: get button by ID not event.target
-  var btn = document.getElementById('backup-now-btn');
+  var btn=document.getElementById('backup-now-btn');
   if(btn){btn.disabled=true;btn.textContent='⏳ جاري الـ Backup...';}
   try{
-    var r = await sb.from('factory_profiles').select('user_id,factory_name,subscription_status');
-    if(r.error) throw r.error;
-    var factories = (r.data||[]).filter(function(f){return !f.is_admin;});
-    var count = 0;
-    var today = new Date().toISOString().slice(0,10);
-
-    for(var i=0; i<factories.length; i++){
-      var uid = factories[i].user_id;
-      var allData = {};
-
-      // Get materials
-      var rm = await sb.from('materials').select('*').eq('user_id', uid);
-      allData.materials = rm.data||[];
-
-      // Get products
-      var rp = await sb.from('products').select('*').eq('user_id', uid);
-      allData.products = rp.data||[];
-
-      // Get transactions
-      var rt = await sb.from('transactions').select('*').eq('user_id', uid);
-      allData.transactions = rt.data||[];
-
-      // Get sizes and BOM
-      var prodIds = allData.products.map(function(p){return p.id;});
-      allData.sizes = [];
-      allData.boms = [];
-      if(prodIds.length>0){
-        var rs = await sb.from('product_sizes').select('*').in('product_id', prodIds);
-        allData.sizes = rs.data||[];
-        var sizeIds = allData.sizes.map(function(s){return s.id;});
-        if(sizeIds.length>0){
-          var rb = await sb.from('bom_items').select('*').in('size_id', sizeIds);
-          allData.boms = rb.data||[];
-        }
-      }
-
-      // Get next version
-      var rv = await sb.from('factory_backups')
-        .select('version')
-        .eq('user_id',uid)
-        .eq('backup_date',today)
-        .order('version',{ascending:false})
-        .limit(1)
-        .maybeSingle();
-      var nextVersion = (rv.data ? rv.data.version + 1 : 1);
-
-      // Save — all data in one JSON column to avoid schema issues
-      var ins = await sb.from('factory_backups').insert({
-        user_id: uid,
-        backup_date: today,
-        version: nextVersion,
-        materials: allData.materials,
-        products: allData.products,
-        transactions: allData.transactions,
-        sizes: allData.sizes,
-        boms: allData.boms
-      });
-      if(ins.error){
-        console.error('Backup insert error for uid',uid,ins.error);
-        // Try without sizes/boms columns (fallback for old schema)
-        var ins2 = await sb.from('factory_backups').insert({
-          user_id: uid,
-          backup_date: today,
-          version: nextVersion,
-          materials: allData.materials,
-          products: allData.products,
-          transactions: allData.transactions
-        });
-        if(ins2.error) throw ins2.error;
-      }
-      count++;
+    var fid=factoryId(), today=todayStr();
+    var allData={factory_profile:currentProfile,materials:db.materials,products:db.products,transactions:db.transactions};
+    var prodIds=db.products.map(function(p){return p._dbId||p.id;});
+    allData.product_sizes=[];allData.bom_items=[];
+    if(prodIds.length){
+      var rs=await sb.from('product_sizes').select('*').eq('factory_id',fid).in('product_id',prodIds);dbErr('backup sizes',rs);allData.product_sizes=rs.data||[];
+      var sizeIds=allData.product_sizes.map(function(x){return x.id;});
+      if(sizeIds.length){var rb=await sb.from('bom_items').select('*').eq('factory_id',fid).in('size_id',sizeIds);dbErr('backup bom',rb);allData.bom_items=rb.data||[];}
     }
-
-    if(count===0){
-      alert('⚠️ لا توجد مصانع مسجلة لعمل Backup لها.');
-    }else{
-      alert('✅ تم عمل Backup لـ '+count+' مصنع بنجاح!');
-    }
-    loadBackupsTable();
-  }catch(e){
-    console.error('Backup error:',e);
-    alert('❌ حدث خطأ في الـ Backup:\n'+e.message);
-  }finally{
-    if(btn){btn.disabled=false;btn.textContent='▶ Backup الآن';}
-  }
+    var rv=await sb.from('factory_backups').select('version').eq('factory_id',fid).eq('backup_date',today).order('version',{ascending:false}).limit(1).maybeSingle();dbErr('backup version',rv);
+    var nextVersion=rv.data?(rv.data.version+1):1;
+    var ins=await sb.from('factory_backups').insert({factory_id:fid,backup_date:today,version:nextVersion,data_json:allData});dbErr('backup insert',ins);
+    alert('✅ تم عمل Backup بنجاح — الإصدار v'+nextVersion);
+  }catch(e){console.error('Backup error:',e);alert('❌ حدث خطأ في الـ Backup:\n'+e.message);}
+  finally{if(btn){btn.disabled=false;btn.textContent='▶ Backup الآن';}}
 }
 
 async function loadBackupsTable(){
