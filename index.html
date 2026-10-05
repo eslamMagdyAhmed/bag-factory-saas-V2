@@ -160,6 +160,221 @@ table.tbl tr:nth-child(even) td{background:var(--surf)}
 .product-cover{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--surf);border:1px solid var(--border);vertical-align:middle;margin-left:8px}
 .size-thumb{width:34px;height:34px;border-radius:7px;object-fit:cover;vertical-align:middle;background:var(--surf);border:1px solid var(--border);margin-left:6px}
 @media(max-width:650px){.product-editor-grid{grid-template-columns:1fr}.image-uploader{min-height:210px}.image-uploader img{height:210px}.image-mode-grid{grid-template-columns:1fr}}
+
+/* ===== PCS2 LOGIN — MATCH MAIN APP DESIGN ===== */
+.login-page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px;background:radial-gradient(circle at 15% 20%,rgba(46,117,182,.10),transparent 32%),#f4f6fa}
+.login-box{width:min(980px,100%);max-width:none;min-height:590px;padding:0;display:grid;grid-template-columns:1.02fr .98fr;direction:ltr;background:#fff;border:1px solid #dfe3ea;border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(24,34,48,.12)}
+.login-box:before{content:"مصنع الشنط\A نظام إدارة المنتجات والمخزون\A\A إدارة المنتجات • التكاليف • المخزون • الإنتاج";white-space:pre-line;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px;color:#fff;font-size:22px;font-weight:800;line-height:1.9;background:linear-gradient(145deg,#173663 0%,#2c69a8 72%,#3a7fbd 100%);position:relative}
+.login-box:after{content:"";position:absolute;pointer-events:none;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07);left:calc(50% - 490px);bottom:40px}
+.login-logo{margin-bottom:22px;text-align:right}
+.login-logo .icon{display:inline-flex;width:52px;height:52px;align-items:center;justify-content:center;border-radius:14px;background:#eef4fb;font-size:28px;margin:0 0 12px}
+.login-logo h1{font-size:22px;color:#182f59;letter-spacing:.01em}
+.login-logo p{font-size:12px;color:#6b7280;margin-top:5px}
+.login-tabs{background:#f4f6fa;border:1px solid #e1e6ed;border-radius:11px;padding:4px;margin-bottom:18px}
+.login-tab{padding:10px;font-size:13px;border-radius:8px}
+.login-tab.active{color:#1f3864;background:#fff;box-shadow:0 2px 8px rgba(24,34,48,.08)}
+.login-box>.login-logo,.login-box>.login-tabs,.login-box>.login-err,.login-box>.login-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{grid-column:2;direction:rtl}
+.login-box>.login-logo{grid-row:1;margin:58px 58px 22px}
+.login-box>.login-tabs{grid-row:2;margin-left:58px;margin-right:58px}
+.login-box>.login-err,.login-box>.login-ok{margin-left:58px;margin-right:58px}
+.login-box>#login-form,.login-box>#signup-form{padding:0 58px}
+.login-box>.login-footer{padding:18px 58px 34px;margin-top:0}
+.login-box .field{margin-bottom:15px}
+.login-box .field label{font-size:11.5px;color:#4d5663}
+.login-box .field input{min-height:44px;border-color:#d5dae2;border-radius:10px;background:#fff}
+.login-box .field input:focus{border-color:#4b82bd;box-shadow:0 0 0 3px rgba(46,117,182,.10)}
+.login-box .btn-primary{min-height:45px;border-radius:10px;background:linear-gradient(135deg,#1f3864,#2e75b6);box-shadow:0 5px 14px rgba(31,56,100,.18)}
+.login-box .btn-primary:hover{background:linear-gradient(135deg,#182f59,#245d96)}
+.login-footer{font-size:11px;color:#7a828d}
+@media(max-width:760px){
+  .login-page{padding:14px}
+  .login-box{grid-template-columns:1fr;min-height:auto}
+  .login-box:before{display:none}
+  .login-box:after{display:none}
+  .login-box>.login-logo{grid-column:1;grid-row:auto;margin:34px 28px 18px}
+  .login-box>.login-tabs{grid-column:1;grid-row:auto;margin-left:28px;margin-right:28px}
+  .login-box>.login-err,.login-box>.login-ok{margin-left:28px;margin-right:28px}
+  .login-box>#login-form,.login-box>#signup-form{grid-column:1;padding:0 28px}
+  .login-box>.login-footer{grid-column:1;padding:16px 28px 28px}
+}
+
+
+/* =========================================================
+   REFERENCE DESIGN — blue/white ERP UI matching supplied mockup
+   Applied globally without changing application logic.
+   ========================================================= */
+:root{
+  --navy:#123b70;
+  --navy-2:#0d315d;
+  --blue:#1267c7;
+  --blue-2:#2d83d8;
+  --blue-soft:#eaf3ff;
+  --line:#d9e5f2;
+  --line-2:#e7eef7;
+  --surface:#f7faff;
+  --text:#17365f;
+  --muted:#687d95;
+  --green:#35a853;
+  --green-soft:#eaf8ed;
+  --red:#df4d4d;
+  --red-soft:#fff0f0;
+  --amber:#e2a526;
+  --amber-soft:#fff7e6;
+  --shadow:0 3px 14px rgba(25,72,122,.08);
+  --shadow-lg:0 12px 34px rgba(18,59,112,.12);
+}
+html,body{background:#f5f8fc!important;color:var(--text)!important}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif!important;line-height:1.5!important}
+
+/* LOGIN — same visual language as the application */
+.login-page{
+  min-height:100vh!important;padding:28px!important;
+  background:linear-gradient(135deg,#0d315d 0%,#155b9f 48%,#2b7fc8 100%)!important;
+  position:relative;overflow:hidden;
+}
+.login-page:before,.login-page:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.login-page:before{width:520px;height:520px;left:-180px;bottom:-230px}
+.login-page:after{width:360px;height:360px;right:-130px;top:-170px}
+.login-box{
+  position:relative;z-index:1;width:min(430px,100%)!important;max-width:none!important;
+  padding:0!important;overflow:hidden;border-radius:18px!important;
+  background:#fff!important;border:1px solid rgba(255,255,255,.45)!important;
+  box-shadow:0 24px 70px rgba(4,28,57,.28)!important;
+}
+.login-logo{padding:30px 28px 18px!important;margin:0!important;background:linear-gradient(180deg,#fff,#f8fbff)}
+.login-logo .icon{width:58px;height:58px;display:flex!important;align-items:center;justify-content:center;margin:0 auto 10px!important;border-radius:15px;background:linear-gradient(135deg,#0f427a,#1d76c8);font-size:29px!important;box-shadow:0 8px 18px rgba(18,103,199,.2)}
+.login-logo h1{font-size:22px!important;color:#123b70!important;font-weight:800!important}
+.login-logo p{font-size:12px!important;color:#71839a!important;margin-top:5px!important}
+.login-tabs{margin:0 24px 20px!important;background:#edf4fb!important;border:1px solid #dbe8f5!important;border-radius:10px!important;padding:4px!important}
+.login-tab{padding:10px!important;font-size:13px!important;color:#71839a!important;border-radius:8px!important}
+.login-tab.active{color:#fff!important;background:linear-gradient(135deg,#1267c7,#2d83d8)!important;box-shadow:0 4px 10px rgba(18,103,199,.18)!important}
+.login-box #login-form,.login-box #signup-form{padding:0 24px 2px!important}
+.field{gap:6px!important;margin-bottom:13px!important}
+.field label{font-size:11.5px!important;color:#47617e!important;font-weight:700!important}
+.field input{height:43px!important;padding:10px 12px!important;border:1px solid #d5e1ee!important;border-radius:8px!important;background:#fbfdff!important;color:#17365f!important}
+.field input:focus{border-color:#2b7fc8!important;box-shadow:0 0 0 3px rgba(43,127,200,.10)!important}
+.btn-primary{height:44px!important;border-radius:8px!important;background:linear-gradient(135deg,#0f5fae,#176fca)!important;box-shadow:0 5px 13px rgba(18,103,199,.18)!important}
+.login-footer{padding:17px 24px 22px!important;margin:10px 0 0!important;background:#f7faff;color:#7890aa!important;border-top:1px solid #edf2f7;font-size:11px!important}
+.login-err,.login-ok{margin-left:24px!important;margin-right:24px!important}
+
+/* APP HEADER */
+.header{
+  min-height:58px!important;padding:8px 16px!important;
+  background:linear-gradient(135deg,#0e3566 0%,#174f89 58%,#1b659f 100%)!important;
+  box-shadow:0 3px 12px rgba(12,49,91,.16)!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+.header-left{gap:10px!important}
+.header-left>div:first-child{width:35px;height:35px;border-radius:9px;background:rgba(255,255,255,.11);display:flex;align-items:center;justify-content:center;font-size:20px!important;border:1px solid rgba(255,255,255,.13)}
+.header h1{font-size:14px!important;font-weight:800!important}
+.header p{font-size:10px!important;opacity:.8!important}
+.user-badge{background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.16)!important;padding:4px 9px!important;border-radius:18px!important}
+.logout-btn{height:32px!important;border-radius:7px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.35)!important;font-weight:600}
+
+/* SECOND NAV */
+.tabs{
+  min-height:43px!important;top:58px!important;padding:0 10px!important;
+  background:linear-gradient(180deg,#1d69ac,#155b9b)!important;
+  border:0!important;box-shadow:0 2px 7px rgba(17,65,111,.13)!important;
+}
+.tab{
+  height:43px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0 17px!important;color:#fff!important;font-size:11.5px!important;font-weight:700!important;
+  border:0!important;border-radius:7px 7px 0 0!important;margin:0 2px!important;opacity:.96;
+}
+.tab:hover{background:rgba(255,255,255,.10)!important;color:#fff!important}
+.tab.active{background:#fff!important;color:#164a83!important;box-shadow:0 -1px 0 rgba(255,255,255,.25)!important;opacity:1}
+
+/* PAGE CANVAS */
+.pane{max-width:1240px!important;padding:16px 14px 32px!important}
+.sec-title{color:#173f70!important;border-bottom:1px solid #dce6f1!important;font-size:12px!important;margin:18px 0 9px!important}
+.card,.kcard,.action-card,.dash-panel,.report-card,.report-kpi{
+  background:#fff!important;border:1px solid #dbe5ef!important;box-shadow:var(--shadow)!important;border-radius:9px!important;
+}
+.card{padding:14px!important}
+
+/* DASHBOARD HERO */
+.dashboard-hero{
+  min-height:92px!important;border-radius:10px!important;padding:17px 20px!important;margin-bottom:13px!important;
+  background:linear-gradient(135deg,#eef6ff 0%,#fff 72%)!important;color:#123b70!important;
+  border:1px solid #d8e6f5!important;box-shadow:var(--shadow)!important;
+}
+.dashboard-hero h2{font-size:20px!important;color:#123b70!important;font-weight:800!important}
+.dashboard-hero p{color:#607b98!important;opacity:1!important}
+.dashboard-date{background:#fff!important;color:#536e8d!important;border:1px solid #dbe6f1!important}
+
+/* KPI CARDS */
+.dash-kpis{gap:10px!important}
+.dash-kpi{border-radius:8px!important;padding:12px!important;box-shadow:var(--shadow)!important;border:1px solid #dbe5ef!important}
+.dash-kpi .icon{font-size:19px!important}.dash-kpi .label{font-size:10px!important}.dash-kpi .value{font-size:23px!important;color:#123b70!important}
+.dash-kpi:before{width:3px!important;background:#2d83d8!important}.dash-kpi.green:before{background:#39a95a!important}.dash-kpi.amber:before{background:#e2a526!important}.dash-kpi.purple:before{background:#6b72cf!important}
+
+/* QUICK ACTIONS */
+.action-grid,.dash-quick{gap:10px!important}
+.action-card{min-height:96px!important;border-radius:8px!important;padding:12px!important}
+.action-card .aicon{font-size:23px!important}.action-card .atitle{font-size:12px!important;color:#173f70!important}.action-card .asub{font-size:10px!important;color:#71869e!important}
+
+/* TABLES — screenshot style */
+table.tbl{border:1px solid #dbe5ef!important;border-radius:8px!important;box-shadow:none!important;overflow:hidden!important;background:#fff!important}
+table.tbl th{background:linear-gradient(180deg,#123e74,#164d88)!important;color:#fff!important;padding:9px 10px!important;font-size:11px!important;font-weight:700!important;border:0!important}
+table.tbl td{padding:8px 10px!important;border-bottom:1px solid #edf2f7!important;color:#294765!important;font-size:11.5px!important;background:#fff!important}
+table.tbl tr:nth-child(even) td{background:#fbfdff!important}
+table.tbl tr:hover td{background:#f1f7ff!important}
+.good{color:#16843d!important}.bad{color:#d13b3b!important}.warn{color:#bd7d0a!important}
+
+/* INPUTS / SELECTS */
+input[type=text],input[type=number],input[type=date],select{
+  min-height:39px!important;border:1px solid #d6e1ed!important;border-radius:7px!important;background:#fff!important;color:#17365f!important;font-size:12px!important;box-shadow:inset 0 1px 2px rgba(18,59,112,.025)!important
+}
+input:focus,select:focus{border-color:#4b91d1!important;box-shadow:0 0 0 3px rgba(45,131,216,.09)!important}
+.btn{border-radius:7px!important;font-size:12px!important;font-weight:700!important}
+.btn-primary{background:linear-gradient(135deg,#0f5fae,#176fca)!important}
+.btn-outline{background:#fff!important;border:1px solid #c9d9e8!important;color:#1b558e!important}
+.btn-green{background:#239447!important}.btn-red{background:#d64747!important}
+
+/* BADGES */
+.badge{font-size:10px!important;padding:3px 8px!important;border-radius:12px!important}
+.badge.green{background:#eaf8ee!important;color:#21823e!important;border-color:#bce2c7!important}
+.badge.blue{background:#eaf3ff!important;color:#1a5b9d!important;border-color:#bfd8f2!important}
+.badge.amber{background:#fff6e4!important;color:#9a6500!important;border-color:#ecd39c!important}
+.badge.red{background:#fff0f0!important;color:#b73535!important;border-color:#efc2c2!important}
+.badge.purple{background:#f0efff!important;color:#514ca3!important;border-color:#d2cff7!important}
+
+/* MODALS — like supplied add-material screenshot */
+.modal-bg{background:rgba(9,36,67,.45)!important;padding:28px 14px!important;backdrop-filter:blur(2px)}
+.modal{
+  max-width:680px!important;border-radius:10px!important;padding:0!important;overflow:hidden!important;
+  border:1px solid #d6e2ef!important;box-shadow:0 20px 55px rgba(8,43,80,.22)!important
+}
+.modal h3{margin:0!important;padding:15px 18px!important;font-size:15px!important;color:#143d70!important;border-bottom:1px solid #e1e9f2!important;background:linear-gradient(180deg,#fff,#f8fbff)!important}
+.modal>*:not(h3){margin-left:16px;margin-right:16px}
+.modal-actions{padding:12px 0 16px!important;margin-top:8px!important;border-top:1px solid #e5edf5!important}
+.bom-row{gap:7px!important}.bom-row select,.bom-row input{min-height:37px!important}
+.tip{background:#eef6ff!important;border:1px solid #cfe1f4!important;border-right:3px solid #2d83d8!important;color:#46627e!important}
+
+/* PRODUCT / COSTING DETAIL */
+.kcard{border-radius:8px!important;padding:12px!important}.kcard .klbl{font-size:10px!important}.kcard .kval{font-size:19px!important;color:#123b70!important}
+.kcard.green{background:#f0fbf3!important;border-color:#c8e7cf!important}.kcard.amber{background:#fff9ed!important;border-color:#f0dfb7!important}.kcard.red{background:#fff4f4!important;border-color:#edcaca!important}.kcard.purple{background:#f5f4ff!important;border-color:#dddafa!important}
+
+/* PRODUCT LIST CARDS */
+#product-list>.card{border-radius:9px!important;margin-bottom:11px!important}
+#product-list>.card>div:first-child{padding-bottom:8px!important;border-bottom:1px solid #edf2f7!important}
+#product-list>.card strong{color:#143f73!important;font-size:13px!important}
+
+/* ADMIN */
+.admin-bar{background:#eef1ff!important;border-bottom:1px solid #d5d7f5!important;color:#4f4b9c!important;padding:7px 16px!important;font-size:11px!important}
+
+/* LOADING */
+.loading-screen{background:#f5f8fc!important}.spinner{border-color:#dce8f4!important;border-top-color:#176fca!important}
+
+/* FOOTER / NOTES */
+.footer-note{color:#7890a8!important}
+
+@media(max-width:760px){
+  .header{padding:7px 9px!important}.tabs{padding:0 4px!important}.tab{padding:0 11px!important;font-size:10.5px!important}
+  .pane{padding:11px 8px 25px!important}.dashboard-hero{padding:13px!important}
+}
+
 </style>
 </head>
 <body>
