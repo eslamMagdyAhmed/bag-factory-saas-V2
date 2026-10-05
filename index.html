@@ -161,219 +161,138 @@ table.tbl tr:nth-child(even) td{background:var(--surf)}
 .size-thumb{width:34px;height:34px;border-radius:7px;object-fit:cover;vertical-align:middle;background:var(--surf);border:1px solid var(--border);margin-left:6px}
 @media(max-width:650px){.product-editor-grid{grid-template-columns:1fr}.image-uploader{min-height:210px}.image-uploader img{height:210px}.image-mode-grid{grid-template-columns:1fr}}
 
-/* ===== PCS2 LOGIN — MATCH MAIN APP DESIGN ===== */
-.login-page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px;background:radial-gradient(circle at 15% 20%,rgba(46,117,182,.10),transparent 32%),#f4f6fa}
-.login-box{width:min(980px,100%);max-width:none;min-height:590px;padding:0;display:grid;grid-template-columns:1.02fr .98fr;direction:ltr;background:#fff;border:1px solid #dfe3ea;border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(24,34,48,.12)}
-.login-box:before{content:"مصنع الشنط\A نظام إدارة المنتجات والمخزون\A\A إدارة المنتجات • التكاليف • المخزون • الإنتاج";white-space:pre-line;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px;color:#fff;font-size:22px;font-weight:800;line-height:1.9;background:linear-gradient(145deg,#173663 0%,#2c69a8 72%,#3a7fbd 100%);position:relative}
-.login-box:after{content:"";position:absolute;pointer-events:none;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07);left:calc(50% - 490px);bottom:40px}
-.login-logo{margin-bottom:22px;text-align:right}
-.login-logo .icon{display:inline-flex;width:52px;height:52px;align-items:center;justify-content:center;border-radius:14px;background:#eef4fb;font-size:28px;margin:0 0 12px}
-.login-logo h1{font-size:22px;color:#182f59;letter-spacing:.01em}
-.login-logo p{font-size:12px;color:#6b7280;margin-top:5px}
-.login-tabs{background:#f4f6fa;border:1px solid #e1e6ed;border-radius:11px;padding:4px;margin-bottom:18px}
-.login-tab{padding:10px;font-size:13px;border-radius:8px}
-.login-tab.active{color:#1f3864;background:#fff;box-shadow:0 2px 8px rgba(24,34,48,.08)}
-.login-box>.login-logo,.login-box>.login-tabs,.login-box>.login-err,.login-box>.login-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{grid-column:2;direction:rtl}
-.login-box>.login-logo{grid-row:1;margin:58px 58px 22px}
-.login-box>.login-tabs{grid-row:2;margin-left:58px;margin-right:58px}
-.login-box>.login-err,.login-box>.login-ok{margin-left:58px;margin-right:58px}
-.login-box>#login-form,.login-box>#signup-form{padding:0 58px}
-.login-box>.login-footer{padding:18px 58px 34px;margin-top:0}
-.login-box .field{margin-bottom:15px}
-.login-box .field label{font-size:11.5px;color:#4d5663}
-.login-box .field input{min-height:44px;border-color:#d5dae2;border-radius:10px;background:#fff}
-.login-box .field input:focus{border-color:#4b82bd;box-shadow:0 0 0 3px rgba(46,117,182,.10)}
-.login-box .btn-primary{min-height:45px;border-radius:10px;background:linear-gradient(135deg,#1f3864,#2e75b6);box-shadow:0 5px 14px rgba(31,56,100,.18)}
-.login-box .btn-primary:hover{background:linear-gradient(135deg,#182f59,#245d96)}
-.login-footer{font-size:11px;color:#7a828d}
-@media(max-width:760px){
-  .login-page{padding:14px}
-  .login-box{grid-template-columns:1fr;min-height:auto}
-  .login-box:before{display:none}
-  .login-box:after{display:none}
-  .login-box>.login-logo{grid-column:1;grid-row:auto;margin:34px 28px 18px}
-  .login-box>.login-tabs{grid-column:1;grid-row:auto;margin-left:28px;margin-right:28px}
-  .login-box>.login-err,.login-box>.login-ok{margin-left:28px;margin-right:28px}
-  .login-box>#login-form,.login-box>#signup-form{grid-column:1;padding:0 28px}
-  .login-box>.login-footer{grid-column:1;padding:16px 28px 28px}
+/* =========================================================
+   PCS2 DESIGN SYSTEM — REFERENCE IMAGE MATCH v2
+   This layer intentionally overrides the old visual theme.
+   ========================================================= */
+:root{
+  --navy:#123d73!important;
+  --blue:#1769b0!important;
+  --blue2:#2f82d2!important;
+  --surf:#f7faff!important;
+  --white:#ffffff!important;
+  --border:#d7e4f2!important;
+  --text:#16304f!important;
+  --muted:#63748a!important;
+  --r:10px!important;
+  --rlg:12px!important;
+}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif!important;background:#f7faff!important;color:#16304f!important;line-height:1.45!important}
+/* Header: dark company bar */
+.header{
+ background:linear-gradient(180deg,#0f376a 0%,#16477f 100%)!important;
+ min-height:58px!important;padding:8px 18px!important;border-bottom:0!important;
+ box-shadow:0 2px 10px rgba(11,48,91,.18)!important;border-radius:0!important;
+}
+.header-left{gap:10px!important;order:2!important}.header>div:last-child{order:1!important}
+.header-left>div:first-child{width:38px;height:38px;border-radius:50%;display:flex!important;align-items:center;justify-content:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);font-size:20px!important}
+.header h1{font-size:14px!important;font-weight:800!important;color:#fff!important}.header p{font-size:10px!important;color:#dcecff!important;opacity:1!important}
+.user-badge{background:transparent!important;border:0!important;padding:2px 4px!important;font-size:10px!important;color:#fff!important;gap:5px!important}
+.user-badge span:first-child{width:25px;height:25px;border-radius:50%;background:#fff;color:#1769b0;display:flex;align-items:center;justify-content:center;font-size:13px}
+.logout-btn{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.45)!important;border-radius:7px!important;padding:6px 13px!important;color:#fff!important;font-size:11px!important;font-weight:600!important}
+.logout-btn:hover{background:rgba(255,255,255,.16)!important}
+/* Navigation: blue second bar + floating active tab */
+.tabs{top:58px!important;background:linear-gradient(180deg,#1b5c9d,#13508d)!important;border:0!important;box-shadow:0 2px 8px rgba(10,55,100,.14)!important;padding:4px 10px!important;gap:3px!important;min-height:43px!important;justify-content:flex-start!important}
+.tab{color:#fff!important;border:0!important;border-radius:7px!important;padding:8px 16px!important;margin:0!important;font-size:11px!important;font-weight:700!important;transition:.18s!important}
+.tab:hover{background:rgba(255,255,255,.12)!important;color:#fff!important}
+.tab.active{background:linear-gradient(180deg,#4b96d9,#2877bd)!important;color:#fff!important;box-shadow:0 2px 6px rgba(0,0,0,.14)!important;border:0!important}
+/* Content */
+.pane{max-width:1240px!important;padding:14px 16px 30px!important;background:#f7faff!important}
+.sec-title{color:#123d73!important;font-size:14px!important;font-weight:800!important;border-bottom:0!important;margin:8px 0 10px!important;padding-bottom:4px!important;letter-spacing:0!important}
+.card,.kcard,.action-card,.dash-panel,.dash-kpi,.report-card,.report-kpi{
+ background:#fff!important;border:1px solid #dce8f4!important;border-radius:10px!important;
+ box-shadow:0 3px 12px rgba(20,68,112,.055)!important;
+}
+.card{padding:13px!important}.kcard{padding:12px!important}
+/* Inputs */
+input[type=text],input[type=number],input[type=date],input[type=email],input[type=password],select,.field input{
+ min-height:38px!important;background:#fff!important;border:1px solid #d2dfec!important;border-radius:7px!important;color:#193653!important;font-size:12px!important;
+ box-shadow:inset 0 1px 2px rgba(18,61,115,.025)!important;
+}
+input:focus,select:focus,.field input:focus{border-color:#2e80ca!important;box-shadow:0 0 0 3px rgba(46,128,202,.10)!important;outline:none!important}
+.field label{font-size:10px!important;font-weight:700!important;color:#52677f!important}
+/* Buttons */
+.btn{border-radius:7px!important;font-size:11px!important;font-weight:800!important;padding:8px 14px!important;box-shadow:none!important}
+.btn-primary{background:linear-gradient(180deg,#1972bf,#0759a7)!important;color:#fff!important;border:1px solid #0759a7!important}
+.btn-primary:hover{background:linear-gradient(180deg,#2380cf,#0759a7)!important}
+.btn-outline{background:#fff!important;border:1px solid #a9bfd6!important;color:#164a7f!important}
+.btn-green{background:#159447!important}.btn-red{background:#dc3b3b!important}
+/* Tables */
+table.tbl{border:1px solid #d8e5f2!important;border-radius:9px!important;overflow:hidden!important;background:#fff!important;box-shadow:0 2px 9px rgba(25,68,110,.04)!important}
+table.tbl th{background:linear-gradient(180deg,#154b87,#0e3e76)!important;color:#fff!important;padding:8px 9px!important;font-size:10px!important;font-weight:800!important}
+table.tbl td{padding:8px 9px!important;border-bottom:1px solid #e8eef5!important;font-size:11px!important;color:#28435f!important}
+table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover td{background:#f0f7ff!important}
+/* KPI cards */
+.kcard{min-height:72px!important}.kcard .klbl{font-size:9px!important}.kcard .kval{font-size:20px!important;color:#123d73!important}
+.kcard.green{background:#f2fbf3!important;border-color:#b9dfc0!important}.kcard.amber{background:#fffaf0!important;border-color:#f1dcae!important}.kcard.red{background:#fff5f5!important;border-color:#efc2c2!important}.kcard.purple{background:#f6f5ff!important;border-color:#d4d0f5!important}
+/* Action cards */
+.action-grid{gap:10px!important}.action-card{min-height:100px!important;padding:12px!important;border-color:#dce8f4!important}.action-card .aicon{font-size:24px!important}.action-card .atitle{font-size:12px!important;color:#123d73!important}.action-card .asub{font-size:9px!important;color:#718197!important}
+.action-card:hover{transform:translateY(-2px)!important;box-shadow:0 7px 18px rgba(20,68,112,.10)!important}
+/* Hero/dashboard elements */
+.dashboard-hero{background:linear-gradient(135deg,#123d73 0%,#2674b9 100%)!important;border-radius:12px!important;padding:15px 18px!important;box-shadow:0 7px 20px rgba(18,61,115,.16)!important}
+.dashboard-hero h2{font-size:18px!important}.dashboard-hero p{font-size:10px!important}.dashboard-date{font-size:9px!important;border-radius:8px!important}
+.dash-kpis{gap:10px!important}.dash-kpi{border-radius:10px!important;padding:12px!important}.dash-kpi .value{font-size:22px!important;color:#123d73!important}.dash-kpi .label{font-size:9px!important}
+/* Tips / notices */
+.tip{background:#f0f7ff!important;border:1px solid #c9def2!important;border-right:3px solid #287bc4!important;color:#49627d!important;border-radius:7px!important;font-size:10px!important}
+/* Modal */
+.modal-bg{background:rgba(9,31,55,.48)!important;backdrop-filter:blur(2px)!important}
+.modal{border:1px solid #d8e5f2!important;border-radius:12px!important;box-shadow:0 20px 60px rgba(10,42,76,.25)!important;padding:16px!important}
+.modal h3{font-size:15px!important;color:#123d73!important;border-bottom:1px solid #e4edf6!important;padding-bottom:9px!important}
+/* Login: same system, not old standalone style */
+.login-page{background:linear-gradient(135deg,#0d3566 0%,#1764a9 55%,#2d80c7 100%)!important;padding:20px!important}
+.login-box{max-width:850px!important;padding:0!important;display:grid!important;grid-template-columns:42% 58%!important;direction:ltr!important;overflow:hidden!important;border-radius:16px!important;border:1px solid rgba(255,255,255,.22)!important;box-shadow:0 24px 70px rgba(0,20,50,.32)!important;background:#fff!important}
+.login-logo{grid-column:1!important;grid-row:1!important;margin:0!important;padding:42px 30px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;background:linear-gradient(160deg,#123d73,#1c65a7)!important;color:#fff!important;direction:rtl!important}
+.login-logo .icon{width:74px;height:74px;border-radius:18px!important;background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.25)!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:39px!important;margin-bottom:15px!important}
+.login-logo h1{color:#fff!important;font-size:23px!important}.login-logo p{color:#dcecff!important;font-size:11px!important}
+.login-tabs{grid-column:2!important;grid-row:1!important;margin:0!important;padding:5px!important;background:#edf4fb!important;border-radius:9px!important;gap:4px!important;direction:rtl!important;align-self:start!important;margin:28px 28px 0!important}
+.login-tab{font-size:11px!important;padding:9px!important;color:#60758c!important}.login-tab.active{color:#fff!important;background:#1769b0!important;box-shadow:none!important}
+.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{grid-column:2!important;direction:rtl!important;margin-left:28px!important;margin-right:28px!important}
+.login-box>#auth-err{margin-top:10px!important}.login-box>#auth-ok{margin-top:10px!important}
+.login-box>#login-form,.login-box>#signup-form{margin-top:20px!important}
+.login-box .field{margin-bottom:13px!important}.login-box .field label{font-size:10px!important}
+.login-box .btn-primary{min-height:43px!important;font-size:12px!important}
+.login-footer{font-size:9px!important;margin-top:0!important;margin-bottom:25px!important;color:#74869a!important}
+@media(max-width:700px){
+ .login-box{display:block!important;max-width:430px!important}.login-logo{padding:24px 20px!important}.login-tabs{margin:18px 20px 0!important}.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{margin-left:20px!important;margin-right:20px!important}.login-box>#login-form,.login-box>#signup-form{margin-top:18px!important}
+ .header{padding:7px 10px!important}.tabs{padding:3px 6px!important}.tab{padding:8px 10px!important;font-size:10px!important}.pane{padding:10px 8px 24px!important}
 }
 
 
 /* =========================================================
-   REFERENCE DESIGN — blue/white ERP UI matching supplied mockup
-   Applied globally without changing application logic.
+   PCS2 ADMIN V3
    ========================================================= */
-:root{
-  --navy:#123b70;
-  --navy-2:#0d315d;
-  --blue:#1267c7;
-  --blue-2:#2d83d8;
-  --blue-soft:#eaf3ff;
-  --line:#d9e5f2;
-  --line-2:#e7eef7;
-  --surface:#f7faff;
-  --text:#17365f;
-  --muted:#687d95;
-  --green:#35a853;
-  --green-soft:#eaf8ed;
-  --red:#df4d4d;
-  --red-soft:#fff0f0;
-  --amber:#e2a526;
-  --amber-soft:#fff7e6;
-  --shadow:0 3px 14px rgba(25,72,122,.08);
-  --shadow-lg:0 12px 34px rgba(18,59,112,.12);
-}
-html,body{background:#f5f8fc!important;color:var(--text)!important}
-body{font-family:'Segoe UI',Tahoma,Arial,sans-serif!important;line-height:1.5!important}
-
-/* LOGIN — same visual language as the application */
-.login-page{
-  min-height:100vh!important;padding:28px!important;
-  background:linear-gradient(135deg,#0d315d 0%,#155b9f 48%,#2b7fc8 100%)!important;
-  position:relative;overflow:hidden;
-}
-.login-page:before,.login-page:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
-.login-page:before{width:520px;height:520px;left:-180px;bottom:-230px}
-.login-page:after{width:360px;height:360px;right:-130px;top:-170px}
-.login-box{
-  position:relative;z-index:1;width:min(430px,100%)!important;max-width:none!important;
-  padding:0!important;overflow:hidden;border-radius:18px!important;
-  background:#fff!important;border:1px solid rgba(255,255,255,.45)!important;
-  box-shadow:0 24px 70px rgba(4,28,57,.28)!important;
-}
-.login-logo{padding:30px 28px 18px!important;margin:0!important;background:linear-gradient(180deg,#fff,#f8fbff)}
-.login-logo .icon{width:58px;height:58px;display:flex!important;align-items:center;justify-content:center;margin:0 auto 10px!important;border-radius:15px;background:linear-gradient(135deg,#0f427a,#1d76c8);font-size:29px!important;box-shadow:0 8px 18px rgba(18,103,199,.2)}
-.login-logo h1{font-size:22px!important;color:#123b70!important;font-weight:800!important}
-.login-logo p{font-size:12px!important;color:#71839a!important;margin-top:5px!important}
-.login-tabs{margin:0 24px 20px!important;background:#edf4fb!important;border:1px solid #dbe8f5!important;border-radius:10px!important;padding:4px!important}
-.login-tab{padding:10px!important;font-size:13px!important;color:#71839a!important;border-radius:8px!important}
-.login-tab.active{color:#fff!important;background:linear-gradient(135deg,#1267c7,#2d83d8)!important;box-shadow:0 4px 10px rgba(18,103,199,.18)!important}
-.login-box #login-form,.login-box #signup-form{padding:0 24px 2px!important}
-.field{gap:6px!important;margin-bottom:13px!important}
-.field label{font-size:11.5px!important;color:#47617e!important;font-weight:700!important}
-.field input{height:43px!important;padding:10px 12px!important;border:1px solid #d5e1ee!important;border-radius:8px!important;background:#fbfdff!important;color:#17365f!important}
-.field input:focus{border-color:#2b7fc8!important;box-shadow:0 0 0 3px rgba(43,127,200,.10)!important}
-.btn-primary{height:44px!important;border-radius:8px!important;background:linear-gradient(135deg,#0f5fae,#176fca)!important;box-shadow:0 5px 13px rgba(18,103,199,.18)!important}
-.login-footer{padding:17px 24px 22px!important;margin:10px 0 0!important;background:#f7faff;color:#7890aa!important;border-top:1px solid #edf2f7;font-size:11px!important}
-.login-err,.login-ok{margin-left:24px!important;margin-right:24px!important}
-
-/* APP HEADER */
-.header{
-  min-height:58px!important;padding:8px 16px!important;
-  background:linear-gradient(135deg,#0e3566 0%,#174f89 58%,#1b659f 100%)!important;
-  box-shadow:0 3px 12px rgba(12,49,91,.16)!important;
-  border-bottom:1px solid rgba(255,255,255,.08)!important;
-}
-.header-left{gap:10px!important}
-.header-left>div:first-child{width:35px;height:35px;border-radius:9px;background:rgba(255,255,255,.11);display:flex;align-items:center;justify-content:center;font-size:20px!important;border:1px solid rgba(255,255,255,.13)}
-.header h1{font-size:14px!important;font-weight:800!important}
-.header p{font-size:10px!important;opacity:.8!important}
-.user-badge{background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.16)!important;padding:4px 9px!important;border-radius:18px!important}
-.logout-btn{height:32px!important;border-radius:7px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.35)!important;font-weight:600}
-
-/* SECOND NAV */
-.tabs{
-  min-height:43px!important;top:58px!important;padding:0 10px!important;
-  background:linear-gradient(180deg,#1d69ac,#155b9b)!important;
-  border:0!important;box-shadow:0 2px 7px rgba(17,65,111,.13)!important;
-}
-.tab{
-  height:43px!important;display:flex!important;align-items:center!important;justify-content:center!important;
-  padding:0 17px!important;color:#fff!important;font-size:11.5px!important;font-weight:700!important;
-  border:0!important;border-radius:7px 7px 0 0!important;margin:0 2px!important;opacity:.96;
-}
-.tab:hover{background:rgba(255,255,255,.10)!important;color:#fff!important}
-.tab.active{background:#fff!important;color:#164a83!important;box-shadow:0 -1px 0 rgba(255,255,255,.25)!important;opacity:1}
-
-/* PAGE CANVAS */
-.pane{max-width:1240px!important;padding:16px 14px 32px!important}
-.sec-title{color:#173f70!important;border-bottom:1px solid #dce6f1!important;font-size:12px!important;margin:18px 0 9px!important}
-.card,.kcard,.action-card,.dash-panel,.report-card,.report-kpi{
-  background:#fff!important;border:1px solid #dbe5ef!important;box-shadow:var(--shadow)!important;border-radius:9px!important;
-}
-.card{padding:14px!important}
-
-/* DASHBOARD HERO */
-.dashboard-hero{
-  min-height:92px!important;border-radius:10px!important;padding:17px 20px!important;margin-bottom:13px!important;
-  background:linear-gradient(135deg,#eef6ff 0%,#fff 72%)!important;color:#123b70!important;
-  border:1px solid #d8e6f5!important;box-shadow:var(--shadow)!important;
-}
-.dashboard-hero h2{font-size:20px!important;color:#123b70!important;font-weight:800!important}
-.dashboard-hero p{color:#607b98!important;opacity:1!important}
-.dashboard-date{background:#fff!important;color:#536e8d!important;border:1px solid #dbe6f1!important}
-
-/* KPI CARDS */
-.dash-kpis{gap:10px!important}
-.dash-kpi{border-radius:8px!important;padding:12px!important;box-shadow:var(--shadow)!important;border:1px solid #dbe5ef!important}
-.dash-kpi .icon{font-size:19px!important}.dash-kpi .label{font-size:10px!important}.dash-kpi .value{font-size:23px!important;color:#123b70!important}
-.dash-kpi:before{width:3px!important;background:#2d83d8!important}.dash-kpi.green:before{background:#39a95a!important}.dash-kpi.amber:before{background:#e2a526!important}.dash-kpi.purple:before{background:#6b72cf!important}
-
-/* QUICK ACTIONS */
-.action-grid,.dash-quick{gap:10px!important}
-.action-card{min-height:96px!important;border-radius:8px!important;padding:12px!important}
-.action-card .aicon{font-size:23px!important}.action-card .atitle{font-size:12px!important;color:#173f70!important}.action-card .asub{font-size:10px!important;color:#71869e!important}
-
-/* TABLES — screenshot style */
-table.tbl{border:1px solid #dbe5ef!important;border-radius:8px!important;box-shadow:none!important;overflow:hidden!important;background:#fff!important}
-table.tbl th{background:linear-gradient(180deg,#123e74,#164d88)!important;color:#fff!important;padding:9px 10px!important;font-size:11px!important;font-weight:700!important;border:0!important}
-table.tbl td{padding:8px 10px!important;border-bottom:1px solid #edf2f7!important;color:#294765!important;font-size:11.5px!important;background:#fff!important}
-table.tbl tr:nth-child(even) td{background:#fbfdff!important}
-table.tbl tr:hover td{background:#f1f7ff!important}
-.good{color:#16843d!important}.bad{color:#d13b3b!important}.warn{color:#bd7d0a!important}
-
-/* INPUTS / SELECTS */
-input[type=text],input[type=number],input[type=date],select{
-  min-height:39px!important;border:1px solid #d6e1ed!important;border-radius:7px!important;background:#fff!important;color:#17365f!important;font-size:12px!important;box-shadow:inset 0 1px 2px rgba(18,59,112,.025)!important
-}
-input:focus,select:focus{border-color:#4b91d1!important;box-shadow:0 0 0 3px rgba(45,131,216,.09)!important}
-.btn{border-radius:7px!important;font-size:12px!important;font-weight:700!important}
-.btn-primary{background:linear-gradient(135deg,#0f5fae,#176fca)!important}
-.btn-outline{background:#fff!important;border:1px solid #c9d9e8!important;color:#1b558e!important}
-.btn-green{background:#239447!important}.btn-red{background:#d64747!important}
-
-/* BADGES */
-.badge{font-size:10px!important;padding:3px 8px!important;border-radius:12px!important}
-.badge.green{background:#eaf8ee!important;color:#21823e!important;border-color:#bce2c7!important}
-.badge.blue{background:#eaf3ff!important;color:#1a5b9d!important;border-color:#bfd8f2!important}
-.badge.amber{background:#fff6e4!important;color:#9a6500!important;border-color:#ecd39c!important}
-.badge.red{background:#fff0f0!important;color:#b73535!important;border-color:#efc2c2!important}
-.badge.purple{background:#f0efff!important;color:#514ca3!important;border-color:#d2cff7!important}
-
-/* MODALS — like supplied add-material screenshot */
-.modal-bg{background:rgba(9,36,67,.45)!important;padding:28px 14px!important;backdrop-filter:blur(2px)}
-.modal{
-  max-width:680px!important;border-radius:10px!important;padding:0!important;overflow:hidden!important;
-  border:1px solid #d6e2ef!important;box-shadow:0 20px 55px rgba(8,43,80,.22)!important
-}
-.modal h3{margin:0!important;padding:15px 18px!important;font-size:15px!important;color:#143d70!important;border-bottom:1px solid #e1e9f2!important;background:linear-gradient(180deg,#fff,#f8fbff)!important}
-.modal>*:not(h3){margin-left:16px;margin-right:16px}
-.modal-actions{padding:12px 0 16px!important;margin-top:8px!important;border-top:1px solid #e5edf5!important}
-.bom-row{gap:7px!important}.bom-row select,.bom-row input{min-height:37px!important}
-.tip{background:#eef6ff!important;border:1px solid #cfe1f4!important;border-right:3px solid #2d83d8!important;color:#46627e!important}
-
-/* PRODUCT / COSTING DETAIL */
-.kcard{border-radius:8px!important;padding:12px!important}.kcard .klbl{font-size:10px!important}.kcard .kval{font-size:19px!important;color:#123b70!important}
-.kcard.green{background:#f0fbf3!important;border-color:#c8e7cf!important}.kcard.amber{background:#fff9ed!important;border-color:#f0dfb7!important}.kcard.red{background:#fff4f4!important;border-color:#edcaca!important}.kcard.purple{background:#f5f4ff!important;border-color:#dddafa!important}
-
-/* PRODUCT LIST CARDS */
-#product-list>.card{border-radius:9px!important;margin-bottom:11px!important}
-#product-list>.card>div:first-child{padding-bottom:8px!important;border-bottom:1px solid #edf2f7!important}
-#product-list>.card strong{color:#143f73!important;font-size:13px!important}
-
-/* ADMIN */
-.admin-bar{background:#eef1ff!important;border-bottom:1px solid #d5d7f5!important;color:#4f4b9c!important;padding:7px 16px!important;font-size:11px!important}
-
-/* LOADING */
-.loading-screen{background:#f5f8fc!important}.spinner{border-color:#dce8f4!important;border-top-color:#176fca!important}
-
-/* FOOTER / NOTES */
-.footer-note{color:#7890a8!important}
-
-@media(max-width:760px){
-  .header{padding:7px 9px!important}.tabs{padding:0 4px!important}.tab{padding:0 11px!important;font-size:10.5px!important}
-  .pane{padding:11px 8px 25px!important}.dashboard-hero{padding:13px!important}
-}
+.admin-only-tab{background:linear-gradient(180deg,#6b5ed8,#574ac1)!important;color:#fff!important}
+.admin-only-tab:hover{background:linear-gradient(180deg,#7c70e5,#6255cb)!important}
+.admin-only-tab.active{background:linear-gradient(180deg,#9a90f1,#6f63dc)!important;color:#fff!important}
+.admin-bar{background:#eeedfe!important;border-bottom:1px solid #c9c4f4!important;color:#3c3489!important;padding:7px 18px!important}
+.admin-bar a{color:#4d43b6!important;font-weight:800!important;text-decoration:none!important}
+.admin-hero{display:flex;justify-content:space-between;align-items:center;gap:18px;background:linear-gradient(135deg,#123d73 0%,#1d67a8 68%,#356fbd 100%);color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(18,61,115,.16)}
+.admin-hero h2{font-size:20px;margin:3px 0 4px}.admin-hero p{font-size:11px;opacity:.86}
+.admin-eyebrow{font-size:9px;letter-spacing:.13em;font-weight:800;opacity:.7}
+.admin-hero-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;padding:8px 12px;font-size:11px;font-weight:700;white-space:nowrap}.admin-hero-badge span{color:#7ee28b}
+.admin-subtabs{display:flex;gap:5px;overflow-x:auto;padding:5px;background:#fff;border:1px solid #d9e4ef;border-radius:10px;box-shadow:0 2px 8px rgba(18,61,115,.04);margin-bottom:12px}
+.admin-subtab{border:0;background:#fff;color:#536981;padding:8px 12px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer}
+.admin-subtab:hover{background:#f1f6fb;color:#174f84}.admin-subtab.active{background:#e6f1fb;color:#125b99;box-shadow:inset 0 0 0 1px #b8d5ef}
+.admin-section{display:none}.admin-section.active{display:block}
+.admin-section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:4px 0 10px}.admin-section-head h3{font-size:16px;color:#123d73}.admin-section-head p{font-size:10px;color:#71839a;margin-top:2px}
+.admin-toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.admin-toolbar input{min-width:230px}
+.admin-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.admin-kpi{background:#fff;border:1px solid #dce8f4;border-radius:11px;padding:12px;box-shadow:0 3px 10px rgba(20,68,112,.05);position:relative;overflow:hidden}
+.admin-kpi:before{content:"";position:absolute;right:0;top:0;bottom:0;width:4px;background:#2f82d2}.admin-kpi.green:before{background:#159447}.admin-kpi.amber:before{background:#d18a18}.admin-kpi.red:before{background:#d83d3d}.admin-kpi.purple:before{background:#6e62d8}
+.admin-kpi .kicon{font-size:20px}.admin-kpi .klabel{font-size:10px;color:#65788e;margin-top:5px}.admin-kpi .kvalue{font-size:23px;font-weight:900;color:#123d73;margin-top:1px}.admin-kpi .ksub{font-size:9px;color:#8494a6;margin-top:2px}
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-panel{background:#fff;border:1px solid #dce8f4;border-radius:11px;padding:13px;box-shadow:0 3px 10px rgba(20,68,112,.045)}
+.admin-panel-title{font-size:12px;font-weight:900;color:#123d73;margin-bottom:10px}
+.admin-stat-row,.admin-setting-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #edf2f7;font-size:11px}.admin-stat-row:last-child,.admin-setting-row:last-child{border-bottom:0}
+.admin-mini-list{display:grid;gap:7px}.admin-mini-item{display:flex;justify-content:space-between;gap:8px;padding:8px 9px;background:#f7faff;border:1px solid #e3edf6;border-radius:8px;font-size:10px}.admin-mini-item strong{color:#163e69}.admin-mini-item span{color:#7b8b9e}
+.admin-section .tbl th{background:linear-gradient(180deg,#164d86,#123d73)!important}.admin-section .tbl td{font-size:11px;padding:8px}
+.subscription-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.subscription-preview{margin-top:10px;background:#f7faff;border:1px solid #e0ebf5;border-radius:8px;padding:9px;font-size:11px;color:#526a82}
+.backup-control-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.backup-action-card{display:flex;flex-direction:column;gap:7px}.backup-action-card h4{font-size:13px;color:#123d73}.backup-action-card p{font-size:10px;color:#74869b;line-height:1.55;min-height:32px}.backup-icon{font-size:25px}.backup-action-card .btn{margin-top:3px}
+.retention-row{display:flex;align-items:center;gap:7px}.retention-row input{width:100%}.retention-row span{font-size:11px;color:#6f8298;white-space:nowrap}
+.admin-status{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:800}.admin-status.active{background:#e8f6ec;color:#17743a}.admin-status.trial{background:#fff4dc;color:#8b5a00}.admin-status.expired{background:#fdecec;color:#a22d2d}.admin-status.suspended{background:#eeeefc;color:#5148a3}
+.admin-danger{color:#b62f2f}.admin-muted{color:#74869b;font-size:10px}
+@media(max-width:900px){.admin-kpi-grid{grid-template-columns:1fr 1fr}.admin-grid-2,.backup-control-grid{grid-template-columns:1fr}.admin-section-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.admin-kpi-grid{grid-template-columns:1fr 1fr}.admin-hero{flex-direction:column;align-items:flex-start}.admin-toolbar{width:100%}.admin-toolbar input{min-width:0;width:100%}.admin-subtabs{border-radius:8px}.admin-subtab{padding:7px 9px;font-size:10px}}
 
 </style>
 </head>
@@ -419,8 +338,8 @@ input:focus,select:focus{border-color:#4b91d1!important;box-shadow:0 0 0 3px rgb
 <!-- MAIN APP -->
 <div class="app" id="main-app">
   <div class="admin-bar" id="admin-bar" style="display:none">
-    👑 أنت مسجل دخول كـ <strong>مدير النظام</strong> —
-    <a href="#" onclick="showTab(5);return false" style="color:var(--purple-t);font-weight:700">لوحة الإدارة</a>
+    👑 وضع مدير النظام —
+    <a href="#" onclick="showTab(5);return false">فتح لوحة الإدارة</a>
   </div>
   <div class="header">
     <div class="header-left">
@@ -443,6 +362,7 @@ input:focus,select:focus{border-color:#4b91d1!important;box-shadow:0 0 0 3px rgb
     <div class="tab" onclick="showTab(2)">💰 التكلفة والسعر</div>
     <div class="tab" onclick="showTab(3)">📦 المخزون</div>
     <div class="tab" onclick="showTab(4)">🧾 بيع وشراء وصرف</div>
+    <div class="tab admin-only-tab" id="admin-tab" style="display:none" onclick="showTab(5)">👑 لوحة الإدارة</div>
     <div class="tab" onclick="showTab(6)">🔬 حساب الاستهلاك</div>
   </div>
 
@@ -535,42 +455,182 @@ input:focus,select:focus{border-color:#4b91d1!important;box-shadow:0 0 0 3px rgb
     <p class="tip">💡 لو احتجت تتراجع عن أي عملية، احذفها من السجل وهيترجع تأثيرها تلقائياً.</p>
   </div>
 
-  <!-- TAB 5: ADMIN -->
+  <!-- TAB 5: PLATFORM ADMIN -->
   <div class="pane" id="pane5" style="display:none">
-    <p class="sec-title">👑 لوحة إدارة النظام</p>
-    <div class="g4" id="admin-kpis" style="margin-bottom:1rem"></div>
-
-    <p class="sec-title">المصانع المشتركة</p>
-    <div id="admin-factories-table"></div>
-
-    <p class="sec-title" style="margin-top:1.5rem">💾 النسخ الاحتياطية اليومية
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-green btn-sm" id="backup-now-btn" onclick="runBackupNow()">▶ Backup الآن</button>
-        <select id="backup-factory-filter" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);direction:rtl;width:auto" onchange="loadBackupsTable()">
-          <option value="">كل المصانع</option>
-        </select>
+    <div class="admin-hero">
+      <div>
+        <div class="admin-eyebrow">PCS2 PLATFORM</div>
+        <h2>👑 لوحة إدارة النظام</h2>
+        <p>إدارة المصانع، المستخدمين، الاشتراكات، والنسخ الاحتياطية من مكان واحد.</p>
       </div>
-    </p>
-    <div id="admin-backups-table"></div>
-
-    <!-- Restore Modal -->
-    <div class="modal-bg" id="restore-modal">
-      <div class="modal" style="max-width:480px">
-        <h3>🔄 استعادة نسخة احتياطية</h3>
-        <div id="restore-info" style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6"></div>
-        <div style="background:var(--red-bg);border:1px solid var(--red-b);color:var(--red-t);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:1rem">
-          ⚠️ تحذير: الاستعادة ستحذف البيانات الحالية للمصنع وترجع للنسخة المحددة. هذا الإجراء لا يمكن التراجع عنه.
-        </div>
-        <div class="modal-actions">
-          <button class="btn btn-red" onclick="confirmRestore()">تأكيد الاستعادة</button>
-          <button class="btn btn-outline" onclick="closeModal('restore-modal')">إلغاء</button>
-        </div>
-      </div>
+      <div class="admin-hero-badge"><span>●</span> صلاحيات مدير النظام</div>
     </div>
 
-    <p class="tip">💡 النسخ الاحتياطية بتتعمل تلقائياً كل يوم الساعة 12 منتصف الليل. تقدر كمان تعمل backup يدوي في أي وقت من زرار "Backup الآن".</p>
+    <div class="admin-subtabs" id="admin-subtabs">
+      <button class="admin-subtab active" onclick="adminSection('overview')">📊 نظرة عامة</button>
+      <button class="admin-subtab" onclick="adminSection('factories')">🏭 المصانع</button>
+      <button class="admin-subtab" onclick="adminSection('subscriptions')">💳 الاشتراكات</button>
+      <button class="admin-subtab" onclick="adminSection('backups')">💾 Backup & Recovery</button>
+      <button class="admin-subtab" onclick="adminSection('users')">👥 المستخدمون والصلاحيات</button>
+      <button class="admin-subtab" onclick="adminSection('audit')">📝 سجل الإدارة</button>
+      <button class="admin-subtab" onclick="adminSection('settings')">⚙️ إعدادات المنصة</button>
+    </div>
+
+    <!-- Overview -->
+    <section class="admin-section active" id="admin-section-overview">
+      <div class="admin-section-head">
+        <div><h3>نظرة عامة</h3><p>ملخص لحالة منصة PCS2 والمصانع المشتركة.</p></div>
+        <button class="btn btn-primary" onclick="loadAdminConsole()">↻ تحديث البيانات</button>
+      </div>
+      <div class="admin-kpi-grid" id="admin-kpis-v3"></div>
+
+      <div class="admin-grid-2">
+        <div class="admin-panel">
+          <div class="admin-panel-title">📈 توزيع الاشتراكات</div>
+          <div id="admin-subscription-chart" class="admin-stat-list"></div>
+        </div>
+        <div class="admin-panel">
+          <div class="admin-panel-title">🕐 آخر المصانع</div>
+          <div id="admin-recent-factories" class="admin-mini-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Factories -->
+    <section class="admin-section" id="admin-section-factories">
+      <div class="admin-section-head">
+        <div><h3>🏭 إدارة المصانع</h3><p>عرض ومتابعة كل حسابات المصانع المسجلة.</p></div>
+        <div class="admin-toolbar">
+          <input id="admin-factory-search" type="text" placeholder="ابحث باسم المصنع أو البريد..." oninput="renderAdminFactories()">
+          <select id="admin-factory-status" onchange="renderAdminFactories()">
+            <option value="">كل الحالات</option>
+            <option value="active">نشط</option>
+            <option value="trial">تجريبي</option>
+            <option value="expired">منتهي</option>
+            <option value="suspended">موقوف</option>
+          </select>
+        </div>
+      </div>
+      <div id="admin-factories-table-v3"></div>
+    </section>
+
+    <!-- Subscriptions -->
+    <section class="admin-section" id="admin-section-subscriptions">
+      <div class="admin-section-head">
+        <div><h3>💳 إدارة الاشتراكات</h3><p>تفعيل، إيقاف، تمديد، أو تحديد تاريخ انتهاء مخصص لأي مصنع.</p></div>
+      </div>
+      <div class="admin-panel subscription-manager">
+        <div class="g3">
+          <div class="field"><label>اختر المصنع</label><select id="sub-factory-select" onchange="loadSubscriptionForm()"></select></div>
+          <div class="field"><label>حالة الاشتراك</label>
+            <select id="sub-status">
+              <option value="trial">تجريبي</option>
+              <option value="active">نشط</option>
+              <option value="expired">منتهي</option>
+              <option value="suspended">موقوف</option>
+            </select>
+          </div>
+          <div class="field"><label>تاريخ الانتهاء</label><input type="date" id="sub-expires"></div>
+        </div>
+        <div class="subscription-actions">
+          <button class="btn btn-green" onclick="saveSubscription()">💾 حفظ الاشتراك</button>
+          <button class="btn btn-outline" onclick="extendSubscription(30)">+30 يوم</button>
+          <button class="btn btn-outline" onclick="extendSubscription(90)">+90 يوم</button>
+          <button class="btn btn-outline" onclick="extendSubscription(365)">+ سنة</button>
+          <button class="btn btn-red" onclick="suspendSelectedFactory()">⛔ إيقاف</button>
+        </div>
+        <div id="subscription-preview" class="subscription-preview"></div>
+      </div>
+      <div class="admin-panel" style="margin-top:12px">
+        <div class="admin-panel-title">ملخص الاشتراكات</div>
+        <div id="admin-subscriptions-table"></div>
+      </div>
+    </section>
+
+    <!-- Backups -->
+    <section class="admin-section" id="admin-section-backups">
+      <div class="admin-section-head">
+        <div><h3>💾 Backup & Recovery</h3><p>تحكم كامل في إنشاء، تنزيل، حذف، واستعادة نسخ المصانع.</p></div>
+        <div class="admin-toolbar">
+          <select id="backup-factory-v3" onchange="loadAdminBackups()"><option value="">كل المصانع</option></select>
+          <button class="btn btn-green" onclick="adminBackupAll()">☁️ Backup كل المصانع</button>
+        </div>
+      </div>
+
+      <div class="backup-control-grid">
+        <div class="admin-panel backup-action-card">
+          <div class="backup-icon">💾</div>
+          <h4>Backup مصنع</h4>
+          <p>اعمل نسخة كاملة لمصنع محدد قبل أي تعديل أو استعادة.</p>
+          <select id="backup-single-factory"></select>
+          <button class="btn btn-primary" onclick="adminBackupSelected()">إنشاء Backup</button>
+        </div>
+        <div class="admin-panel backup-action-card">
+          <div class="backup-icon">📥</div>
+          <h4>تنزيل Backup</h4>
+          <p>تنزيل نسخة JSON على جهازك للاحتفاظ بنسخة خارجية.</p>
+          <select id="download-backup-select"></select>
+          <button class="btn btn-outline" onclick="downloadSelectedBackup()">تنزيل النسخة</button>
+        </div>
+        <div class="admin-panel backup-action-card">
+          <div class="backup-icon">🛡️</div>
+          <h4>سياسة الاحتفاظ</h4>
+          <p>حدد عدد النسخ التي تريد الاحتفاظ بها لكل مصنع.</p>
+          <div class="retention-row"><input id="backup-retention" type="number" min="1" max="365" value="30"><span>نسخة</span></div>
+          <button class="btn btn-outline" onclick="applyRetention()">تنظيف النسخ القديمة</button>
+        </div>
+      </div>
+
+      <div class="admin-panel" style="margin-top:12px">
+        <div class="admin-panel-title">🗄️ سجل النسخ الاحتياطية</div>
+        <div id="admin-backups-table-v3"></div>
+      </div>
+    </section>
+
+    <!-- Users -->
+    <section class="admin-section" id="admin-section-users">
+      <div class="admin-section-head">
+        <div><h3>👥 المستخدمون والصلاحيات</h3><p>تغيير الدور التشغيلي للمستخدم داخل مصنعه.</p></div>
+      </div>
+      <div class="admin-panel">
+        <div id="admin-users-table-v3"></div>
+      </div>
+    </section>
+
+    <!-- Audit -->
+    <section class="admin-section" id="admin-section-audit">
+      <div class="admin-section-head">
+        <div><h3>📝 سجل الإدارة</h3><p>تسجيل عمليات الأدمن الحساسة مثل الاشتراكات والنسخ والاستعادة.</p></div>
+        <button class="btn btn-outline" onclick="loadAdminAudit()">↻ تحديث</button>
+      </div>
+      <div class="admin-panel">
+        <div id="admin-audit-table-v3"></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="admin-section" id="admin-section-settings">
+      <div class="admin-section-head">
+        <div><h3>⚙️ إعدادات المنصة</h3><p>إعدادات عامة للـPCS2. بعض الخيارات تحتاج تفعيلها لاحقًا من Supabase Cron.</p></div>
+      </div>
+      <div class="admin-grid-2">
+        <div class="admin-panel">
+          <div class="admin-panel-title">🔐 حماية الإدارة</div>
+          <div class="admin-setting-row"><span>السماح بإدارة الاشتراكات من الأدمن</span><span class="badge green">مفعل</span></div>
+          <div class="admin-setting-row"><span>السماح باستعادة Backup</span><span class="badge green">مفعل</span></div>
+          <div class="admin-setting-row"><span>تسجيل عمليات الأدمن</span><span class="badge green">مفعل</span></div>
+          <div class="admin-setting-row"><span>تجاوز الاشتراك للأدمن</span><span class="badge blue">مفعل</span></div>
+        </div>
+        <div class="admin-panel">
+          <div class="admin-panel-title">☁️ النسخ الاحتياطية</div>
+          <div class="admin-setting-row"><span>Backup يدوي</span><span class="badge green">جاهز</span></div>
+          <div class="admin-setting-row"><span>Backup لكل المصانع</span><span class="badge green">جاهز</span></div>
+          <div class="admin-setting-row"><span>Download JSON</span><span class="badge green">جاهز</span></div>
+          <div class="admin-setting-row"><span>Auto Backup 24/7</span><span class="badge amber">يحتاج Cron</span></div>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
 
 <!-- TAB 6: CONSUMPTION ANALYZER -->
 <div class="pane" id="pane6">
@@ -919,7 +979,14 @@ function setupAppForUser(){
     var daysLeft=expires?Math.max(0,Math.ceil((expires-now)/(1000*3600*24))):30;
     subBadge.innerHTML='<span class="subscription-badge sub-trial">تجريبي ('+daysLeft+' يوم)</span>';
   }else subBadge.innerHTML='<span class="subscription-badge sub-expired">منتهي</span>';
-  document.getElementById('admin-bar').style.display='none';
+  var adminTab=document.getElementById('admin-tab');
+  if(currentProfile.is_admin){
+    document.getElementById('admin-bar').style.display='flex';
+    if(adminTab)adminTab.style.display='block';
+  }else{
+    document.getElementById('admin-bar').style.display='none';
+    if(adminTab)adminTab.style.display='none';
+  }
   if(isExpired){var ov=document.getElementById('expired-overlay');if(ov)ov.style.display='flex';}
   renderAll();
 }
@@ -2210,6 +2277,247 @@ async function confirmRestore(){
     currentRestoreBackup = null;
   }
 }
+
+
+
+/* =========================================================
+   PCS2 ADMIN V3 — secure RPC driven console
+   ========================================================= */
+var adminFactoriesV3=[];
+var adminBackupsV3=[];
+var adminSelectedBackupV3=null;
+
+function adminSection(name){
+  document.querySelectorAll('.admin-section').forEach(function(s){s.classList.remove('active');});
+  var el=document.getElementById('admin-section-'+name); if(el)el.classList.add('active');
+  document.querySelectorAll('.admin-subtab').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'"+name+"'")>=0);
+  });
+  if(name==='overview')loadAdminConsole();
+  if(name==='factories')renderAdminFactories();
+  if(name==='subscriptions'){populateAdminFactorySelects();renderAdminSubscriptions();}
+  if(name==='backups'){populateAdminFactorySelects();loadAdminBackups();}
+  if(name==='users')renderAdminUsers();
+  if(name==='audit')loadAdminAudit();
+}
+
+async function adminCall(fn,args){
+  if(!currentProfile || !currentProfile.is_admin) throw new Error('غير مصرح: هذه الوظيفة لمدير النظام فقط.');
+  var r=await sb.rpc(fn,args||{});
+  if(r.error) throw r.error;
+  return r.data;
+}
+
+function adminEscape(v){
+  return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+}
+function adminStatusBadge(s){
+  var x=s||'trial', label={active:'نشط',trial:'تجريبي',expired:'منتهي',suspended:'موقوف'}[x]||x;
+  return '<span class="admin-status '+adminEscape(x)+'">'+adminEscape(label)+'</span>';
+}
+function adminDate(v){
+  if(!v)return '—';
+  try{return new Date(v).toLocaleDateString('ar-EG');}catch(e){return String(v).slice(0,10);}
+}
+
+async function loadAdminConsole(){
+  try{
+    var d=await adminCall('admin_get_dashboard');
+    var k=d||{};
+    document.getElementById('admin-kpis-v3').innerHTML=
+      '<div class="admin-kpi purple"><div class="kicon">🏭</div><div class="klabel">إجمالي المصانع</div><div class="kvalue">'+(k.total_factories||0)+'</div><div class="ksub">حسابات المنصة</div></div>'+
+      '<div class="admin-kpi green"><div class="kicon">🟢</div><div class="klabel">اشتراكات نشطة</div><div class="kvalue">'+(k.active_factories||0)+'</div><div class="ksub">تعمل الآن</div></div>'+
+      '<div class="admin-kpi amber"><div class="kicon">⏳</div><div class="klabel">تجريبية</div><div class="kvalue">'+(k.trial_factories||0)+'</div><div class="ksub">فترة تجريبية</div></div>'+
+      '<div class="admin-kpi red"><div class="kicon">⚠️</div><div class="klabel">منتهية / موقوفة</div><div class="kvalue">'+((k.expired_factories||0)+(k.suspended_factories||0))+'</div><div class="ksub">تحتاج متابعة</div></div>';
+    document.getElementById('admin-subscription-chart').innerHTML=
+      '<div class="admin-stat-row"><span>نشط</span><strong>'+k.active_factories+'</strong></div>'+
+      '<div class="admin-stat-row"><span>تجريبي</span><strong>'+k.trial_factories+'</strong></div>'+
+      '<div class="admin-stat-row"><span>منتهي</span><strong>'+k.expired_factories+'</strong></div>'+
+      '<div class="admin-stat-row"><span>موقوف</span><strong>'+k.suspended_factories+'</strong></div>';
+    var recent=k.recent_factories||[];
+    document.getElementById('admin-recent-factories').innerHTML=recent.length?recent.map(function(f){
+      return '<div class="admin-mini-item"><strong>'+adminEscape(f.factory_name||'بدون اسم')+'</strong><span>'+adminDate(f.created_at)+'</span></div>';
+    }).join(''):'<div class="empty-state">لا توجد بيانات.</div>';
+    await loadAdminFactoriesV3();
+  }catch(e){console.error(e);alert('❌ تعذر تحميل لوحة الإدارة: '+e.message);}
+}
+
+async function loadAdminFactoriesV3(){
+  adminFactoriesV3=await adminCall('admin_get_factories',{p_search:null,p_status:null});
+  adminFactoriesV3=adminFactoriesV3||[];
+  populateAdminFactorySelects();
+  renderAdminFactories();
+  renderAdminSubscriptions();
+  renderAdminUsers();
+}
+async function renderAdminFactories(){
+  if(!adminFactoriesV3.length) await loadAdminFactoriesV3();
+  var q=(document.getElementById('admin-factory-search')||{}).value||'';
+  var status=(document.getElementById('admin-factory-status')||{}).value||'';
+  q=q.toLowerCase().trim();
+  var list=adminFactoriesV3.filter(function(f){
+    var hay=((f.factory_name||'')+' '+(f.email||'')).toLowerCase();
+    return (!q||hay.indexOf(q)>=0)&&(!status||f.subscription_status===status);
+  });
+  var wrap=document.getElementById('admin-factories-table-v3'); if(!wrap)return;
+  if(!list.length){wrap.innerHTML='<div class="empty-state">لا توجد نتائج مطابقة.</div>';return;}
+  var rows='<table class="tbl"><thead><tr><th>المصنع</th><th>البريد</th><th>الدور</th><th>الاشتراك</th><th>ينتهي</th><th>آخر تحديث</th><th>إجراء</th></tr></thead><tbody>';
+  list.forEach(function(f){
+    rows+='<tr><td><strong>'+adminEscape(f.factory_name||'—')+'</strong></td>'+
+      '<td style="direction:ltr;text-align:left">'+adminEscape(f.email||'—')+'</td>'+
+      '<td>'+adminEscape(f.role||'—')+'</td>'+
+      '<td>'+adminStatusBadge(f.subscription_status)+'</td>'+
+      '<td>'+adminDate(f.subscription_expires)+'</td>'+
+      '<td>'+adminDate(f.updated_at||f.created_at)+'</td>'+
+      '<td><button class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.user_id+'\')">إدارة</button></td></tr>';
+  });
+  wrap.innerHTML=rows+'</tbody></table>';
+}
+function populateAdminFactorySelects(){
+  var selects=['sub-factory-select','backup-factory-v3','backup-single-factory','download-backup-select'];
+  selects.forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    var current=el.value;
+    var first=(id==='backup-factory-v3')?'كل المصانع':'اختر مصنعاً';
+    el.innerHTML='<option value="">'+first+'</option>';
+    adminFactoriesV3.forEach(function(f){
+      el.innerHTML+='<option value="'+adminEscape(f.factory_id)+'">'+adminEscape(f.factory_name||f.email)+'</option>';
+    });
+    if(current)el.value=current;
+  });
+}
+function openAdminSubscription(uid){
+  adminSection('subscriptions');
+  var el=document.getElementById('sub-factory-select');if(el){el.value=uid;loadSubscriptionForm();}
+}
+function loadSubscriptionForm(){
+  var uid=document.getElementById('sub-factory-select').value;
+  var f=adminFactoriesV3.find(function(x){return x.factory_id===uid||x.user_id===uid;});
+  if(!f)return;
+  document.getElementById('sub-status').value=f.subscription_status||'trial';
+  document.getElementById('sub-expires').value=f.subscription_expires?String(f.subscription_expires).slice(0,10):'';
+  document.getElementById('subscription-preview').innerHTML='المصنع: <strong>'+adminEscape(f.factory_name||'—')+'</strong> — '+adminStatusBadge(f.subscription_status)+' — آخر تحديث: '+adminDate(f.updated_at);
+}
+async function saveSubscription(){
+  var uid=document.getElementById('sub-factory-select').value;if(!uid){alert('اختر مصنعاً أولاً');return;}
+  try{
+    var status=document.getElementById('sub-status').value;
+    var ex=document.getElementById('sub-expires').value||null;
+    await adminCall('admin_set_subscription',{p_factory_id:uid,p_status:status,p_expires:ex});
+    await loadAdminFactoriesV3();loadSubscriptionForm();await loadAdminAudit();alert('✅ تم تحديث الاشتراك.');
+  }catch(e){alert('❌ '+e.message);}
+}
+function extendSubscription(days){
+  var uid=document.getElementById('sub-factory-select').value;if(!uid){alert('اختر مصنعاً أولاً');return;}
+  var f=adminFactoriesV3.find(function(x){return x.factory_id===uid||x.user_id===uid;});
+  var base=f&&f.subscription_expires&&new Date(f.subscription_expires)>new Date()?new Date(f.subscription_expires):new Date();
+  base.setDate(base.getDate()+days);
+  document.getElementById('sub-status').value='active';
+  document.getElementById('sub-expires').value=base.toISOString().slice(0,10);
+  loadSubscriptionFormPreviewOnly();
+}
+function loadSubscriptionFormPreviewOnly(){
+  var st=document.getElementById('sub-status').value, ex=document.getElementById('sub-expires').value;
+  document.getElementById('subscription-preview').innerHTML='التعديل جاهز للحفظ: '+adminStatusBadge(st)+' — حتى <strong>'+adminEscape(ex||'بدون تاريخ')+'</strong>';
+}
+async function suspendSelectedFactory(){
+  document.getElementById('sub-status').value='suspended';await saveSubscription();
+}
+async function renderAdminSubscriptions(){
+  var wrap=document.getElementById('admin-subscriptions-table');if(!wrap)return;
+  var list=adminFactoriesV3||[];
+  if(!list.length){wrap.innerHTML='<div class="empty-state">لا توجد مصانع.</div>';return;}
+  var rows='<table class="tbl"><tr><th>المصنع</th><th>الحالة</th><th>الانتهاء</th><th>الإجراء</th></tr>';
+  list.forEach(function(f){rows+='<tr><td>'+adminEscape(f.factory_name||f.email)+'</td><td>'+adminStatusBadge(f.subscription_status)+'</td><td>'+adminDate(f.subscription_expires)+'</td><td><button class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.factory_id+'\')">تعديل</button></td></tr>';});
+  wrap.innerHTML=rows+'</table>';
+}
+
+async function adminBackupSelected(){
+  var fid=document.getElementById('backup-single-factory').value;if(!fid){alert('اختر مصنعاً');return;}
+  try{await adminCall('admin_create_backup',{p_factory_id:fid});await loadAdminBackups();await loadAdminAudit();alert('✅ تم إنشاء Backup للمصنع.');}
+  catch(e){alert('❌ '+e.message);}
+}
+async function adminBackupAll(){
+  if(!confirm('سيتم إنشاء Backup لكل المصانع. هل تريد الاستمرار؟'))return;
+  var ok=0,fail=0;
+  for(var i=0;i<adminFactoriesV3.length;i++){
+    try{await adminCall('admin_create_backup',{p_factory_id:adminFactoriesV3[i].factory_id});ok++;}catch(e){console.error(e);fail++;}
+  }
+  await loadAdminBackups();await loadAdminAudit();
+  alert('✅ تم Backup '+ok+' مصنع'+(fail?' — فشل '+fail:'')+'.');
+}
+async function loadAdminBackups(){
+  try{
+    var filter=document.getElementById('backup-factory-v3').value||null;
+    adminBackupsV3=await adminCall('admin_get_backups',{p_factory_id:filter,p_limit:100})||[];
+    var wrap=document.getElementById('admin-backups-table-v3');if(!wrap)return;
+    if(!adminBackupsV3.length){wrap.innerHTML='<div class="empty-state">لا توجد نسخ احتياطية.</div>';populateDownloadBackups();return;}
+    var rows='<table class="tbl"><tr><th>المصنع</th><th>التاريخ</th><th>الإصدار</th><th>الحجم</th><th>وقت الإنشاء</th><th>إجراءات</th></tr>';
+    adminBackupsV3.forEach(function(b){
+      rows+='<tr><td>'+adminEscape(b.factory_name||'—')+'</td><td>'+adminDate(b.backup_date)+'</td><td><span class="badge blue">v'+b.version+'</span></td><td>'+adminEscape(b.size_label||'—')+'</td><td>'+adminDate(b.created_at)+'</td><td>'+
+        '<button class="btn btn-sm btn-outline" onclick="downloadBackup(\''+b.id+'\')">⬇️ تنزيل</button> '+
+        '<button class="btn btn-sm btn-outline" onclick="restoreAdminBackup(\''+b.id+'\',\''+adminEscape(b.factory_name||'')+'\')">🔄 استعادة</button> '+
+        '<button class="btn btn-sm btn-red" onclick="deleteAdminBackup(\''+b.id+'\')">🗑️</button></td></tr>';
+    });
+    wrap.innerHTML=rows+'</table>';
+    populateDownloadBackups();
+  }catch(e){console.error(e);var w=document.getElementById('admin-backups-table-v3');if(w)w.innerHTML='<div class="empty-state">تعذر تحميل النسخ: '+adminEscape(e.message)+'</div>';}
+}
+function populateDownloadBackups(){
+  var el=document.getElementById('download-backup-select');if(!el)return;
+  el.innerHTML='<option value="">اختر نسخة</option>';
+  (adminBackupsV3||[]).forEach(function(b){el.innerHTML+='<option value="'+b.id+'">'+adminEscape((b.factory_name||'مصنع')+' — '+adminDate(b.backup_date)+' — v'+b.version)+'</option>';});
+}
+async function downloadBackup(id){
+  try{
+    var d=await adminCall('admin_get_backup',{p_backup_id:id});
+    var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='PCS2_backup_'+id+'.json';a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+  }catch(e){alert('❌ '+e.message);}
+}
+function downloadSelectedBackup(){var id=document.getElementById('download-backup-select').value;if(!id){alert('اختر نسخة');return;}downloadBackup(id);}
+async function deleteAdminBackup(id){
+  if(!confirm('حذف النسخة نهائياً؟'))return;
+  try{await adminCall('admin_delete_backup',{p_backup_id:id});await loadAdminBackups();await loadAdminAudit();}catch(e){alert('❌ '+e.message);}
+}
+async function restoreAdminBackup(id,name){
+  if(!confirm('⚠️ سيتم استبدال بيانات مصنع '+name+' بالنسخة المختارة. يفضل عمل Backup حالي أولاً. هل تستمر؟'))return;
+  try{
+    await adminCall('admin_restore_backup',{p_backup_id:id});await loadAdminBackups();await loadAdminFactoriesV3();await loadAdminAudit();alert('✅ تمت استعادة النسخة بنجاح.');
+  }catch(e){alert('❌ فشلت الاستعادة: '+e.message);}
+}
+async function applyRetention(){
+  var n=Math.max(1,parseInt(document.getElementById('backup-retention').value||30,10));
+  var total=0;
+  for(var i=0;i<adminFactoriesV3.length;i++){try{var d=await adminCall('admin_cleanup_backups',{p_factory_id:adminFactoriesV3[i].factory_id,p_keep:n});total+=Number(d||0);}catch(e){console.error(e);}}
+  await loadAdminBackups();await loadAdminAudit();alert('✅ تم تنظيف '+total+' نسخة قديمة.');
+}
+async function renderAdminUsers(){
+  var wrap=document.getElementById('admin-users-table-v3');if(!wrap)return;
+  if(!adminFactoriesV3.length)await loadAdminFactoriesV3();
+  var rows='<table class="tbl"><tr><th>المستخدم</th><th>المصنع</th><th>الدور</th><th>أدمن</th><th>الحالة</th></tr>';
+  adminFactoriesV3.forEach(function(f){
+    rows+='<tr><td style="direction:ltr;text-align:left">'+adminEscape(f.email||'—')+'</td><td>'+adminEscape(f.factory_name||'—')+'</td>'+
+      '<td><select onchange="changeAdminRole(\''+f.user_id+'\',this.value)">'+['owner','manager','accountant','warehouse','production','sales','viewer'].map(function(r){return '<option '+(f.role===r?'selected':'')+' value="'+r+'">'+r+'</option>';}).join('')+'</select></td>'+
+      '<td>'+ (f.is_admin?'<span class="badge purple">Admin</span>':'—')+'</td><td>'+adminStatusBadge(f.subscription_status)+'</td></tr>';
+  });
+  wrap.innerHTML=rows+'</table>';
+}
+async function changeAdminRole(uid,role){
+  try{await adminCall('admin_set_role',{p_user_id:uid,p_role:role});await loadAdminFactoriesV3();await loadAdminAudit();}catch(e){alert('❌ '+e.message);await renderAdminUsers();}
+}
+async function loadAdminAudit(){
+  var wrap=document.getElementById('admin-audit-table-v3');if(!wrap)return;
+  try{
+    var rows=await adminCall('admin_get_audit_logs',{p_limit:100})||[];
+    if(!rows.length){wrap.innerHTML='<div class="empty-state">لا يوجد نشاط مسجل بعد.</div>';return;}
+    var h='<table class="tbl"><tr><th>الوقت</th><th>العملية</th><th>المصنع</th><th>التفاصيل</th></tr>';
+    rows.forEach(function(x){h+='<tr><td>'+adminDate(x.created_at)+'</td><td><span class="badge blue">'+adminEscape(x.action)+'</span></td><td>'+adminEscape(x.factory_name||'—')+'</td><td class="admin-muted">'+adminEscape(x.details||'')+'</td></tr>';});
+    wrap.innerHTML=h+'</table>';
+  }catch(e){wrap.innerHTML='<div class="empty-state">تعذر تحميل السجل: '+adminEscape(e.message)+'</div>';}
+}
+async function loadAdminData(){ if(currentProfile&&currentProfile.is_admin){await loadAdminConsole();} }
 
 </script>
 </body>
