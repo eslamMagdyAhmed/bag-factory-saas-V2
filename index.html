@@ -238,25 +238,23 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
 .modal-bg{background:rgba(9,31,55,.48)!important;backdrop-filter:blur(2px)!important}
 .modal{border:1px solid #d8e5f2!important;border-radius:12px!important;box-shadow:0 20px 60px rgba(10,42,76,.25)!important;padding:16px!important}
 .modal h3{font-size:15px!important;color:#123d73!important;border-bottom:1px solid #e4edf6!important;padding-bottom:9px!important}
-/* Login: same system, not old standalone style */
-.login-page{background:linear-gradient(135deg,#0d3566 0%,#1764a9 55%,#2d80c7 100%)!important;padding:20px!important}
-.login-box{max-width:850px!important;padding:0!important;display:grid!important;grid-template-columns:42% 58%!important;direction:ltr!important;overflow:hidden!important;border-radius:16px!important;border:1px solid rgba(255,255,255,.22)!important;box-shadow:0 24px 70px rgba(0,20,50,.32)!important;background:#fff!important}
-.login-logo{grid-column:1!important;grid-row:1!important;margin:0!important;padding:42px 30px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;background:linear-gradient(160deg,#123d73,#1c65a7)!important;color:#fff!important;direction:rtl!important}
-.login-logo .icon{width:74px;height:74px;border-radius:18px!important;background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.25)!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:39px!important;margin-bottom:15px!important}
-.login-logo h1{color:#fff!important;font-size:23px!important}.login-logo p{color:#dcecff!important;font-size:11px!important}
-.login-tabs{grid-column:2!important;grid-row:1!important;margin:0!important;padding:5px!important;background:#edf4fb!important;border-radius:9px!important;gap:4px!important;direction:rtl!important;align-self:start!important;margin:28px 28px 0!important}
-.login-tab{font-size:11px!important;padding:9px!important;color:#60758c!important}.login-tab.active{color:#fff!important;background:#1769b0!important;box-shadow:none!important}
-.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{grid-column:2!important;direction:rtl!important;margin-left:28px!important;margin-right:28px!important}
-.login-box>#auth-err{margin-top:10px!important}.login-box>#auth-ok{margin-top:10px!important}
-.login-box>#login-form,.login-box>#signup-form{margin-top:20px!important}
-.login-box .field{margin-bottom:13px!important}.login-box .field label{font-size:10px!important}
-.login-box .btn-primary{min-height:43px!important;font-size:12px!important}
-.login-footer{font-size:9px!important;margin-top:0!important;margin-bottom:25px!important;color:#74869a!important}
-@media(max-width:700px){
- .login-box{display:block!important;max-width:430px!important}.login-logo{padding:24px 20px!important}.login-tabs{margin:18px 20px 0!important}.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form,.login-box>.login-footer{margin-left:20px!important;margin-right:20px!important}.login-box>#login-form,.login-box>#signup-form{margin-top:18px!important}
- .header{padding:7px 10px!important}.tabs{padding:3px 6px!important}.tab{padding:8px 10px!important;font-size:10px!important}.pane{padding:10px 8px 24px!important}
-}
 
+/* PCS2 LOGIN V4 — stable desktop/laptop/tablet layout */
+.login-page{min-height:100vh!important;padding:24px!important;background:linear-gradient(135deg,#0c315d 0%,#155a96 52%,#2b78bc 100%)!important}
+.login-box{width:min(940px,calc(100vw - 48px))!important;max-width:none!important;min-height:500px!important;padding:0!important;display:grid!important;grid-template-columns:minmax(290px,38%) minmax(390px,62%)!important;grid-template-rows:auto 1fr auto!important;direction:ltr!important;overflow:hidden!important;border-radius:18px!important;background:#fff!important;border:1px solid rgba(255,255,255,.24)!important;box-shadow:0 28px 80px rgba(0,18,45,.34)!important}
+.login-logo{grid-column:1!important;grid-row:1 / 4!important;width:auto!important;margin:0!important;padding:40px 30px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;background:linear-gradient(160deg,#103b70 0%,#1c65a5 100%)!important;direction:rtl!important}
+.login-logo .icon{width:78px!important;height:78px!important;border-radius:20px!important;margin:0 0 17px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(255,255,255,.13)!important;border:1px solid rgba(255,255,255,.24)!important;font-size:40px!important}
+.login-logo h1{font-size:24px!important;color:#fff!important;font-weight:900!important}.login-logo p{font-size:11px!important;color:#d9ebff!important;margin-top:7px!important;line-height:1.7!important}
+.login-tabs{grid-column:2!important;grid-row:1!important;width:auto!important;margin:26px 30px 0!important;padding:5px!important;background:#eef5fb!important;border:1px solid #d9e7f3!important;border-radius:9px!important;gap:5px!important;direction:rtl!important}
+.login-tab{font-size:11px!important;padding:10px 8px!important;color:#5f748b!important}.login-tab.active{background:#1769b0!important;color:#fff!important;box-shadow:0 2px 5px rgba(23,105,176,.18)!important}
+.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form{grid-column:2!important;direction:rtl!important;margin-left:30px!important;margin-right:30px!important}
+.login-box>#auth-err,.login-box>#auth-ok{grid-row:2!important;align-self:start!important;margin-top:16px!important;margin-bottom:0!important}
+.login-box>#login-form,.login-box>#signup-form{grid-row:2!important;align-self:center!important;margin-top:20px!important;margin-bottom:0!important}
+.login-box>.login-footer{grid-column:2!important;grid-row:3!important;margin:12px 30px 24px!important;color:#7b8da0!important;font-size:9px!important;text-align:center!important;direction:rtl!important}
+.login-box .field{margin-bottom:14px!important}.login-box .field label{font-size:10px!important}.login-box input{min-height:42px!important}.login-box .btn-primary{min-height:44px!important;font-size:12px!important}
+@media(max-width:820px){
+ .login-page{padding:16px!important}.login-box{width:min(520px,calc(100vw - 32px))!important;min-height:0!important;display:block!important}.login-logo{padding:28px 22px!important}.login-logo .icon{width:62px!important;height:62px!important;font-size:32px!important}.login-logo h1{font-size:20px!important}.login-tabs{margin:18px 20px 0!important}.login-box>#auth-err,.login-box>#auth-ok,.login-box>#login-form,.login-box>#signup-form{margin-left:20px!important;margin-right:20px!important}.login-box>#login-form,.login-box>#signup-form{margin-top:18px!important}.login-box>.login-footer{margin:12px 20px 20px!important}
+}
 
 /* =========================================================
    PCS2 ADMIN V3
@@ -290,7 +288,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
 .backup-control-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.backup-action-card{display:flex;flex-direction:column;gap:7px}.backup-action-card h4{font-size:13px;color:#123d73}.backup-action-card p{font-size:10px;color:#74869b;line-height:1.55;min-height:32px}.backup-icon{font-size:25px}.backup-action-card .btn{margin-top:3px}
 .retention-row{display:flex;align-items:center;gap:7px}.retention-row input{width:100%}.retention-row span{font-size:11px;color:#6f8298;white-space:nowrap}
 .admin-status{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:800}.admin-status.active{background:#e8f6ec;color:#17743a}.admin-status.trial{background:#fff4dc;color:#8b5a00}.admin-status.expired{background:#fdecec;color:#a22d2d}.admin-status.suspended{background:#eeeefc;color:#5148a3}
-.admin-danger{color:#b62f2f}.admin-muted{color:#74869b;font-size:10px}
+.admin-danger{color:#b62f2f}.admin-muted{color:#74869b;font-size:10px}.admin-setup-error{color:#8a2c2c;background:#fff5f5;border-color:#efc4c4}
 @media(max-width:900px){.admin-kpi-grid{grid-template-columns:1fr 1fr}.admin-grid-2,.backup-control-grid{grid-template-columns:1fr}.admin-section-head{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.admin-kpi-grid{grid-template-columns:1fr 1fr}.admin-hero{flex-direction:column;align-items:flex-start}.admin-toolbar{width:100%}.admin-toolbar input{min-width:0;width:100%}.admin-subtabs{border-radius:8px}.admin-subtab{padding:7px 9px;font-size:10px}}
 
@@ -315,21 +313,21 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       <p>نظام إدارة المنتجات والمخزون</p>
     </div>
     <div class="login-tabs">
-      <button class="login-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-      <button class="login-tab" onclick="switchAuthTab('signup')">إنشاء حساب</button>
+      <button type="button" class="login-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+      <button type="button" class="login-tab" onclick="switchAuthTab('signup')">إنشاء حساب</button>
     </div>
     <div class="login-err" id="auth-err"></div>
     <div class="login-ok" id="auth-ok"></div>
     <div id="login-form">
       <div class="field"><label>البريد الإلكتروني</label><input type="email" id="login-email" placeholder="example@email.com" style="direction:ltr"></div>
       <div class="field"><label>كلمة المرور</label><input type="password" id="login-pass" placeholder="••••••••" style="direction:ltr" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="btn btn-primary" onclick="doLogin()" id="login-btn">دخول</button>
+      <button type="button" class="btn btn-primary" onclick="doLogin()" id="login-btn">دخول</button>
     </div>
     <div id="signup-form" style="display:none">
       <div class="field"><label>اسم المصنع</label><input type="text" id="signup-name" placeholder="مثال: مصنع النور للشنط"></div>
       <div class="field"><label>البريد الإلكتروني</label><input type="email" id="signup-email" placeholder="example@email.com" style="direction:ltr"></div>
       <div class="field"><label>كلمة المرور (6 أحرف على الأقل)</label><input type="password" id="signup-pass" placeholder="••••••••" style="direction:ltr"></div>
-      <button class="btn btn-primary" onclick="doSignup()" id="signup-btn">إنشاء الحساب</button>
+      <button type="button" class="btn btn-primary" onclick="doSignup()" id="signup-btn">إنشاء الحساب</button>
     </div>
     <div class="login-footer">نسخة تجريبية مجانية 30 يوم • لا يلزم بطاقة ائتمان</div>
   </div>
@@ -352,7 +350,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
         <span id="user-email-badge">-</span>
         <span id="sub-badge-header"></span>
       </div>
-      <button class="logout-btn" onclick="doLogout()">خروج</button>
+      <button type="button" class="logout-btn" onclick="doLogout()">خروج</button>
     </div>
   </div>
 
@@ -368,14 +366,14 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
 
   <!-- TAB 0 -->
   <div class="pane active" id="pane0">
-    <p class="sec-title">🧱 مكتبة الخامات <button class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:12px;border-radius:6px" onclick="openMaterialModal()">+ إضافة خامة</button></p>
+    <p class="sec-title">🧱 مكتبة الخامات <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:12px;border-radius:6px" onclick="openMaterialModal()">+ إضافة خامة</button></p>
     <div class="card" id="mat-list"></div>
     <p class="tip">💡 ابدأ من هنا: ضيف كل الخامات اللي بتستخدمها مع سعر الوحدة وكمية المخزون الحالية.</p>
   </div>
 
   <!-- TAB 1 -->
   <div class="pane" id="pane1">
-    <p class="sec-title">👜 المنتجات وقائمة المكونات (BOM) <button class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:12px;border-radius:6px" onclick="openProductModal()">+ إضافة منتج</button></p>
+    <p class="sec-title">👜 المنتجات وقائمة المكونات (BOM) <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:12px;border-radius:6px" onclick="openProductModal()">+ إضافة منتج</button></p>
     <div id="product-list"></div>
     <p class="tip">💡 كل منتج ممكن يكون له أكتر من حجم، وكل حجم له مكوناته وكمياته الخاصة.</p>
   </div>
@@ -408,16 +406,16 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
         <div class="field"><label>اختر الحجم</label><select id="inv-size"></select></div>
         <div class="field"><label>الكمية المطلوبة</label><input type="number" id="inv-qty" value="100" oninput="checkInventory()"></div>
       </div>
-      <button class="btn btn-primary btn-block" onclick="checkInventory()" style="margin-top:6px">احسب الكفاية</button>
+      <button type="button" class="btn btn-primary btn-block" onclick="checkInventory()" style="margin-top:6px">احسب الكفاية</button>
       <div id="inv-check-result" style="margin-top:1rem"></div>
     </div>
     <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);padding:1rem;margin-top:1rem">
       <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:.75rem">💾 النسخ الاحتياطية اليدوية</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.75rem">
-        <button class="btn btn-outline" onclick="exportData()" style="display:flex;align-items:center;gap:6px">
+        <button type="button" class="btn btn-outline" onclick="exportData()" style="display:flex;align-items:center;gap:6px">
           ⬇️ تصدير نسخة احتياطية
         </button>
-        <button class="btn btn-outline" onclick="document.getElementById('import-file').click()" style="display:flex;align-items:center;gap:6px">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('import-file').click()" style="display:flex;align-items:center;gap:6px">
           ⬆️ استيراد من ملف
         </button>
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
@@ -467,20 +465,20 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
 
     <div class="admin-subtabs" id="admin-subtabs">
-      <button class="admin-subtab active" onclick="adminSection('overview')">📊 نظرة عامة</button>
-      <button class="admin-subtab" onclick="adminSection('factories')">🏭 المصانع</button>
-      <button class="admin-subtab" onclick="adminSection('subscriptions')">💳 الاشتراكات</button>
-      <button class="admin-subtab" onclick="adminSection('backups')">💾 Backup & Recovery</button>
-      <button class="admin-subtab" onclick="adminSection('users')">👥 المستخدمون والصلاحيات</button>
-      <button class="admin-subtab" onclick="adminSection('audit')">📝 سجل الإدارة</button>
-      <button class="admin-subtab" onclick="adminSection('settings')">⚙️ إعدادات المنصة</button>
+      <button type="button" class="admin-subtab active" onclick="adminSection('overview')">📊 نظرة عامة</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('factories')">🏭 المصانع</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('subscriptions')">💳 الاشتراكات</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('backups')">💾 Backup & Recovery</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('users')">👥 المستخدمون والصلاحيات</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('audit')">📝 سجل الإدارة</button>
+      <button type="button" class="admin-subtab" onclick="adminSection('settings')">⚙️ إعدادات المنصة</button>
     </div>
 
     <!-- Overview -->
     <section class="admin-section active" id="admin-section-overview">
       <div class="admin-section-head">
         <div><h3>نظرة عامة</h3><p>ملخص لحالة منصة PCS2 والمصانع المشتركة.</p></div>
-        <button class="btn btn-primary" onclick="loadAdminConsole()">↻ تحديث البيانات</button>
+        <button type="button" class="btn btn-primary" onclick="loadAdminConsole()">↻ تحديث البيانات</button>
       </div>
       <div class="admin-kpi-grid" id="admin-kpis-v3"></div>
 
@@ -533,11 +531,11 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
           <div class="field"><label>تاريخ الانتهاء</label><input type="date" id="sub-expires"></div>
         </div>
         <div class="subscription-actions">
-          <button class="btn btn-green" onclick="saveSubscription()">💾 حفظ الاشتراك</button>
-          <button class="btn btn-outline" onclick="extendSubscription(30)">+30 يوم</button>
-          <button class="btn btn-outline" onclick="extendSubscription(90)">+90 يوم</button>
-          <button class="btn btn-outline" onclick="extendSubscription(365)">+ سنة</button>
-          <button class="btn btn-red" onclick="suspendSelectedFactory()">⛔ إيقاف</button>
+          <button type="button" class="btn btn-green" onclick="saveSubscription()">💾 حفظ الاشتراك</button>
+          <button type="button" class="btn btn-outline" onclick="extendSubscription(30)">+30 يوم</button>
+          <button type="button" class="btn btn-outline" onclick="extendSubscription(90)">+90 يوم</button>
+          <button type="button" class="btn btn-outline" onclick="extendSubscription(365)">+ سنة</button>
+          <button type="button" class="btn btn-red" onclick="suspendSelectedFactory()">⛔ إيقاف</button>
         </div>
         <div id="subscription-preview" class="subscription-preview"></div>
       </div>
@@ -553,7 +551,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
         <div><h3>💾 Backup & Recovery</h3><p>تحكم كامل في إنشاء، تنزيل، حذف، واستعادة نسخ المصانع.</p></div>
         <div class="admin-toolbar">
           <select id="backup-factory-v3" onchange="loadAdminBackups()"><option value="">كل المصانع</option></select>
-          <button class="btn btn-green" onclick="adminBackupAll()">☁️ Backup كل المصانع</button>
+          <button type="button" class="btn btn-green" onclick="adminBackupAll()">☁️ Backup كل المصانع</button>
         </div>
       </div>
 
@@ -563,21 +561,21 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
           <h4>Backup مصنع</h4>
           <p>اعمل نسخة كاملة لمصنع محدد قبل أي تعديل أو استعادة.</p>
           <select id="backup-single-factory"></select>
-          <button class="btn btn-primary" onclick="adminBackupSelected()">إنشاء Backup</button>
+          <button type="button" class="btn btn-primary" onclick="adminBackupSelected()">إنشاء Backup</button>
         </div>
         <div class="admin-panel backup-action-card">
           <div class="backup-icon">📥</div>
           <h4>تنزيل Backup</h4>
           <p>تنزيل نسخة JSON على جهازك للاحتفاظ بنسخة خارجية.</p>
           <select id="download-backup-select"></select>
-          <button class="btn btn-outline" onclick="downloadSelectedBackup()">تنزيل النسخة</button>
+          <button type="button" class="btn btn-outline" onclick="downloadSelectedBackup()">تنزيل النسخة</button>
         </div>
         <div class="admin-panel backup-action-card">
           <div class="backup-icon">🛡️</div>
           <h4>سياسة الاحتفاظ</h4>
           <p>حدد عدد النسخ التي تريد الاحتفاظ بها لكل مصنع.</p>
           <div class="retention-row"><input id="backup-retention" type="number" min="1" max="365" value="30"><span>نسخة</span></div>
-          <button class="btn btn-outline" onclick="applyRetention()">تنظيف النسخ القديمة</button>
+          <button type="button" class="btn btn-outline" onclick="applyRetention()">تنظيف النسخ القديمة</button>
         </div>
       </div>
 
@@ -601,7 +599,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <section class="admin-section" id="admin-section-audit">
       <div class="admin-section-head">
         <div><h3>📝 سجل الإدارة</h3><p>تسجيل عمليات الأدمن الحساسة مثل الاشتراكات والنسخ والاستعادة.</p></div>
-        <button class="btn btn-outline" onclick="loadAdminAudit()">↻ تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="loadAdminAudit()">↻ تحديث</button>
       </div>
       <div class="admin-panel">
         <div id="admin-audit-table-v3"></div>
@@ -646,7 +644,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
 
     <div class="sec-title" style="margin-top:1rem">الخامات المستخدمة في الدفعة
-      <button class="btn btn-outline btn-sm" onclick="addConsumptionRow()">+ إضافة خامة</button>
+      <button type="button" class="btn btn-outline btn-sm" onclick="addConsumptionRow()">+ إضافة خامة</button>
     </div>
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:6px;margin-bottom:6px;padding:0 4px">
       <span style="font-size:10px;color:var(--muted);font-weight:700">الخامة</span>
@@ -656,7 +654,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       <span></span>
     </div>
     <div id="consumption-rows"></div>
-    <button class="btn btn-primary btn-block" onclick="calcConsumption()" style="margin-top:1rem">احسب الاستهلاك والتكلفة</button>
+    <button type="button" class="btn btn-primary btn-block" onclick="calcConsumption()" style="margin-top:1rem">احسب الاستهلاك والتكلفة</button>
   </div>
 
   <div id="consumption-result" style="margin-top:1rem"></div>
@@ -668,7 +666,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <div style="font-size:48px;margin-bottom:.5rem">⏰</div>
     <h2>انتهى الاشتراك</h2>
     <p>انتهت فترة اشتراكك في النظام. تواصل مع المدير لتجديد الاشتراك والاستمرار في استخدام النظام.</p>
-    <button class="btn btn-outline" onclick="doLogout()" style="margin-top:.5rem">تسجيل خروج</button>
+    <button type="button" class="btn btn-outline" onclick="doLogout()" style="margin-top:.5rem">تسجيل خروج</button>
   </div>
 </div>
 
@@ -721,8 +719,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
 
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="saveMaterial()">حفظ</button>
-      <button class="btn btn-outline" onclick="closeModal('material-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="saveMaterial()">حفظ</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('material-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -751,8 +749,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="saveProduct()">حفظ</button>
-      <button class="btn btn-outline" onclick="closeModal('product-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="saveProduct()">حفظ</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('product-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -797,12 +795,12 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <div class="sec-title" style="margin-top:1rem">مكونات هذا الحجم (BOM)</div>
     <div id="bom-rows"></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-        <button class="btn btn-outline btn-sm" onclick="addBomRow('unit')">+ مكوّن بالكمية</button>
-        <button class="btn btn-sm" style="background:var(--amber-bg);border:1px solid var(--amber-b);color:var(--amber-t)" onclick="addBomRow('overhead')">+ تكلفة موزعة (بكرة خيط...)</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="addBomRow('unit')">+ مكوّن بالكمية</button>
+        <button type="button" class="btn btn-sm" style="background:var(--amber-bg);border:1px solid var(--amber-b);color:var(--amber-t)" onclick="addBomRow('overhead')">+ تكلفة موزعة (بكرة خيط...)</button>
       </div>
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="saveSize()">حفظ</button>
-      <button class="btn btn-outline" onclick="closeModal('size-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="saveSize()">حفظ</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('size-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -821,8 +819,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
     <div id="prod-run-preview"></div>
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="saveProduction()">تأكيد</button>
-      <button class="btn btn-outline" onclick="closeModal('production-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="saveProduction()">تأكيد</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('production-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -843,8 +841,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <div class="field"><label>ملاحظات</label><input type="text" id="sale-note"></div>
     <div id="sale-preview"></div>
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="saveSale()">تأكيد البيع</button>
-      <button class="btn btn-outline" onclick="closeModal('sale-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="saveSale()">تأكيد البيع</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('sale-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -867,8 +865,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
     <div id="pur-preview"></div>
     <div class="modal-actions">
-      <button class="btn btn-green" onclick="savePurchase()">تأكيد الشراء</button>
-      <button class="btn btn-outline" onclick="closeModal('purchase-modal')">إلغاء</button>
+      <button type="button" class="btn btn-green" onclick="savePurchase()">تأكيد الشراء</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('purchase-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -887,8 +885,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     </div>
     <div id="wd-preview"></div>
     <div class="modal-actions">
-      <button class="btn btn-red" onclick="saveWithdraw()">تأكيد الصرف</button>
-      <button class="btn btn-outline" onclick="closeModal('withdraw-modal')">إلغاء</button>
+      <button type="button" class="btn btn-red" onclick="saveWithdraw()">تأكيد الصرف</button>
+      <button type="button" class="btn btn-outline" onclick="closeModal('withdraw-modal')">إلغاء</button>
     </div>
   </div>
 </div>
@@ -1095,7 +1093,7 @@ function renderMaterials(){
   var rows='<table class="tbl"><tr><th>الخامة</th><th>الوحدة</th><th>سعر الوحدة</th><th>المخزون</th><th>حد التنبيه</th><th>الحالة</th><th></th></tr>';
   db.materials.forEach(function(m){
     var s=m.stock<=m.minstock&&m.minstock>0?'<span class="badge red">منخفض</span>':m.stock<=m.minstock*1.5&&m.minstock>0?'<span class="badge amber">قريب</span>':'<span class="badge green">كافٍ</span>';
-    rows+='<tr><td>'+m.name+'</td><td>'+m.unit+'</td><td>'+fmt(m.price)+' ج</td><td>'+fmt(m.stock)+'</td><td>'+fmt(m.minstock)+'</td><td>'+s+'</td><td><button class="icon-btn" onclick="editMaterial(\''+m.id+'\')">✏️</button><button class="icon-btn" onclick="deleteMaterial(\''+m.id+'\')">🗑️</button></td></tr>';
+    rows+='<tr><td>'+m.name+'</td><td>'+m.unit+'</td><td>'+fmt(m.price)+' ج</td><td>'+fmt(m.stock)+'</td><td>'+fmt(m.minstock)+'</td><td>'+s+'</td><td><button type="button" class="icon-btn" onclick="editMaterial(\''+m.id+'\')">✏️</button><button type="button" class="icon-btn" onclick="deleteMaterial(\''+m.id+'\')">🗑️</button></td></tr>';
   });
   wrap.innerHTML=rows+'</table>';
 }
@@ -1216,7 +1214,7 @@ function renderProducts(){
     var cover=p.imageUrl?'<img class="product-cover" src="'+p.imageUrl+'" alt="">':'<span class="product-cover" style="display:inline-flex;align-items:center;justify-content:center">📦</span>';
     html+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:.7rem">'+
       '<div style="display:flex;align-items:center;min-width:0">'+cover+'<div><strong style="font-size:14.5px;color:var(--navy)">'+p.name+'</strong><div style="font-size:11px;color:var(--muted);margin-top:2px">'+(p.sizes?p.sizes.length:0)+' أحجام</div></div></div>'+
-      '<div style="white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="openSizeModal(\''+p.id+'\')">+ حجم</button> <button class="icon-btn" onclick="editProduct(\''+p.id+'\')">✏️</button><button class="icon-btn" onclick="deleteProduct(\''+p.id+'\')">🗑️</button></div></div>';
+      '<div style="white-space:nowrap"><button type="button" class="btn btn-outline btn-sm" onclick="openSizeModal(\''+p.id+'\')">+ حجم</button> <button type="button" class="icon-btn" onclick="editProduct(\''+p.id+'\')">✏️</button><button type="button" class="icon-btn" onclick="deleteProduct(\''+p.id+'\')">🗑️</button></div></div>';
     if(!p.sizes||!p.sizes.length){html+='<div class="empty-state" style="padding:1rem">لسه مفيش أحجام.</div>';}
     else{
       html+='<table class="tbl"><tr><th>الحجم</th><th>الصورة</th><th>سعر البيع</th><th>مخزون تام</th><th>عدد المكونات</th><th></th></tr>';
@@ -1225,7 +1223,7 @@ function renderProducts(){
         var src=s.imageMode==='custom'&&s.imageUrl?s.imageUrl:(s.imageMode==='product'?p.imageUrl:'');
         var pic=src?'<img class="size-thumb" src="'+src+'" alt="">':'<span class="size-thumb" style="display:inline-flex;align-items:center;justify-content:center">—</span>';
         var mode=s.imageMode==='custom'?'صورة خاصة':(s.imageMode==='none'?'بدون صورة':'صورة المنتج');
-        html+='<tr><td>'+s.name+'</td><td>'+pic+'<span style="font-size:10px;color:var(--muted)">'+mode+'</span></td><td>'+(s.sellprice?fmt(s.sellprice)+' ج':'—')+'</td><td class="'+cls+'">'+fmt(s.stock||0)+' قطعة</td><td>'+(s.bom?s.bom.length:0)+' خامة</td><td><button class="icon-btn" onclick="openSizeModal(\''+p.id+'\',\''+s.id+'\')">✏️</button><button class="icon-btn" onclick="deleteSize(\''+p.id+'\',\''+s.id+'\')">🗑️</button></td></tr>';
+        html+='<tr><td>'+s.name+'</td><td>'+pic+'<span style="font-size:10px;color:var(--muted)">'+mode+'</span></td><td>'+(s.sellprice?fmt(s.sellprice)+' ج':'—')+'</td><td class="'+cls+'">'+fmt(s.stock||0)+' قطعة</td><td>'+(s.bom?s.bom.length:0)+' خامة</td><td><button type="button" class="icon-btn" onclick="openSizeModal(\''+p.id+'\',\''+s.id+'\')">✏️</button><button type="button" class="icon-btn" onclick="deleteSize(\''+p.id+'\',\''+s.id+'\')">🗑️</button></td></tr>';
       });
       html+='</table>';
     }
@@ -1284,9 +1282,43 @@ function openSizeModal(productId,sizeId){
   }
   renderBomRows();showModal('size-modal');
 }
-function addBomRow(type){var t=type||'unit';currentBomRows.push({matId:db.materials.length?db.materials[0].id:'',qty:'',type:t,totalCost:'',spreadQty:''});renderBomRows();}
+function addBomRow(type){var t=type||'unit';if(!db.materials.length){alert('لا يمكن إضافة مكوّن قبل إضافة خامة واحدة على الأقل من تبويب الخامات.');return;}currentBomRows.push({matId:db.materials[0].id,qty:'',type:t,totalCost:'',spreadQty:''});renderBomRows();}
 function removeBomRow(idx){currentBomRows.splice(idx,1);renderBomRows();}
 function updateBomRow(idx,field,val){if(field==='qty'){currentBomRows[idx][field]=val;}else{currentBomRows[idx][field]=val;}if(field==='matId'||field==='totalCost'||field==='spreadQty'){renderBomRows();}}
+
+function getMatById(id){
+  return db.materials.find(function(m){return m.id===id||m._dbId===id;})||null;
+}
+function getMatUseUnit(mat){
+  return mat ? (mat.use_unit || mat.unit || 'وحدة') : '';
+}
+function getMatUsePrice(mat){
+  if(!mat)return 0;
+  var p=Number(mat.price)||0;
+  var rate=Number(mat.conv_rate)||1;
+  return rate>0?p/rate:p;
+}
+function calcRowCost(row){
+  if(!row)return 0;
+  if(row.type==='overhead'){
+    var total=Number(row.totalCost)||0, spread=Number(row.spreadQty)||0;
+    return spread>0 ? total/spread : 0;
+  }
+  var m=getMatById(row.matId);
+  return getMatUsePrice(m)*(Number(row.qty)||0);
+}
+function updateBomCostBadge(idx){
+  var row=currentBomRows[idx];
+  if(!row)return;
+  var cost=calcRowCost(row);
+  var el=document.getElementById('bom-cost-'+idx);
+  if(el)el.textContent=cost>0?fmtD(cost,3)+' ج':'—';
+}
+function updateBomTotal(){
+  var total=currentBomRows.reduce(function(sum,row){return sum+calcRowCost(row);},0);
+  var el=document.querySelector('#bom-total-cost span');
+  if(el)el.textContent=fmtD(total,2)+' ج';
+}
 
 function renderBomRows(){
   var wrap=document.getElementById('bom-rows');
@@ -1315,7 +1347,7 @@ function renderBomRows(){
           '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">'+
             '<span style="font-size:10px;font-weight:700;background:var(--amber-b);color:#fff;border-radius:4px;padding:1px 6px">تكلفة موزعة</span>'+
             '<select style="flex:1;font-size:12.5px;padding:5px 7px" onchange="updateBomRow('+idx+',\'matId\',this.value)">'+opts+'</select>'+
-            '<button class="icon-btn" onclick="removeBomRow('+idx+')">🗑️</button>'+
+            '<button type="button" class="icon-btn" onclick="removeBomRow('+idx+')">🗑️</button>'+
           '</div>'+
           '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end">'+
             '<div>'+
@@ -1353,7 +1385,7 @@ function renderBomRows(){
             ' style="direction:ltr;text-align:right">'+
           '<span style="font-size:11px;color:var(--muted);padding:4px 0">'+useUnit+'</span>'+
           '<span class="bom-cost-badge" id="bom-cost-'+idx+'">'+(rowCost>0?fmtD(rowCost,2)+' ج':'—')+'</span>'+
-          '<button class="icon-btn" onclick="removeBomRow('+idx+')">🗑️</button>'+
+          '<button type="button" class="icon-btn" onclick="removeBomRow('+idx+')">🗑️</button>'+
         '</div>';
     }
   });
@@ -1370,17 +1402,30 @@ async function saveSize(){
   var name=document.getElementById('size-name').value.trim();if(!name){alert('اكتب اسم الحجم');return;}
   var sellprice=+document.getElementById('size-sellprice').value||0,stock=+document.getElementById('size-stock').value||0,labor=+document.getElementById('size-labor').value||0,pack=+document.getElementById('size-pack').value||0,editId=document.getElementById('size-edit-id').value;
   var mode=(document.querySelector('input[name="size-image-mode"]:checked')||{}).value||'product';
-  var bom=currentBomRows.filter(function(r){return r.matId&&((r.type!=='overhead'&&r.qty!==''&&r.qty!==undefined)||(r.type==='overhead'&&r.totalCost!==''&&r.totalCost!==undefined));}).map(function(r){if(r.type==='overhead')return {matId:r.matId,qty:0,type:'overhead',totalCost:parseFloat(r.totalCost)||0,spreadQty:parseFloat(r.spreadQty)||1};return {matId:r.matId,qty:parseFloat(r.qty)||0,type:'unit'};});
+  var invalid=currentBomRows.some(function(r){
+    if(!r.matId)return true;
+    if(r.type==='overhead')return Number(r.totalCost)<0 || Number(r.spreadQty)<=0;
+    return Number(r.qty)<0;
+  });
+  if(invalid){alert('راجع مكونات الـBOM: تكلفة موزعة لازم تكون على عدد قطع أكبر من صفر، والكمية لا يمكن أن تكون سالبة.');return;}
+  var bom=currentBomRows.filter(function(r){return r.matId&&((r.type!=='overhead'&&r.qty!==''&&r.qty!==undefined)||(r.type==='overhead'&&r.totalCost!==''&&r.totalCost!==undefined));}).map(function(r){if(r.type==='overhead')return {matId:r.matId,qty:0,type:'overhead',totalCost:Number(r.totalCost)||0,spreadQty:Number(r.spreadQty)||1};return {matId:r.matId,qty:Number(r.qty)||0,type:'unit'};});
   var s;
-  if(editId){s=p.sizes.find(function(x){return x.id===editId;});s.name=name;s.sellprice=sellprice;s.stock=stock;s.labor=labor;s.pack=pack;s.bom=bom;s.imageMode=mode;}
-  else{s={id:uid_local(),name:name,sellprice:sellprice,stock:stock,labor:labor,pack:pack,bom:bom,imageMode:mode,imageUrl:'',imagePath:''};p.sizes.push(s);}
+  if(editId){s=p.sizes.find(function(x){return x.id===editId;});if(!s){alert('الحجم غير موجود');return;}s.name=name;s.sellprice=sellprice;s.stock=stock;s.labor=labor;s.pack=pack;s.bom=bom;s.imageMode=mode;}
+  else{s={id:uid_local(),name:name,sellprice:sellprice,stock:stock,labor:labor,pack:pack,bom:bom,imageMode:mode,imageUrl:'',imagePath:''};}
+  var btn=document.querySelector('#size-modal .btn-green');
+  if(btn){btn.disabled=true;btn.textContent='⏳ جاري الحفظ...';}
   try{
     await saveSizeDB(s,p._dbId);
+    if(!editId)p.sizes.push(s);
     if(mode==='custom'&&pendingSizeImage){var up=await uploadImage(pendingSizeImage,'sizes',s._dbId,s.imagePath);s.imageUrl=up.url;s.imagePath=up.path;await saveSizeDB(s,p._dbId);}
-    else if(mode!=='custom'&&s.imagePath){await sb.storage.from('product-images').remove([s.imagePath]);s.imageUrl='';s.imagePath='';await saveSizeDB(s,p._dbId);}
-    closeModal('size-modal');renderAll();
-  }catch(e){console.error(e);alert('❌ تعذر حفظ صورة الحجم: '+e.message);}
-  pendingSizeImage=null;
+    else if(mode!=='custom'&&s.imagePath){var rem=await sb.storage.from('product-images').remove([s.imagePath]);if(rem.error)console.warn(rem.error);s.imageUrl='';s.imagePath='';await saveSizeDB(s,p._dbId);}
+    pendingSizeImage=null;clearSizeImage();closeModal('size-modal');renderAll();
+  }catch(e){
+    console.error('saveSize error',e);
+    alert('❌ لم يتم الحفظ. السبب: '+(e.message||'خطأ غير معروف'));
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='حفظ';}
+  }
 }
 async function deleteSize(productId,sizeId){
   if(!confirm('متأكد؟'))return;
@@ -1596,7 +1641,7 @@ function renderTransactionsTab(){
     else if(t.type==='purchase'){det=t.matName+(t.supplier?' — '+t.supplier:'');qty=fmtD(t.qty,2)+' '+t.unit;val='<span class="bad">-'+fmt(t.total)+' ج</span>';}
     else if(t.type==='production'){det=t.productName+' — '+t.sizeName;qty=fmt(t.qty)+' قطعة';val='—';}
     else{det=t.matName+' ('+t.reason+')';qty=fmtD(t.qty,2)+' '+t.unit;val=fmt(t.total)+' ج';}
-    rows+='<tr><td>'+t.date+'</td><td>'+tb+'</td><td>'+det+'</td><td>'+qty+'</td><td>'+val+'</td><td><button class="icon-btn" onclick="deleteTx(\''+t.id+'\')">🗑️</button></td></tr>';
+    rows+='<tr><td>'+t.date+'</td><td>'+tb+'</td><td>'+det+'</td><td>'+qty+'</td><td>'+val+'</td><td><button type="button" class="icon-btn" onclick="deleteTx(\''+t.id+'\')">🗑️</button></td></tr>';
   });
   document.getElementById('tx-table').innerHTML=sorted.length?rows+'</table>':'<div class="empty-state">لا توجد عمليات.</div>';
 }
@@ -1629,7 +1674,7 @@ async function loadAdminData(){
     var rows='<table class="tbl"><tr><th>اسم المصنع</th><th>الإيميل</th><th>حالة الاشتراك</th><th>تاريخ الانتهاء</th><th>إجراء</th></tr>';
     factories.forEach(function(f){
       var s=f.subscription_status||'trial';var cls=s==='active'?'green':s==='trial'?'amber':'red';
-      rows+='<tr><td>'+(f.factory_name||'—')+'</td><td style="direction:ltr;text-align:left">'+f.email+'</td><td><span class="badge '+cls+'">'+s+'</span></td><td>'+(f.subscription_expires?f.subscription_expires.slice(0,10):'—')+'</td><td><button class="btn btn-sm '+(s==='active'?'btn-outline':'btn-green')+'" onclick="toggleSub(\''+f.id+'\',\''+s+'\')">'+(s==='active'?'إيقاف':'تفعيل')+'</button></td></tr>';
+      rows+='<tr><td>'+(f.factory_name||'—')+'</td><td style="direction:ltr;text-align:left">'+f.email+'</td><td><span class="badge '+cls+'">'+s+'</span></td><td>'+(f.subscription_expires?f.subscription_expires.slice(0,10):'—')+'</td><td><button type="button" class="btn btn-sm '+(s==='active'?'btn-outline':'btn-green')+'" onclick="toggleSub(\''+f.id+'\',\''+s+'\')">'+(s==='active'?'إيقاف':'تفعيل')+'</button></td></tr>';
     });
     document.getElementById('admin-factories-table').innerHTML=factories.length?rows+'</table>':'<div class="empty-state">لا توجد مصانع مسجلة بعد.</div>';
   }catch(e){console.error(e);}
@@ -1719,8 +1764,8 @@ function showImportConfirm(parsed){
       '<div>عدد العمليات: <strong>'+txCount+'</strong></div>'+
     '</div>'+
     '<div class="modal-actions">'+
-      '<button class="btn btn-red" onclick="confirmImport()">تأكيد الاستيراد</button>'+
-      '<button class="btn btn-outline" onclick="closeImportModal()">إلغاء</button>'+
+      '<button type="button" class="btn btn-red" onclick="confirmImport()">تأكيد الاستيراد</button>'+
+      '<button type="button" class="btn btn-outline" onclick="closeImportModal()">إلغاء</button>'+
     '</div>'+
     '</div></div>';
   document.body.insertAdjacentHTML('beforeend',html);
@@ -1915,7 +1960,7 @@ function renderConsumptionRows(){
         '<span style="font-size:10px;color:var(--muted);white-space:nowrap">'+useUnit+'</span>'+
       '</div>'+
       '<div style="font-size:12px;font-weight:700;color:var(--green-t);text-align:center">'+fmtD(consumed,3)+' '+useUnit+'</div>'+
-      '<button class="icon-btn" onclick="removeConsumptionRow('+idx+')">🗑️</button>'+
+      '<button type="button" class="icon-btn" onclick="removeConsumptionRow('+idx+')">🗑️</button>'+
     '</div>';
     html+=conRow;
   });
@@ -1993,7 +2038,7 @@ function calcConsumption(){
     '</div>'+
 
     '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;align-items:center">'+
-      '<button class="btn btn-green" onclick="openAddToProductsModal()" style="font-size:13px">'+
+      '<button type="button" class="btn btn-green" onclick="openAddToProductsModal()" style="font-size:13px">'+
         '➕ أضف للمنتجات تلقائياً'+
       '</button>'+
       '<span style="font-size:12px;color:var(--muted)">أو اضيفه يدوياً من تبويب "المنتجات (BOM)"</span>'+
@@ -2036,7 +2081,7 @@ function openAddToProductsModal(){
         '<div class="field"><label>سعر البيع (جنيه)</label>'+
           '<input type="number" id="atp-existing-sell-price" value="'+res.suggested25+'">'+
         '</div>'+
-        '<button class="btn btn-primary btn-block" onclick="doAddSizeToExisting()">إضافة حجم للمنتج المحدد</button>'+
+        '<button type="button" class="btn btn-primary btn-block" onclick="doAddSizeToExisting()">إضافة حجم للمنتج المحدد</button>'+
       '</div>';
   }
 
@@ -2057,10 +2102,10 @@ function openAddToProductsModal(){
       '<div class="field"><label>سعر البيع المقترح (جنيه)</label>'+
         '<input type="number" id="atp-sell-price" value="'+res.suggested25+'">'+
       '</div>'+
-      '<button class="btn btn-green btn-block" onclick="doAddNewProduct()">إضافة كمنتج جديد</button>'+
+      '<button type="button" class="btn btn-green btn-block" onclick="doAddNewProduct()">إضافة كمنتج جديد</button>'+
     '</div>'+
     existingSection+
-    '<div style="margin-top:1rem"><button class="btn btn-outline" onclick="closeAddToModal()">إلغاء</button></div>'+
+    '<div style="margin-top:1rem"><button type="button" class="btn btn-outline" onclick="closeAddToModal()">إلغاء</button></div>'+
     '</div></div>';
 
   document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -2127,6 +2172,8 @@ async function doAddSizeToExisting(){
 }
 
 
+function closeAddToModal(){var el=document.getElementById('add-to-prod-modal');if(el)el.remove();}
+
 function renderAll(){renderMaterials();renderProducts();renderCosting();renderInventory();renderTransactionsTab();}
 
 /* ============ BACKUP SYSTEM ============ */
@@ -2192,7 +2239,7 @@ async function loadBackupsTable(){
       '<td>'+b.backup_date+'</td>'+
       '<td><span class="version-badge">v'+b.version+'</span></td>'+
       '<td style="font-size:12px;color:var(--muted)">'+created+'</td>'+
-      '<td><button class="btn btn-sm btn-outline" onclick="openRestoreModal(\'' + b.id + '\',\'' + factoryName + '\',\'' + b.backup_date + '\',' + b.version + ')">🔄 استعادة</button></td>'+
+      '<td><button type="button" class="btn btn-sm btn-outline" onclick="openRestoreModal(\'' + b.id + '\',\'' + factoryName + '\',\'' + b.backup_date + '\',' + b.version + ')">🔄 استعادة</button></td>'+
     '</tr>';
   });
   wrap.innerHTML = rows + '</table>';
@@ -2304,7 +2351,13 @@ function adminSection(name){
 async function adminCall(fn,args){
   if(!currentProfile || !currentProfile.is_admin) throw new Error('غير مصرح: هذه الوظيفة لمدير النظام فقط.');
   var r=await sb.rpc(fn,args||{});
-  if(r.error) throw r.error;
+  if(r.error){
+    var msg=r.error.message||'';
+    if(/schema cache|Could not find the function/i.test(msg)){
+      throw new Error("دالة "+fn+" غير موجودة في Supabase API. شغّل PCS2_COMPLETE_FIX_V4.sql ثم نفّذ NOTIFY pgrst, 'reload schema'.");
+    }
+    throw r.error;
+  }
   return r.data;
 }
 
@@ -2339,7 +2392,11 @@ async function loadAdminConsole(){
       return '<div class="admin-mini-item"><strong>'+adminEscape(f.factory_name||'بدون اسم')+'</strong><span>'+adminDate(f.created_at)+'</span></div>';
     }).join(''):'<div class="empty-state">لا توجد بيانات.</div>';
     await loadAdminFactoriesV3();
-  }catch(e){console.error(e);alert('❌ تعذر تحميل لوحة الإدارة: '+e.message);}
+  }catch(e){
+    console.error('Admin dashboard error',e);
+    var box=document.getElementById('admin-kpis-v3');
+    if(box)box.innerHTML='<div class="admin-panel admin-setup-error" style="grid-column:1/-1"><strong>⚠️ لوحة الإدارة تحتاج تفعيل Backend</strong><div style="margin-top:6px">'+adminEscape(e.message||'تعذر الاتصال')+'</div><div style="margin-top:8px;font-size:10px">شغّل ملف PCS2_COMPLETE_FIX_V4.sql في Supabase SQL Editor ثم اعمل Reload Schema من Supabase.</div></div>';
+  }
 }
 
 async function loadAdminFactoriesV3(){
@@ -2369,7 +2426,7 @@ async function renderAdminFactories(){
       '<td>'+adminStatusBadge(f.subscription_status)+'</td>'+
       '<td>'+adminDate(f.subscription_expires)+'</td>'+
       '<td>'+adminDate(f.updated_at||f.created_at)+'</td>'+
-      '<td><button class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.user_id+'\')">إدارة</button></td></tr>';
+      '<td><button type="button" class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.user_id+'\')">إدارة</button></td></tr>';
   });
   wrap.innerHTML=rows+'</tbody></table>';
 }
@@ -2428,7 +2485,7 @@ async function renderAdminSubscriptions(){
   var list=adminFactoriesV3||[];
   if(!list.length){wrap.innerHTML='<div class="empty-state">لا توجد مصانع.</div>';return;}
   var rows='<table class="tbl"><tr><th>المصنع</th><th>الحالة</th><th>الانتهاء</th><th>الإجراء</th></tr>';
-  list.forEach(function(f){rows+='<tr><td>'+adminEscape(f.factory_name||f.email)+'</td><td>'+adminStatusBadge(f.subscription_status)+'</td><td>'+adminDate(f.subscription_expires)+'</td><td><button class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.factory_id+'\')">تعديل</button></td></tr>';});
+  list.forEach(function(f){rows+='<tr><td>'+adminEscape(f.factory_name||f.email)+'</td><td>'+adminStatusBadge(f.subscription_status)+'</td><td>'+adminDate(f.subscription_expires)+'</td><td><button type="button" class="btn btn-sm btn-outline" onclick="openAdminSubscription(\''+f.factory_id+'\')">تعديل</button></td></tr>';});
   wrap.innerHTML=rows+'</table>';
 }
 
@@ -2455,9 +2512,9 @@ async function loadAdminBackups(){
     var rows='<table class="tbl"><tr><th>المصنع</th><th>التاريخ</th><th>الإصدار</th><th>الحجم</th><th>وقت الإنشاء</th><th>إجراءات</th></tr>';
     adminBackupsV3.forEach(function(b){
       rows+='<tr><td>'+adminEscape(b.factory_name||'—')+'</td><td>'+adminDate(b.backup_date)+'</td><td><span class="badge blue">v'+b.version+'</span></td><td>'+adminEscape(b.size_label||'—')+'</td><td>'+adminDate(b.created_at)+'</td><td>'+
-        '<button class="btn btn-sm btn-outline" onclick="downloadBackup(\''+b.id+'\')">⬇️ تنزيل</button> '+
-        '<button class="btn btn-sm btn-outline" onclick="restoreAdminBackup(\''+b.id+'\',\''+adminEscape(b.factory_name||'')+'\')">🔄 استعادة</button> '+
-        '<button class="btn btn-sm btn-red" onclick="deleteAdminBackup(\''+b.id+'\')">🗑️</button></td></tr>';
+        '<button type="button" class="btn btn-sm btn-outline" onclick="downloadBackup(\''+b.id+'\')">⬇️ تنزيل</button> '+
+        '<button type="button" class="btn btn-sm btn-outline" onclick="restoreAdminBackup(\''+b.id+'\',\''+adminEscape(b.factory_name||'')+'\')">🔄 استعادة</button> '+
+        '<button type="button" class="btn btn-sm btn-red" onclick="deleteAdminBackup(\''+b.id+'\')">🗑️</button></td></tr>';
     });
     wrap.innerHTML=rows+'</table>';
     populateDownloadBackups();
