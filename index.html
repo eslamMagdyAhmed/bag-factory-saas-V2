@@ -454,7 +454,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
   </div>
 
   <!-- TAB 5: PLATFORM ADMIN -->
-  <div class="pane" id="pane5" style="display:none">
+  <div class="pane" id="pane5">
     <div class="admin-hero">
       <div>
         <div class="admin-eyebrow">PCS2 PLATFORM</div>
@@ -2350,7 +2350,7 @@ function adminSection(name){
 
 async function adminCall(fn,args){
   if(!currentProfile || !currentProfile.is_admin) throw new Error('غير مصرح: هذه الوظيفة لمدير النظام فقط.');
-  var r=await sb.rpc(fn,args||{});
+  var r=(args && Object.keys(args).length) ? await sb.rpc(fn,args) : await sb.rpc(fn);
   if(r.error){
     var msg=r.error.message||'';
     if(/schema cache|Could not find the function/i.test(msg)){
