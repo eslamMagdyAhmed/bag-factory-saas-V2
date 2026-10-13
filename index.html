@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مصنع الشنط — نظام الإدارة</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
 /* ============ WAREHOUSE WORKFLOW V8 ============ */
 function fillWarehouseSelect(id,activeOnly){var el=document.getElementById(id);if(!el)return;var old=el.value;var list=(warehouseCache||[]).filter(function(w){return !activeOnly||w.is_active;});el.innerHTML=list.map(function(w){return '<option value="'+w.id+'">'+escDash(w.name)+' ('+escDash(w.code)+')</option>';}).join('');if(list.some(function(w){return w.id===old;}))el.value=old;}
 function fillTransferItems(){var el=document.getElementById('transfer-item');if(!el)return;var kind=document.getElementById('transfer-kind').value;if(kind==='material')el.innerHTML=(db.materials||[]).map(function(m){return '<option value="'+(m._dbId||m.id)+'">خامة: '+escDash(m.name)+'</option>';}).join('');else el.innerHTML=(db.products||[]).flatMap(function(p){return (p.sizes||[]).map(function(s){return '<option value="'+(s._dbId||s.id)+'">'+escDash(p.name)+' - '+escDash(s.name)+'</option>';});}).join('');}
