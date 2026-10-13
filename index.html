@@ -370,6 +370,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <div class="tab" onclick="showTab(6)">🔬 حساب الاستهلاك</div>
     <div class="tab" onclick="showTab(7)">📊 Dashboard</div>
     <div class="tab" onclick="showTab(8)">🤝 بضاعة لدى التجار</div>
+    <div class="tab" onclick="showTab(9)">🏬 إدارة المخازن</div>
   </div>
 
   <!-- TAB 0 -->
@@ -495,6 +496,13 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
   </div>
 
   <!-- TAB 5: PLATFORM ADMIN -->
+  <div class="pane" id="pane9">
+    <p class="sec-title">🏬 إدارة المخازن والفروع <button type="button" class="btn btn-primary btn-sm" style="padding:4px 10px;font-size:12px;border-radius:6px" onclick="openWarehouseModal()">+ إضافة مخزن</button></p>
+    <div class="tip">كل مؤسسة يمكن أن يكون لديها أكثر من مخزن. هذه المرحلة تنشئ بيانات المخازن وتعرض أرصدتها الافتتاحية؛ ربط كل حركات البيع والشراء والتصنيع بالمخزن المختار يتم في المرحلة التالية بعد ترحيل الحركات بأمان.</div>
+    <div id="warehouses-list" class="card"><div class="empty-state">جاري تحميل المخازن...</div></div>
+    <div class="card" style="margin-top:1rem"><p class="sec-title">📦 أرصدة المخازن</p><div id="warehouse-stock-list"></div></div>
+  </div>
+
   <div class="pane" id="pane5">
     <div class="admin-hero">
       <div>
@@ -958,6 +966,18 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       <button type="button" class="btn btn-red" onclick="saveWithdraw()">تأكيد الصرف</button>
       <button type="button" class="btn btn-outline" onclick="closeModal('withdraw-modal')">إلغاء</button>
     </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="warehouse-modal" onclick="if(event.target===this)closeModal('warehouse-modal')">
+  <div class="modal" style="max-width:560px">
+    <h3 id="warehouse-modal-title">إضافة مخزن</h3>
+    <div class="field"><label>كود المخزن *</label><input id="wh-code" maxlength="30" placeholder="WH-CAI-01" style="direction:ltr"></div>
+    <div class="field"><label>اسم المخزن *</label><input id="wh-name" placeholder="مخزن القاهرة الرئيسي"></div>
+    <div class="g2"><div class="field"><label>الفرع / الموقع</label><input id="wh-branch" placeholder="القاهرة"></div><div class="field"><label>نوع المخزن</label><select id="wh-type"><option value="general">عام</option><option value="raw_materials">خامات</option><option value="finished_goods">منتجات تامة</option><option value="production">تصنيع / تحت التشغيل</option><option value="returns">مرتجعات</option></select></div></div>
+    <div class="field"><label>ملاحظات</label><input id="wh-notes" placeholder="اختياري"></div>
+    <input type="hidden" id="wh-id">
+    <div class="modal-actions"><button type="button" class="btn btn-outline" onclick="closeModal('warehouse-modal')">إلغاء</button><button type="button" class="btn btn-primary" id="wh-save-btn" onclick="saveWarehouse()">حفظ المخزن</button></div>
   </div>
 </div>
 
@@ -1976,7 +1996,7 @@ function showTab(i){
   var panes=document.querySelectorAll('.pane');
   tabs.forEach(function(t,j){t.classList.toggle('active',j===i);});
   // Map tab index to pane id
-  var paneMap={0:'pane0',1:'pane1',2:'pane2',3:'pane3',4:'pane4',5:'pane5',6:'pane6',7:'pane7',8:'pane8'};
+  var paneMap={0:'pane0',1:'pane1',2:'pane2',3:'pane3',4:'pane4',5:'pane5',6:'pane6',7:'pane7',8:'pane8',9:'pane9'};
   panes.forEach(function(p){p.classList.remove('active');});
   var targetId=paneMap[i];
   if(targetId){var tp=document.getElementById(targetId);if(tp)tp.classList.add('active');}
@@ -1987,6 +2007,7 @@ function showTab(i){
   if(i===6)initConsumptionTab();
   if(i===7)renderOwnerDashboard();
   if(i===8)loadConsignmentData();
+  if(i===9)loadWarehouses();
 }
 
 /* ============ CONSUMPTION ANALYZER ============ */
@@ -2793,6 +2814,58 @@ async function approveProductionCost(id){
  await loadProductionPlansInner();renderAll();alert('تم اعتماد متوسط تكلفة المنتج. سعر البيع لم يتغير.');
 }
 function viewProductionPlan(id){var x=productionPlansCache.find(function(a){return a.id===id;});if(!x)return;alert('المنتج: '+x.product_name+' / '+x.size_name+'\\nالحالة: '+x.status+'\\nPlanned: '+x.planned_qty+'\\nActual: '+(x.actual_qty==null?'لم يسجل':x.actual_qty)+'\\nمتوسط تكلفة الوحدة: '+(x.average_unit_cost==null?'لم يحسب':fmtD(+x.average_unit_cost,2)+' ج.م')+'\\nملاحظة: '+(x.note||''));}
+
+/* ============ MULTI-WAREHOUSE FOUNDATION UI (V7) ============ */
+var warehouseCache=[];
+var warehouseStockCache=[];
+function warehouseFactoryId(){return typeof factoryId==='function'?factoryId():null;}
+function openWarehouseModal(id){
+  var w=id?warehouseCache.find(function(x){return x.id===id;}):null;
+  document.getElementById('warehouse-modal-title').textContent=w?'تعديل بيانات المخزن':'إضافة مخزن';
+  document.getElementById('wh-id').value=w?w.id:'';
+  document.getElementById('wh-code').value=w?w.code:'';
+  document.getElementById('wh-name').value=w?w.name:'';
+  document.getElementById('wh-branch').value=w?w.branch_name||'':'';
+  document.getElementById('wh-type').value=w?w.warehouse_type||'general':'general';
+  document.getElementById('wh-notes').value=w?w.notes||'':'';
+  showModal('warehouse-modal');
+}
+async function loadWarehouses(){
+  var list=document.getElementById('warehouses-list'),stock=document.getElementById('warehouse-stock-list');
+  if(!sb||!currentUser){if(list)list.innerHTML='<div class="empty-state">سجل الدخول أولًا.</div>';return;}
+  try{
+    var fid=warehouseFactoryId();
+    var r=await sb.from('warehouses').select('*').eq('factory_id',fid).order('created_at',{ascending:true});
+    if(r.error)throw r.error;warehouseCache=r.data||[];
+    var sr=await sb.from('warehouse_stock').select('*,warehouse:warehouses(name,code),material:materials(name,code,unit),product_size:product_sizes(size_name,stock,product:products(name,code))').eq('factory_id',fid).order('updated_at',{ascending:false});
+    if(sr.error)throw sr.error;warehouseStockCache=sr.data||[];
+    renderWarehouses();renderWarehouseBalances();
+  }catch(e){if(list)list.innerHTML='<div class="empty-state">تعذر تحميل المخازن. تأكد من تشغيل PCS2_MULTI_WAREHOUSE_V7.sql. '+escDash(e.message||'')+'</div>';if(stock)stock.innerHTML='';}
+}
+function renderWarehouses(){
+  var el=document.getElementById('warehouses-list');if(!el)return;
+  if(!warehouseCache.length){el.innerHTML='<div class="empty-state">لا توجد مخازن حتى الآن. أضف أول مخزن للمؤسسة.</div>';return;}
+  var h='<div style="overflow:auto"><table class="tbl"><tr><th>الكود</th><th>اسم المخزن</th><th>الفرع</th><th>النوع</th><th>الحالة</th><th>إجراءات</th></tr>';
+  warehouseCache.forEach(function(w){h+='<tr><td>'+escDash(w.code)+'</td><td>'+escDash(w.name)+'</td><td>'+escDash(w.branch_name||'-')+'</td><td>'+escDash(({general:'عام',raw_materials:'خامات',finished_goods:'منتجات تامة',production:'تصنيع / تحت التشغيل',returns:'مرتجعات'})[w.warehouse_type]||w.warehouse_type)+'</td><td>'+(w.is_active?'نشط':'موقوف')+'</td><td><button type="button" class="btn btn-outline btn-sm" onclick="openWarehouseModal(\''+w.id+'\')">تعديل</button> <button type="button" class="btn btn-outline btn-sm" onclick="toggleWarehouse(\''+w.id+'\')">'+(w.is_active?'إيقاف':'تفعيل')+'</button></td></tr>';});
+  el.innerHTML=h+'</table></div>';
+}
+function renderWarehouseBalances(){
+  var el=document.getElementById('warehouse-stock-list');if(!el)return;
+  if(!warehouseStockCache.length){el.innerHTML='<div class="empty-state">لا توجد أرصدة مسجلة بعد. تم تجهيز جداول الأرصدة لتسجيل الكميات حسب كل مخزن.</div>';return;}
+  var h='<div style="overflow:auto"><table class="tbl"><tr><th>المخزن</th><th>النوع</th><th>الصنف</th><th>الكود</th><th>الرصيد</th></tr>';
+  warehouseStockCache.forEach(function(x){var isMat=!!x.material_id;var item=isMat?x.material:x.product_size;var prod=item&&item.product;var name=isMat?(item&&item.name||'خامة'):(prod&&prod.name||'منتج')+' - '+(item&&item.size_name||'');var code=isMat?(item&&item.code||''):(prod&&prod.code||'');h+='<tr><td>'+escDash(x.warehouse&&x.warehouse.name||'-')+'</td><td>'+(isMat?'خامة':'منتج تام')+'</td><td>'+escDash(name)+'</td><td>'+escDash(code)+'</td><td>'+fmtD(+x.qty_on_hand||0,3)+'</td></tr>';});
+  el.innerHTML=h+'</table></div>';
+}
+async function saveWarehouse(){
+  var btn=document.getElementById('wh-save-btn');btn.disabled=true;
+  try{var id=document.getElementById('wh-id').value,code=document.getElementById('wh-code').value.trim(),name=document.getElementById('wh-name').value.trim();if(!code||!name)throw Error('اكتب كود واسم المخزن.');
+    var payload={factory_id:warehouseFactoryId(),code:code,name:name,branch_name:document.getElementById('wh-branch').value.trim()||null,warehouse_type:document.getElementById('wh-type').value,notes:document.getElementById('wh-notes').value.trim()||null};
+    var r=id?await sb.from('warehouses').update(payload).eq('id',id).eq('factory_id',warehouseFactoryId()).select().single():await sb.from('warehouses').insert(payload).select().single();if(r.error)throw r.error;
+    closeModal('warehouse-modal');await loadWarehouses();alert(id?'تم تحديث المخزن.':'تم إنشاء المخزن.');
+  }catch(e){alert('تعذر حفظ المخزن: '+(e.message||e));}finally{btn.disabled=false;}
+}
+async function toggleWarehouse(id){var w=warehouseCache.find(function(x){return x.id===id;});if(!w)return;if(!confirm(w.is_active?'هل تريد إيقاف المخزن؟ لن يُحذف رصيده.':'هل تريد تفعيل المخزن؟'))return;try{var r=await sb.from('warehouses').update({is_active:!w.is_active}).eq('id',id).eq('factory_id',warehouseFactoryId());if(r.error)throw r.error;await loadWarehouses();}catch(e){alert('تعذر تغيير الحالة: '+(e.message||e));}}
+
 </script>
 
 <div class="consignment-modal" id="consignment-dispatch-modal"><div class="consignment-modal-card"><h3>＋ صرف بضاعة لتاجر</h3><div class="consignment-form-grid">
