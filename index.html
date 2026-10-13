@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مصنع الشنط — نظام الإدارة</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">
+/* ============ WAREHOUSE WORKFLOW V8 ============ */
+function fillWarehouseSelect(id,activeOnly){var el=document.getElementById(id);if(!el)return;var old=el.value;var list=(warehouseCache||[]).filter(function(w){return !activeOnly||w.is_active;});el.innerHTML=list.map(function(w){return '<option value="'+w.id+'">'+escDash(w.name)+' ('+escDash(w.code)+')</option>';}).join('');if(list.some(function(w){return w.id===old;}))el.value=old;}
+function fillTransferItems(){var el=document.getElementById('transfer-item');if(!el)return;var kind=document.getElementById('transfer-kind').value;if(kind==='material')el.innerHTML=(db.materials||[]).map(function(m){return '<option value="'+(m._dbId||m.id)+'">خامة: '+escDash(m.name)+'</option>';}).join('');else el.innerHTML=(db.products||[]).flatMap(function(p){return (p.sizes||[]).map(function(s){return '<option value="'+(s._dbId||s.id)+'">'+escDash(p.name)+' - '+escDash(s.name)+'</option>';});}).join('');}
+async function loadWarehouseTasks(){var el=document.getElementById('warehouse-task-list');if(!el||!sb||!currentUser)return;try{var r=await sb.from('warehouse_fulfillment_tasks').select('*,sales_order:warehouse_sales_orders(order_no,customer,order_date),warehouse:warehouses(name)').eq('factory_id',warehouseFactoryId()).in('status',['pending','reserved']).order('created_at',{ascending:false});if(r.error)throw r.error;var rows=r.data||[];if(!rows.length){el.innerHTML='<div class="empty-state">لا توجد مهام تجهيز معلقة.</div>';return;}el.innerHTML='<div style="overflow:auto"><table class="tbl"><tr><th>الطلب</th><th>النوع</th><th>المخزن</th><th>الكمية</th><th>الحالة</th><th>إجراء</th></tr>'+rows.map(function(t){return '<tr><td>'+escDash(t.sales_order&&t.sales_order.order_no||t.id.slice(0,8))+'</td><td>'+(t.task_type==='picking'?'تجهيز مخزن':'تصنيع')+'</td><td>'+escDash(t.warehouse&&t.warehouse.name||'حسب خطة التصنيع')+'</td><td>'+fmt(+t.qty||0)+'</td><td>'+escDash(t.status)+'</td><td>'+(t.task_type==='picking'?'<button class="btn btn-green btn-sm" onclick="confirmWarehousePick(\''+t.id+'\')">تأكيد الصرف</button>':'<button class="btn btn-primary btn-sm" onclick="openProductionPlanForTask(\''+t.id+'\')">إنشاء خطة تصنيع</button>')+'</td></tr>';}).join('')+'</table></div>'; }catch(e){el.innerHTML='<div class="tip">تعذر تحميل المهام: '+escDash(e.message||e)+'</div>';}}
+async function confirmWarehousePick(id){if(!confirm('تأكيد صرف الكمية من المخزن؟ سيتم تقليل الرصيد وتسجيل حركة صرف مرة واحدة.'))return;var r=await sb.rpc('warehouse_confirm_picking',{p_task_id:id});if(r.error){alert('تعذر تأكيد الصرف: '+r.error.message);return;}await loadWarehouseTasks();await loadWarehouses();alert('تم تأكيد الصرف.');}
+async function openProductionPlanForTask(id){var r=await sb.from('warehouse_fulfillment_tasks').select('*').eq('id',id).eq('factory_id',warehouseFactoryId()).single();if(r.error){alert('تعذر فتح مهمة التصنيع: '+r.error.message);return;}var t=r.data;var p=(db.products||[]).find(function(x){return (x.sizes||[]).some(function(z){return String(z._dbId||z.id)===String(t.product_size_id);});});if(!p){alert('تعذر تحديد المنتج من مهمة التصنيع.');return;}await openProductionPlanModal();document.getElementById('plan-prod').value=p.id;onPlanProductChange();document.getElementById('plan-size').value=t.product_size_id;document.getElementById('plan-qty').value=t.qty;document.getElementById('plan-source-task-id').value=t.id;renderPlanPreview();}
+async function createWarehouseTransfer(){var src=document.getElementById('transfer-source').value,dst=document.getElementById('transfer-dest').value,kind=document.getElementById('transfer-kind').value,item=document.getElementById('transfer-item').value,qty=+document.getElementById('transfer-qty').value||0;if(!src||!dst||src===dst||!item||qty<=0){alert('حدد مخزنين مختلفين وصنفًا وكمية صحيحة');return;}var args={p_source_warehouse_id:src,p_destination_warehouse_id:dst,p_item_kind:kind,p_item_id:item,p_qty:qty,p_notes:'تحويل من شاشة إدارة المخازن'};var r=await sb.rpc('warehouse_create_and_send_transfer',args);if(r.error){alert('تعذر إنشاء التحويل: '+r.error.message);return;}await loadWarehouses();await loadTransferList();alert('تم إرسال التحويل رقم '+r.data+'. تم خصم الكمية من مخزن المصدر؛ الاستلام يتم تأكيده في الوجهة.');}
+async function loadTransferList(){var el=document.getElementById('transfer-list');if(!el)return;var r=await sb.from('warehouse_transfers').select('*,source:warehouses!warehouse_transfers_source_warehouse_id_fkey(name),destination:warehouses!warehouse_transfers_destination_warehouse_id_fkey(name)').eq('factory_id',warehouseFactoryId()).order('created_at',{ascending:false}).limit(20);if(r.error){el.innerHTML='<div class="tip">تعذر تحميل التحويلات: '+escDash(r.error.message)+'</div>';return;}var rows=r.data||[];el.innerHTML='<div style="overflow:auto"><table class="tbl"><tr><th>رقم</th><th>من</th><th>إلى</th><th>الحالة</th><th>إجراء</th></tr>'+rows.map(function(t){return '<tr><td>'+escDash(t.transfer_no)+'</td><td>'+escDash(t.source&&t.source.name||'')+'</td><td>'+escDash(t.destination&&t.destination.name||'')+'</td><td>'+escDash(t.status)+'</td><td>'+(t.status==='sent'?'<button class="btn btn-green btn-sm" onclick="receiveWarehouseTransfer(\''+t.id+'\')">تأكيد الاستلام</button>':'—')+'</td></tr>';}).join('')+'</table></div>';}
+async function receiveWarehouseTransfer(id){if(!confirm('تأكيد استلام التحويل في المخزن الوجهة؟'))return;var r=await sb.rpc('warehouse_receive_transfer',{p_transfer_id:id});if(r.error){alert('تعذر استلام التحويل: '+r.error.message);return;}await loadWarehouses();await loadTransferList();alert('تم تأكيد الاستلام.');}
+
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--navy:#1F3864;--blue:#2E75B6;--light-blue:#D9E2F3;--green-bg:#EAF3DE;--green-b:#639922;--green-t:#27500A;--amber-bg:#FAEEDA;--amber-b:#BA7517;--amber-t:#633806;--red-bg:#FCEBEB;--red-b:#A32D2D;--red-t:#501313;--purple-bg:#EEEDFE;--purple-b:#7F77DD;--purple-t:#3C3489;--surf:#F8F8F6;--white:#fff;--border:#D3D1C7;--text:#1a1a1a;--muted:#5F5E5A;--r:10px;--rlg:14px}
@@ -501,6 +512,9 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
     <div class="tip">كل مؤسسة يمكن أن يكون لديها أكثر من مخزن. هذه المرحلة تنشئ بيانات المخازن وتعرض أرصدتها الافتتاحية؛ ربط كل حركات البيع والشراء والتصنيع بالمخزن المختار يتم في المرحلة التالية بعد ترحيل الحركات بأمان.</div>
     <div id="warehouses-list" class="card"><div class="empty-state">جاري تحميل المخازن...</div></div>
     <div class="card" style="margin-top:1rem"><p class="sec-title">📦 أرصدة المخازن</p><div id="warehouse-stock-list"></div></div>
+    <div class="sec-title">🔄 دورة العمل بالمخازن</div>
+    <div class="card"><p class="tip">مهام التجهيز الناتجة عن طلبات البيع. موظف المخزن يؤكد الصرف، وعندها فقط ينخفض الرصيد الفعلي.</p><button class="btn btn-outline btn-sm" onclick="loadWarehouseTasks()">↻ تحديث المهام</button><div id="warehouse-task-list" style="margin-top:12px"></div></div>
+    <div class="card"><p class="sec-title">🚚 تحويل بين المخازن</p><div class="g3"><div class="field"><label>من مخزن</label><select id="transfer-source"></select></div><div class="field"><label>إلى مخزن</label><select id="transfer-dest"></select></div><div class="field"><label>نوع الصنف</label><select id="transfer-kind" onchange="fillTransferItems()"><option value="product">منتج تام</option><option value="material">خامة</option></select></div></div><div class="g3"><div class="field"><label>الصنف</label><select id="transfer-item"></select></div><div class="field"><label>الكمية</label><input id="transfer-qty" type="number" min="0.001" step="0.001" value="1"></div><div class="field" style="justify-content:end"><button class="btn btn-primary" onclick="createWarehouseTransfer()">إنشاء وإرسال التحويل</button></div></div><div id="transfer-list"></div></div>
   </div>
 
   <div class="pane" id="pane5">
@@ -856,7 +870,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
 
 <div class="modal-bg" id="production-plan-modal">
   <div class="modal" style="max-width:900px">
-    <h3>🏭 إنشاء خطة تصنيع — Planned</h3>
+    <h3>🏭 إنشاء خطة تصنيع — Planned</h3><input type="hidden" id="plan-source-task-id" value="">
     <div class="g3">
       <div class="field"><label>المنتج</label><select id="plan-prod" onchange="onPlanProductChange()"></select></div>
       <div class="field"><label>الحجم</label><select id="plan-size" onchange="renderPlanPreview()"></select></div>
@@ -866,7 +880,7 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       <div class="field"><label>تاريخ التخطيط</label><input id="plan-date" type="date"></div>
       <div class="field"><label>ملاحظات</label><input id="plan-note" type="text" placeholder="اختياري"></div>
     </div>
-    <div id="plan-preview"></div>
+    <div class="g2"><div class="field"><label>مخزن صرف الخامات</label><select id="plan-raw-warehouse"></select></div><div class="field"><label>مخزن استلام المنتج النهائي</label><select id="plan-finished-warehouse"></select></div></div><div id="plan-preview"></div>
     <div class="modal-actions"><button type="button" class="btn btn-green" onclick="saveProductionPlan()">حفظ الخطة</button><button type="button" class="btn btn-outline" onclick="closeModal('production-plan-modal')">إلغاء</button></div>
   </div>
 </div>
@@ -912,6 +926,8 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
       <div class="field"><label>الكمية</label><input type="number" id="sale-qty" value="1" min="1" oninput="renderSalePreview()"></div>
     </div>
     <div class="g3">
+      <div class="field"><label>طريقة التوفير</label><select id="sale-source-mode" onchange="renderSalePreview()"><option value="stock">Sale from Stock</option><option value="production">Production</option></select></div>
+      <div class="field"><label>مخزن التجهيز (لـ Sale from Stock)</label><select id="sale-warehouse"></select></div>
       <div class="field"><label>سعر البيع للقطعة (جنيه)</label><input type="number" id="sale-price" value="0" oninput="renderSalePreview()"></div>
       <div class="field"><label>التاريخ</label><input type="date" id="sale-date"></div>
       <div class="field"><label>اسم العميل</label><input type="text" id="sale-customer" placeholder="اختياري"></div>
@@ -1645,23 +1661,25 @@ async function saveProduction(){
   closeModal('production-modal');renderAll();
 }
 
-function openSaleModal(){
+async function openSaleModal(){
+  if(!warehouseCache.length) await loadWarehouses();
   if(!db.products.length){alert('ضيف منتج الأول');return;}
   var sel=document.getElementById('sale-prod');sel.innerHTML=db.products.map(function(p){return '<option value="'+p.id+'">'+p.name+'</option>';}).join('');
   document.getElementById('sale-qty').value=1;document.getElementById('sale-customer').value='';document.getElementById('sale-note').value='';document.getElementById('sale-date').value=todayStr();
-  onSaleProductChange();showModal('sale-modal');
+  onSaleProductChange();fillWarehouseSelect('sale-warehouse',true);document.getElementById('sale-source-mode').value='stock';showModal('sale-modal');
 }
 function onSaleProductChange(){var pid=document.getElementById('sale-prod').value;var p=db.products.find(function(x){return x.id===pid;});var sel=document.getElementById('sale-size');if(!p||!p.sizes.length){sel.innerHTML='';document.getElementById('sale-price').value=0;renderSalePreview();return;}sel.innerHTML=p.sizes.map(function(s){return '<option value="'+s.id+'">'+s.name+'</option>';}).join('');onSaleSizeChange();}
 function onSaleSizeChange(){var pid=document.getElementById('sale-prod').value;var sid=document.getElementById('sale-size').value;var p=db.products.find(function(x){return x.id===pid;});var s=p?p.sizes.find(function(x){return x.id===sid;}):null;document.getElementById('sale-price').value=s?(s.sellprice||0):0;renderSalePreview();}
 function getSaleSel(){var pid=document.getElementById('sale-prod').value;var sid=document.getElementById('sale-size').value;var p=db.products.find(function(x){return x.id===pid;});return{p:p,s:p?p.sizes.find(function(x){return x.id===sid;}):null};}
-function renderSalePreview(){var qty=+document.getElementById('sale-qty').value||0;var price=+document.getElementById('sale-price').value||0;var sel=getSaleSel();if(!sel.s){document.getElementById('sale-preview').innerHTML='';return;}var avail=sel.s.stock||0;var ok=avail>=qty;document.getElementById('sale-preview').innerHTML='<div class="tip">المخزون المتاح: <strong class="'+(ok?'good':'bad')+'">'+fmt(avail)+' قطعة</strong> | إجمالي الإيراد: <strong>'+fmt(qty*price)+' ج</strong>'+(ok?'':' — ⚠️ غير كافٍ، فكر في تصنيع أولاً')+'</div>';}
+function renderSalePreview(){var qty=+document.getElementById('sale-qty').value||0,price=+document.getElementById('sale-price').value||0,sel=getSaleSel(),mode=document.getElementById('sale-source-mode')?document.getElementById('sale-source-mode').value:'stock';if(!sel.s){document.getElementById('sale-preview').innerHTML='';return;}if(mode==='production'){document.getElementById('sale-preview').innerHTML='<div class="tip">سيتم إنشاء مهمة تصنيع لكمية <b>'+fmt(qty)+' قطعة</b>. لن يتم خصم مخزون المنتج الآن؛ يُستكمل الطلب بعد الإنتاج والتجهيز.</div>';return;}var wid=document.getElementById('sale-warehouse').value,row=warehouseStockCache.find(function(x){return x.warehouse_id===wid&&x.product_size_id===(sel.s._dbId||sel.s.id);}),avail=row?Math.max(0,(+row.qty_on_hand||0)-(+row.qty_reserved||0)):0,ok=avail>=qty;document.getElementById('sale-preview').innerHTML='<div class="tip">المتاح في المخزن المحدد: <strong class="'+(ok?'good':'bad')+'">'+fmt(avail)+' قطعة</strong> | المحجوز: '+fmt(row?row.qty_reserved:0)+' | إجمالي البيع: <strong>'+fmt(qty*price)+' ج</strong>'+(ok?'':' — ⚠️ الكمية غير كافية؛ لن يسمح النظام بإنشاء الحجز')+'</div>';}
 async function saveSale(){
   var sel=getSaleSel();if(!sel.p||!sel.s){alert('اختر منتج وحجم');return;}
   var qty=+document.getElementById('sale-qty').value||0;var price=+document.getElementById('sale-price').value||0;if(qty<=0){alert('اكتب كمية');return;}
-  var avail=sel.s.stock||0;if(avail<qty&&!confirm('المخزون ('+fmt(avail)+') أقل من الكمية. هل تريد المتابعة؟'))return;
-  sel.s.stock=avail-qty;await updateSizeStockDB(sel.s._dbId,sel.s.stock);
-  var tx={id:uid_local(),type:'sale',date:document.getElementById('sale-date').value||todayStr(),productId:sel.p.id,productName:sel.p.name,sizeId:sel.s.id,sizeName:sel.s.name,qty:qty,unitPrice:price,total:qty*price,customer:document.getElementById('sale-customer').value.trim(),note:document.getElementById('sale-note').value.trim()};
-  db.transactions.unshift(tx);await saveTransactionDB(tx);closeModal('sale-modal');renderAll();
+  var mode=document.getElementById('sale-source-mode').value,wh=document.getElementById('sale-warehouse').value;
+  if(mode==='stock'&&!wh){alert('اختار مخزن التجهيز');return;}
+  var payload={p_product_size_id:sel.s._dbId||sel.s.id,p_qty:qty,p_unit_price:price,p_source_mode:mode,p_warehouse_id:mode==='stock'?wh:null,p_order_date:document.getElementById('sale-date').value||todayStr(),p_customer:document.getElementById('sale-customer').value.trim(),p_notes:document.getElementById('sale-note').value.trim()};
+  var rr=await sb.rpc('warehouse_create_sales_order',payload);if(rr.error){alert('تعذر إنشاء طلب البيع: '+rr.error.message);return;}
+  closeModal('sale-modal');await loadWarehouseTasks();alert('تم إنشاء طلب البيع '+rr.data+' وربطه بمهمة المخزن/التصنيع. لا يتم خصم المخزون إلا عند تأكيد الصرف الفعلي.');
 }
 
 function openPurchaseModal(){
@@ -2714,11 +2732,12 @@ var activeActualPlan=null;
 function productionFactoryId(){return typeof factoryId==='function'?factoryId():null;}
 function planProductById(id){return (db.products||[]).find(function(p){return String(p.id)===String(id);});}
 function planSizeById(p,id){return p&&p.sizes?p.sizes.find(function(x){return String(x.id)===String(id);}):null;}
-function openProductionPlanModal(){
+async function openProductionPlanModal(){
+ if(!warehouseCache.length) await loadWarehouses();
  if(!db.products||!db.products.length){alert('أضف منتجًا وحجمًا أولًا');return;}
  var ps=document.getElementById('plan-prod');ps.innerHTML=db.products.map(function(p){return '<option value="'+p.id+'">'+escHtml(p.name)+'</option>';}).join('');
- document.getElementById('plan-qty').value=100;document.getElementById('plan-date').value=todayStr();document.getElementById('plan-note').value='';
- onPlanProductChange();showModal('production-plan-modal');
+ document.getElementById('plan-qty').value=100;document.getElementById('plan-date').value=todayStr();document.getElementById('plan-note').value='';document.getElementById('plan-source-task-id').value='';
+ onPlanProductChange();fillWarehouseSelect('plan-raw-warehouse',false);fillWarehouseSelect('plan-finished-warehouse',false);showModal('production-plan-modal');
 }
 function onPlanProductChange(){
  var p=planProductById(document.getElementById('plan-prod').value),el=document.getElementById('plan-size');
@@ -2737,7 +2756,8 @@ async function saveProductionPlan(){
  var p=planProductById(document.getElementById('plan-prod').value),z=planSizeById(p,document.getElementById('plan-size').value),q=+document.getElementById('plan-qty').value||0;
  if(!p||!z||q<=0){alert('اختار المنتج والحجم واكتب كمية صحيحة');return;}
  var bom=(z.bom||[]).map(function(b){var m=(db.materials||[]).find(function(x){return String(x.id)===String(b.matId);});return {material_id:b.matId,material_name:m?m.name:'خامة',unit:m?m.unit:'',planned_per_unit:+b.qty||0,planned_qty:(+b.qty||0)*q,actual_qty:(+b.qty||0)*q,unit_cost:m?(+m.price||0):0};});
- var row={factory_id:productionFactoryId(),product_id:p._dbId||p.id,size_id:z._dbId||z.id,product_name:p.name,size_name:z.name,planned_qty:q,actual_qty:null,scrap_qty:0,status:'planned',plan_date:document.getElementById('plan-date').value||todayStr(),note:document.getElementById('plan-note').value.trim(),bom_snapshot:bom,created_by:currentUser.id};
+ var rawWh=document.getElementById('plan-raw-warehouse').value,finWh=document.getElementById('plan-finished-warehouse').value;if(!rawWh||!finWh){alert('حدد مخزن صرف الخامات ومخزن استلام المنتج النهائي');return;}
+ var row={factory_id:productionFactoryId(),product_id:p._dbId||p.id,size_id:z._dbId||z.id,product_name:p.name,size_name:z.name,raw_material_warehouse_id:rawWh,finished_goods_warehouse_id:finWh,fulfillment_task_id:document.getElementById('plan-source-task-id').value||null,planned_qty:q,actual_qty:null,scrap_qty:0,status:'planned',plan_date:document.getElementById('plan-date').value||todayStr(),note:document.getElementById('plan-note').value.trim(),bom_snapshot:bom,created_by:currentUser.id};
  var r=await sb.from('production_plans').insert(row).select().single();
  if(r.error){console.error(r.error);alert('لم يتم حفظ الخطة: '+r.error.message+'\\nتأكد من تشغيل ملف SQL الخاص بالتصنيع.');return;}
  closeModal('production-plan-modal');await renderProductionPlans();
@@ -2790,15 +2810,12 @@ async function saveActualProduction(){
  if(q<=0||scrap<0){alert('أدخل كمية فعلية صحيحة');return;}
  var bom=(x.bom_snapshot||[]).map(function(b,i){var el=document.getElementById('actual-mat-'+i);return Object.assign({},b,{actual_qty:el?+el.value:0});});
  var total=bom.reduce(function(a,b){return a+(+b.actual_qty||0)*(+b.unit_cost||0);},0),avg=total/q;
- var r=await sb.from('production_plans').update({status:'actual',actual_qty:q,scrap_qty:scrap,actual_date:document.getElementById('actual-date').value||todayStr(),actual_note:document.getElementById('actual-note').value.trim(),bom_snapshot:bom,actual_material_cost:total,average_unit_cost:avg,actual_by:currentUser.id,actual_at:new Date().toISOString()}).eq('id',x.id).eq('factory_id',productionFactoryId()).eq('status','confirmed');
- if(r.error){alert('تعذر حفظ Actual: '+r.error.message);return;}
- // Actual is recorded as a transaction; inventory is only changed here, not when the plan is created/confirmed.
- var prod=planProductById(x.product_id)||db.products.find(function(p){return p.name===x.product_name;});var size=planSizeById(prod,x.size_id)||(prod&&prod.sizes.find(function(z){return z.name===x.size_name;}));
- if(size){size.stock=(+size.stock||0)+q;await updateSizeStockDB(size._dbId,size.stock);}
- for(var i=0;i<bom.length;i++){var b=bom[i],m=(db.materials||[]).find(function(mm){return String(mm.id)===String(b.material_id);});if(m){m.stock=(+m.stock||0)-(+b.actual_qty||0);await updateStockDB(m._dbId||m.id,m.stock);}}
+ var rr=await sb.rpc('warehouse_post_production_actual',{p_plan_id:x.id,p_actual_qty:q,p_scrap_qty:scrap,p_actual_date:document.getElementById('actual-date').value||todayStr(),p_actual_note:document.getElementById('actual-note').value.trim(),p_bom_actual:bom});
+ if(rr.error){alert('تعذر تسجيل الإنتاج وتحديث المخازن: '+rr.error.message);return;}
+ var total=+rr.data.actual_material_cost||bom.reduce(function(a,b){return a+(+b.actual_qty||0)*(+b.unit_cost||0);},0),avg=+rr.data.average_unit_cost||total/q;
  var tx={id:uid_local(),type:'production',date:document.getElementById('actual-date').value||todayStr(),productId:x.product_id,productName:x.product_name,sizeId:x.size_id,sizeName:x.size_name,qty:q,note:'Actual plan '+x.id+' '+document.getElementById('actual-note').value,materialsUsed:bom.map(function(b){return{matId:b.material_id,matName:b.material_name,unit:b.unit,qty:b.actual_qty};}),actualMaterialCost:total,averageUnitCost:avg};
- db.transactions.unshift(tx);await saveTransactionDB(tx);
- closeModal('production-actual-modal');activeActualPlan=null;await loadProductionPlansInner();renderAll();
+ db.transactions.unshift(tx);
+ closeModal('production-actual-modal');activeActualPlan=null;await loadProductionPlansInner();await loadWarehouses();renderAll();
 }
 async function approveProductionCost(id){
  var x=productionPlansCache.find(function(a){return a.id===id;});if(!x)return;
@@ -2839,7 +2856,7 @@ async function loadWarehouses(){
     if(r.error)throw r.error;warehouseCache=r.data||[];
     var sr=await sb.from('warehouse_stock').select('*,warehouse:warehouses(name,code),material:materials(name,code,unit),product_size:product_sizes(size_name,stock,product:products(name,code))').eq('factory_id',fid).order('updated_at',{ascending:false});
     if(sr.error)throw sr.error;warehouseStockCache=sr.data||[];
-    renderWarehouses();renderWarehouseBalances();
+    renderWarehouses();renderWarehouseBalances();fillWarehouseSelect('sale-warehouse',true);fillWarehouseSelect('plan-raw-warehouse',true);fillWarehouseSelect('plan-finished-warehouse',true);fillWarehouseSelect('transfer-source',true);fillWarehouseSelect('transfer-dest',true);fillTransferItems();loadWarehouseTasks();loadTransferList();
   }catch(e){if(list)list.innerHTML='<div class="empty-state">تعذر تحميل المخازن. تأكد من تشغيل PCS2_MULTI_WAREHOUSE_V7.sql. '+escDash(e.message||'')+'</div>';if(stock)stock.innerHTML='';}
 }
 function renderWarehouses(){
