@@ -440,10 +440,19 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
   <div class="pane" id="pane4">
     <p class="sec-title">🧾 عمليات البيع والشراء والصرف</p>
     <div class="action-grid">
-      <div class="action-card produce" onclick="openProductionModal()"><div class="aicon">🏭</div><div class="atitle">تسجيل تصنيع</div><div class="asub">يخصم الخامات ويضيف للمخزون</div></div>
+      <div class="action-card produce" onclick="openProductionPlanModal()"><div class="aicon">🏭</div><div class="atitle">تخطيط تصنيع</div><div class="asub">Planned → Actual → مراجعة التكلفة</div></div>
       <div class="action-card sell" onclick="openSaleModal()"><div class="aicon">🛒</div><div class="atitle">تسجيل بيع</div><div class="asub">يخصم من مخزون التام الصنع</div></div>
       <div class="action-card buy" onclick="openPurchaseModal()"><div class="aicon">📥</div><div class="atitle">تسجيل شراء خامة</div><div class="asub">يضيف للمخزون</div></div>
       <div class="action-card withdraw" onclick="openWithdrawModal()"><div class="aicon">📤</div><div class="atitle">صرف من المخزن</div><div class="asub">خصم يدوي (هالك، عينات...)</div></div>
+    </div>
+    <div class="sec-title">🏭 دورة التصنيع: Planned / Actual / Cost Review</div>
+    <div class="card">
+      <div class="g3">
+        <div class="field"><label>الحالة</label><select id="prod-plan-filter" onchange="renderProductionPlans()"><option value="all">كل الحالات</option><option value="planned">Planned</option><option value="confirmed">Planned Confirmed</option><option value="actual">Actual Recorded</option><option value="cost_confirmed">Cost Confirmed</option></select></div>
+        <div class="field"><label>المنتج</label><select id="prod-plan-product-filter" onchange="renderProductionPlans()"><option value="all">كل المنتجات</option></select></div>
+        <div class="field" style="justify-content:end"><button class="btn btn-green" type="button" onclick="openProductionPlanModal()">＋ خطة تصنيع جديدة</button></div>
+      </div>
+      <div id="production-plans-list"><div class="tip">جارٍ تحميل خطط التصنيع...</div></div>
     </div>
     <div class="sec-title">ملخص الفترة
       <div class="period-tabs" style="margin:0">
@@ -837,6 +846,35 @@ table.tbl tr:nth-child(even) td{background:#fbfdff!important}table.tbl tr:hover 
   </div>
 </div>
 
+<div class="modal-bg" id="production-plan-modal">
+  <div class="modal" style="max-width:900px">
+    <h3>🏭 إنشاء خطة تصنيع — Planned</h3>
+    <div class="g3">
+      <div class="field"><label>المنتج</label><select id="plan-prod" onchange="onPlanProductChange()"></select></div>
+      <div class="field"><label>الحجم</label><select id="plan-size" onchange="renderPlanPreview()"></select></div>
+      <div class="field"><label>الكمية المخططة</label><input id="plan-qty" type="number" min="1" step="1" value="100" oninput="renderPlanPreview()"></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label>تاريخ التخطيط</label><input id="plan-date" type="date"></div>
+      <div class="field"><label>ملاحظات</label><input id="plan-note" type="text" placeholder="اختياري"></div>
+    </div>
+    <div id="plan-preview"></div>
+    <div class="modal-actions"><button type="button" class="btn btn-green" onclick="saveProductionPlan()">حفظ الخطة</button><button type="button" class="btn btn-outline" onclick="closeModal('production-plan-modal')">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal-bg" id="production-actual-modal">
+  <div class="modal" style="max-width:900px">
+    <h3>تسجيل الإنتاج الفعلي — Actual</h3><div id="actual-plan-summary"></div>
+    <div class="g3">
+      <div class="field"><label>الكمية الفعلية المنتجة</label><input id="actual-qty" type="number" min="0" step="1" value="0" oninput="renderActualCostPreview()"></div>
+      <div class="field"><label>هالك/تالف (قطعة)</label><input id="actual-scrap" type="number" min="0" step="1" value="0" oninput="renderActualCostPreview()"></div>
+      <div class="field"><label>تاريخ التنفيذ</label><input id="actual-date" type="date"></div>
+    </div>
+    <div id="actual-materials-editor"></div><div id="actual-cost-preview"></div>
+    <div class="field"><label>ملاحظات التنفيذ</label><input id="actual-note" type="text"></div>
+    <div class="modal-actions"><button type="button" class="btn btn-green" onclick="saveActualProduction()">حفظ الإنتاج الفعلي</button><button type="button" class="btn btn-outline" onclick="closeModal('production-actual-modal')">إلغاء</button></div>
+  </div>
+</div>
 <div class="modal-bg" id="production-modal">
   <div class="modal">
     <h3>🏭 تسجيل عملية تصنيع</h3>
@@ -2213,7 +2251,7 @@ async function doAddSizeToExisting(){
 
 function closeAddToModal(){var el=document.getElementById('add-to-prod-modal');if(el)el.remove();}
 
-function renderAll(){renderMaterials();renderProducts();renderCosting();renderInventory();renderTransactionsTab();}
+function renderAll(){renderMaterials();renderProducts();renderCosting();renderInventory();renderTransactionsTab();if(document.getElementById('production-plans-list'))loadProductionPlans();}
 
 /* ============ OWNER DASHBOARD + CONSIGNMENT V5 ============ */
 function dashPeriodTransactions(){var el=document.getElementById('dash-period'),v=el?el.value:'30',now=new Date();return db.transactions.filter(function(t){if(v==='all')return true;var d=new Date((t.date||todayStr())+'T00:00:00');if(v==='year')return d.getFullYear()===now.getFullYear();return (now-d)/(86400000)<=Number(v);});}
@@ -2647,6 +2685,114 @@ async function loadAdminAudit(){
 }
 async function loadAdminData(){ if(currentProfile&&currentProfile.is_admin){await loadAdminConsole();} }
 
+
+function escHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){var m={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};return m[c];});}
+/* ============ Production Planning / Actual / Cost Approval ============ */
+var productionPlansCache=[];
+var activeActualPlan=null;
+function productionFactoryId(){return typeof factoryId==='function'?factoryId():null;}
+function planProductById(id){return (db.products||[]).find(function(p){return String(p.id)===String(id);});}
+function planSizeById(p,id){return p&&p.sizes?p.sizes.find(function(x){return String(x.id)===String(id);}):null;}
+function openProductionPlanModal(){
+ if(!db.products||!db.products.length){alert('أضف منتجًا وحجمًا أولًا');return;}
+ var ps=document.getElementById('plan-prod');ps.innerHTML=db.products.map(function(p){return '<option value="'+p.id+'">'+escHtml(p.name)+'</option>';}).join('');
+ document.getElementById('plan-qty').value=100;document.getElementById('plan-date').value=todayStr();document.getElementById('plan-note').value='';
+ onPlanProductChange();showModal('production-plan-modal');
+}
+function onPlanProductChange(){
+ var p=planProductById(document.getElementById('plan-prod').value),el=document.getElementById('plan-size');
+ el.innerHTML=p&&p.sizes?p.sizes.map(function(z){return '<option value="'+z.id+'">'+escHtml(z.name)+'</option>';}).join(''):'';
+ renderPlanPreview();
+}
+function renderPlanPreview(){
+ var wrap=document.getElementById('plan-preview');if(!wrap)return;
+ var p=planProductById(document.getElementById('plan-prod').value),z=planSizeById(p,document.getElementById('plan-size').value),q=+document.getElementById('plan-qty').value||0;
+ if(!z){wrap.innerHTML='<div class="tip">اختار حجمًا للمنتج.</div>';return;}
+ var rows='<table class="tbl"><tr><th>الخامة</th><th>كمية BOM/قطعة</th><th>المطلوب للخطة</th><th>المتاح</th></tr>',total=0;
+ (z.bom||[]).forEach(function(b){var m=(db.materials||[]).find(function(x){return String(x.id)===String(b.matId);});if(!m)return;var need=(+b.qty||0)*q;total+=need*(+m.price||0);rows+='<tr><td>'+escHtml(m.name)+'</td><td>'+fmtD(+b.qty||0,4)+'</td><td>'+fmtD(need,3)+' '+escHtml(m.unit||'')+'</td><td>'+fmtD(+m.stock||0,3)+'</td></tr>';});
+ wrap.innerHTML='<div class="tip">تكلفة خامات تقديرية للخطة: <strong>'+fmtD(total,2)+' ج.م</strong> | تكلفة خامات/قطعة: <strong>'+fmtD(q?total/q:0,2)+' ج.م</strong>. هذه خطة وليست صرفًا فعليًا للمخزون.</div>'+rows+'</table>';
+}
+async function saveProductionPlan(){
+ var p=planProductById(document.getElementById('plan-prod').value),z=planSizeById(p,document.getElementById('plan-size').value),q=+document.getElementById('plan-qty').value||0;
+ if(!p||!z||q<=0){alert('اختار المنتج والحجم واكتب كمية صحيحة');return;}
+ var bom=(z.bom||[]).map(function(b){var m=(db.materials||[]).find(function(x){return String(x.id)===String(b.matId);});return {material_id:b.matId,material_name:m?m.name:'خامة',unit:m?m.unit:'',planned_per_unit:+b.qty||0,planned_qty:(+b.qty||0)*q,actual_qty:(+b.qty||0)*q,unit_cost:m?(+m.price||0):0};});
+ var row={factory_id:productionFactoryId(),product_id:p._dbId||p.id,size_id:z._dbId||z.id,product_name:p.name,size_name:z.name,planned_qty:q,actual_qty:null,scrap_qty:0,status:'planned',plan_date:document.getElementById('plan-date').value||todayStr(),note:document.getElementById('plan-note').value.trim(),bom_snapshot:bom,created_by:currentUser.id};
+ var r=await sb.from('production_plans').insert(row).select().single();
+ if(r.error){console.error(r.error);alert('لم يتم حفظ الخطة: '+r.error.message+'\\nتأكد من تشغيل ملف SQL الخاص بالتصنيع.');return;}
+ closeModal('production-plan-modal');await renderProductionPlans();
+}
+async function loadProductionPlans(){
+ var el=document.getElementById('production-plans-list');if(!el)return;
+ var r=await sb.from('production_plans').select('*').eq('factory_id',productionFactoryId()).order('created_at',{ascending:false});
+ if(r.error){el.innerHTML='<div class="tip">تعذر تحميل خطط التصنيع: '+escHtml(r.error.message)+'. شغّل SQL الخاص بالتصنيع أولًا.</div>';return;}
+ productionPlansCache=r.data||[];
+ var f=document.getElementById('prod-plan-product-filter');if(f){var old=f.value;f.innerHTML='<option value="all">كل المنتجات</option>'+Array.from(new Set(productionPlansCache.map(function(x){return x.product_name;}))).map(function(n){return '<option>'+escHtml(n)+'</option>';}).join('');if(Array.from(f.options).some(function(o){return o.value===old;}))f.value=old;}
+ renderProductionPlans();
+}
+async function renderProductionPlans(){
+ var el=document.getElementById('production-plans-list');if(!el)return;
+ if(!productionPlansCache.length){el.innerHTML='<div class="tip">لا توجد خطط تصنيع حتى الآن. اضغط «خطة تصنيع جديدة» للبدء.</div>';return;}
+ var st=document.getElementById('prod-plan-filter')?.value||'all',pf=document.getElementById('prod-plan-product-filter')?.value||'all';
+ var rows=productionPlansCache.filter(function(x){return (st==='all'||x.status===st)&&(pf==='all'||x.product_name===pf);});
+ if(!rows.length){el.innerHTML='<div class="tip">لا توجد خطط مطابقة للفلاتر.</div>';return;}
+ var h='<div style="overflow:auto"><table class="tbl"><tr><th>التاريخ</th><th>المنتج / الحجم</th><th>Planned</th><th>Actual</th><th>فرق الكمية</th><th>متوسط تكلفة/قطعة</th><th>الحالة</th><th>الإجراء</th></tr>';
+ rows.forEach(function(x){var variance=x.actual_qty==null?'—':fmtD(+x.actual_qty-(+x.planned_qty),0),avg=x.average_unit_cost==null?'—':fmtD(+x.average_unit_cost,2)+' ج.م';
+ h+='<tr><td>'+escHtml(x.plan_date||'')+'</td><td>'+escHtml(x.product_name||'')+'<br>'+escHtml(x.size_name||'')+'</td><td>'+fmt(+x.planned_qty||0)+'</td><td>'+(x.actual_qty==null?'—':fmt(+x.actual_qty))+'</td><td>'+variance+'</td><td>'+avg+'</td><td>'+escHtml(x.status||'planned')+'</td><td>';
+ if(x.status==='planned')h+='<button class="btn btn-outline" onclick="confirmProductionPlan(&quot;'+x.id+'&quot;)">تأكيد الخطة</button> ';
+ if(x.status==='confirmed')h+='<button class="btn btn-green" onclick="openActualProduction(&quot;'+x.id+'&quot;)">تسجيل Actual</button> ';
+ if(x.status==='actual')h+='<button class="btn btn-green" onclick="approveProductionCost(&quot;'+x.id+'&quot;)">اعتماد التكلفة وتحديث سعر التكلفة</button> ';
+ h+='<button class="btn btn-outline" onclick="viewProductionPlan(&quot;'+x.id+'&quot;)">التفاصيل</button></td></tr>';});
+ el.innerHTML=h+'</table></div>';
+}
+async function loadProductionPlansInner(){productionPlansCache=[];var r=await sb.from('production_plans').select('*').eq('factory_id',productionFactoryId()).order('created_at',{ascending:false});var el=document.getElementById('production-plans-list');if(r.error){el.innerHTML='<div class="tip">تعذر تحميل خطط التصنيع: '+escHtml(r.error.message)+'. شغّل SQL الخاص بالتصنيع أولًا.</div>';return;}productionPlansCache=r.data||[];renderProductionPlans();}
+async function confirmProductionPlan(id){
+ var x=productionPlansCache.find(function(a){return a.id===id;});if(!x)return;
+ if(!confirm('تأكيد الخطة '+x.product_name+' / '+x.size_name+' بكمية '+x.planned_qty+'؟ لن يتم صرف الخامات أو زيادة مخزون التام إلا عند تسجيل Actual.'))return;
+ var r=await sb.from('production_plans').update({status:'confirmed',confirmed_by:currentUser.id,confirmed_at:new Date().toISOString()}).eq('id',id).eq('factory_id',productionFactoryId()).eq('status','planned');
+ if(r.error){alert('فشل تأكيد الخطة: '+r.error.message);return;}await loadProductionPlansInner();
+}
+async function openActualProduction(id){
+ activeActualPlan=productionPlansCache.find(function(a){return a.id===id;});if(!activeActualPlan)return;
+ document.getElementById('actual-plan-summary').innerHTML='<div class="tip">الخطة: '+escHtml(activeActualPlan.product_name)+' / '+escHtml(activeActualPlan.size_name)+' | Planned: '+fmt(activeActualPlan.planned_qty)+'</div>';
+ document.getElementById('actual-qty').value=activeActualPlan.planned_qty;document.getElementById('actual-scrap').value=0;document.getElementById('actual-date').value=todayStr();document.getElementById('actual-note').value='';
+ var bom=activeActualPlan.bom_snapshot||[],h='<table class="tbl"><tr><th>الخامة</th><th>المطلوب Planned</th><th>الاستهلاك Actual (قابل للتعديل)</th><th>تكلفة الوحدة</th></tr>';
+ bom.forEach(function(b,i){h+='<tr><td>'+escHtml(b.material_name)+'</td><td>'+fmtD(+b.planned_qty||0,3)+' '+escHtml(b.unit||'')+'</td><td><input type="number" min="0" step="0.001" id="actual-mat-'+i+'" value="'+(+b.actual_qty||0)+'" oninput="renderActualCostPreview()"></td><td>'+fmtD(+b.unit_cost||0,2)+' ج.م</td></tr>';});
+ document.getElementById('actual-materials-editor').innerHTML=h+'</table>';renderActualCostPreview();showModal('production-actual-modal');
+}
+function renderActualCostPreview(){
+ if(!activeActualPlan)return;var q=+document.getElementById('actual-qty').value||0,bom=activeActualPlan.bom_snapshot||[],total=0;
+ bom.forEach(function(b,i){var el=document.getElementById('actual-mat-'+i);total+=(el?+el.value:(+b.actual_qty||0))*(+b.unit_cost||0);});
+ var good=q>0?total/q:0;document.getElementById('actual-cost-preview').innerHTML='<div class="tip">تكلفة الخامات الفعلية المقدرة: <strong>'+fmtD(total,2)+' ج.م</strong> | متوسط تكلفة الخامات/قطعة: <strong>'+fmtD(good,2)+' ج.م</strong>. لا تشمل هذه الحسبة العمالة أو المصروفات غير المسجلة في BOM.</div>';
+}
+async function saveActualProduction(){
+ var x=activeActualPlan;if(!x)return;var q=+document.getElementById('actual-qty').value||0,scrap=+document.getElementById('actual-scrap').value||0;
+ if(q<=0||scrap<0){alert('أدخل كمية فعلية صحيحة');return;}
+ var bom=(x.bom_snapshot||[]).map(function(b,i){var el=document.getElementById('actual-mat-'+i);return Object.assign({},b,{actual_qty:el?+el.value:0});});
+ var total=bom.reduce(function(a,b){return a+(+b.actual_qty||0)*(+b.unit_cost||0);},0),avg=total/q;
+ var r=await sb.from('production_plans').update({status:'actual',actual_qty:q,scrap_qty:scrap,actual_date:document.getElementById('actual-date').value||todayStr(),actual_note:document.getElementById('actual-note').value.trim(),bom_snapshot:bom,actual_material_cost:total,average_unit_cost:avg,actual_by:currentUser.id,actual_at:new Date().toISOString()}).eq('id',x.id).eq('factory_id',productionFactoryId()).eq('status','confirmed');
+ if(r.error){alert('تعذر حفظ Actual: '+r.error.message);return;}
+ // Actual is recorded as a transaction; inventory is only changed here, not when the plan is created/confirmed.
+ var prod=planProductById(x.product_id)||db.products.find(function(p){return p.name===x.product_name;});var size=planSizeById(prod,x.size_id)||(prod&&prod.sizes.find(function(z){return z.name===x.size_name;}));
+ if(size){size.stock=(+size.stock||0)+q;await updateSizeStockDB(size._dbId,size.stock);}
+ for(var i=0;i<bom.length;i++){var b=bom[i],m=(db.materials||[]).find(function(mm){return String(mm.id)===String(b.material_id);});if(m){m.stock=(+m.stock||0)-(+b.actual_qty||0);await updateStockDB(m._dbId||m.id,m.stock);}}
+ var tx={id:uid_local(),type:'production',date:document.getElementById('actual-date').value||todayStr(),productId:x.product_id,productName:x.product_name,sizeId:x.size_id,sizeName:x.size_name,qty:q,note:'Actual plan '+x.id+' '+document.getElementById('actual-note').value,materialsUsed:bom.map(function(b){return{matId:b.material_id,matName:b.material_name,unit:b.unit,qty:b.actual_qty};}),actualMaterialCost:total,averageUnitCost:avg};
+ db.transactions.unshift(tx);await saveTransactionDB(tx);
+ closeModal('production-actual-modal');activeActualPlan=null;await loadProductionPlansInner();renderAll();
+}
+async function approveProductionCost(id){
+ var x=productionPlansCache.find(function(a){return a.id===id;});if(!x)return;
+ var old=0;var p=planProductById(x.product_id)||db.products.find(function(z){return z.name===x.product_name;});var size=planSizeById(p,x.size_id)||(p&&p.sizes.find(function(z){return z.name===x.size_name;}));
+ if(!confirm('اعتماد متوسط تكلفة '+fmtD(+x.average_unit_cost||0,2)+' ج.م للقطعة؟\\nسيتم تحديث تكلفة المنتج/الحجم، ولن يتم تغيير سعر البيع تلقائيًا.'))return;
+ if(size){
+  var r=await sb.from('product_sizes').update({unit_cost:+x.average_unit_cost||0}).eq('id',size._dbId||size.id).eq('factory_id',productionFactoryId());
+  if(r.error){alert('تم تسجيل Actual لكن تعذر تحديث تكلفة الحجم: '+r.error.message+'\\nشغّل SQL الخاص بالتصنيع وتأكد من عمود unit_cost.');return;}
+  size.unit_cost=+x.average_unit_cost||0;size.cost=+x.average_unit_cost||0;
+ }
+ var r2=await sb.from('production_plans').update({status:'cost_confirmed',cost_confirmed_by:currentUser.id,cost_confirmed_at:new Date().toISOString()}).eq('id',id).eq('factory_id',productionFactoryId()).eq('status','actual');
+ if(r2.error){alert('تم تحديث التكلفة لكن تعذر تغيير حالة الخطة: '+r2.error.message);return;}
+ await loadProductionPlansInner();renderAll();alert('تم اعتماد متوسط تكلفة المنتج. سعر البيع لم يتغير.');
+}
+function viewProductionPlan(id){var x=productionPlansCache.find(function(a){return a.id===id;});if(!x)return;alert('المنتج: '+x.product_name+' / '+x.size_name+'\\nالحالة: '+x.status+'\\nPlanned: '+x.planned_qty+'\\nActual: '+(x.actual_qty==null?'لم يسجل':x.actual_qty)+'\\nمتوسط تكلفة الوحدة: '+(x.average_unit_cost==null?'لم يحسب':fmtD(+x.average_unit_cost,2)+' ج.م')+'\\nملاحظة: '+(x.note||''));}
 </script>
 
 <div class="consignment-modal" id="consignment-dispatch-modal"><div class="consignment-modal-card"><h3>＋ صرف بضاعة لتاجر</h3><div class="consignment-form-grid">
