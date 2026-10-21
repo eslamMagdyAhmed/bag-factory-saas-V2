@@ -1047,9 +1047,13 @@ async function loadProfileAndStart(){
       role:'owner',is_admin:false,
       subscription_status:'trial',subscription_expires:expiry.toISOString()
     };
-    var r2=await sb.from('factory_profiles').insert(prof).select().single();
+    // Insert without RETURNING: the SELECT policy depends on my_factory_id(),
+    // which may be NULL until this first profile row exists.
+    var r2=await sb.from('factory_profiles').insert(prof);
     if(r2.error)throw r2.error;
-    currentProfile=r2.data;currentProfile.email=currentUser.email;
+    // Use the values we just inserted locally; a separate SELECT can run after
+    // the profile exists, when my_factory_id() can resolve this factory.
+    currentProfile=Object.assign({},prof,{email:currentUser.email});
     db={materials:[],products:[],transactions:[]};
     showApp();
   }catch(e){
